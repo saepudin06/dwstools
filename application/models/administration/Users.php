@@ -24,7 +24,7 @@ class Users extends Abstract_model {
                                 'updated_by'        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Updated By'),
                             );
 
-    public $selectClause    = "usr.*, COALESCE(COALESCE(usr.user_status, NULL, '0'), '0', 'TIDAK AKTIF', 'AKTIF') as status_active";
+    public $selectClause    = "usr.*, (case when COALESCE(usr.user_status, NULL, '0') = '0' then 'TIDAK AKTIF' else 'AKTIF' end) as status_active";
     public $fromClause      = "users usr";
 
     public $refs            = array();

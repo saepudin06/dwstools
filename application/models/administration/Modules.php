@@ -26,7 +26,7 @@ class Modules extends Abstract_model {
 
                             );
 
-    public $selectClause    = "mod.*, COALESCE(COALESCE(mod.is_active, NULL, 'N'), 'N', 'TIDAK AKTIF', 'AKTIF') as status_active";
+    public $selectClause    = "mod.*, (case when COALESCE(mod.is_active, null, 'N') = 'Y' then 'AKTIF' else 'TIDAK AKTIF' end) as status_active";
     public $fromClause      = "modules mod";
 
     public $refs            = array('menus' => 'module_id',

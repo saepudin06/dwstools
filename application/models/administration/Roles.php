@@ -22,7 +22,7 @@ class Roles extends Abstract_model {
 
                             );
 
-    public $selectClause    = "role.*, COALESCE(COALESCE(role.is_active, NULL, 'N'), 'N', 'TIDAK AKTIF', 'AKTIF') as status_active";
+    public $selectClause    = "role.*, (case when COALESCE(role.is_active, null, 'N') = 'Y' then 'AKTIF' else 'TIDAK AKTIF' end) as status_active";
     public $fromClause      = "roles role";
 
     public $refs            = array();
