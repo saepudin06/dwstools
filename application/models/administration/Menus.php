@@ -127,8 +127,8 @@ class Menus extends Abstract_model {
                       </a>
                   </li>';
                    
-
-        while ( $loop && ( ( $option = each( $children[$parent] ) ) || ( $parent > $root_id ) ) )
+ 
+        while ( $loop && ( ( $option = $this->myEach( $children[$parent] ) ) || ( $parent > $root_id ) ) )
         {
               if ( $option === false )
               {
@@ -195,6 +195,13 @@ class Menus extends Abstract_model {
         }
 
         return implode( "\r\n", $html );
+    }
+
+    function myEach(&$arr) {
+        $key = key($arr);
+        $result = ($key === null) ? false : [$key, current($arr), 'key' => $key, 'value' => current($arr)];
+        next($arr);
+        return $result;
     }
 
 }
