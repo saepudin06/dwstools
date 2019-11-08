@@ -346,12 +346,19 @@ class CI_Security {
 	 * @param 	bool		$is_image	Whether the input is an image
 	 * @return	string
 	 */
+	function myEach(&$arr) {
+        $key = key($arr);
+        $result = ($key === null) ? false : [$key, current($arr), 'key' => $key, 'value' => current($arr)];
+        next($arr);
+        return $result;
+    }
+
 	public function xss_clean($str, $is_image = FALSE)
 	{
 		// Is the string an array?
 		if (is_array($str))
 		{
-			while (list($key) = each($str))
+			while (list($key) = $this->myEach($str))
 			{
 				$str[$key] = $this->xss_clean($str[$key]);
 			}

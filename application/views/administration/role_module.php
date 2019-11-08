@@ -50,11 +50,25 @@
                     </div>
 
                 </div>
+                
+
             </div>
         </div>
+
+        <br />
+        
+        <div class="row" id="privilage" style="display: none;">
+            <div class="col-md-12">
+                <form method="post" id="form-ui">
+                <div id="form-privilage"></div>
+                </form>
+            </div>
+        </div>
+        
     </div>
     
 </div>
+
 
 
 <script>
@@ -340,7 +354,33 @@ $("#tab-1").on("click", function(event) {
             source: records,
             checkboxes: true
         });
+
+
+
     }
+
+     $("#tree-menu").on('select', function (event) {
+                var args = event.args;
+                var item = $('#tree-menu').jqxTree('getItem', args.element);
+                //item.value
+                // console.log(item);
+                if(item.checked) {
+                    var val = item.value.split(".");
+                    // console.log(val[0]+' - '+val[1]);
+                    role_id = val[0];
+                    menu_id = val[1];
+
+                    if(role_id == "0"){
+                        swal.fire('Informasi','Checklist dan simpan menu yang bersangkutan terlebih dahulu agar dapat mengatur privilege menu','info');
+                        return;
+                    }
+                    
+                    getPrivilegeTable(role_id, menu_id);
+                }else { 
+                    swal.fire('Informasi','Checklist dan simpan menu yang bersangkutan terlebih dahulu agar dapat mengatur privilege menu','info');
+                }
+
+        });
 
     $(function($) {
         $('#btn-save').on('click', function() {
@@ -370,9 +410,10 @@ $("#tab-1").on("click", function(event) {
                 data: { role_id: role_id, items_checked: strChecked.toString(), items_unchecked: strUnchecked.toString()},
                 success: function(response) {
                     if(response.success == false) {
-                        swal.fire({title: 'Attention', text: response.message, html: true, type: "warning"});
+                        swal.fire({title: 'Attention', text: response.message, type: "warning"});                        
                     }else {
-                        swal.fire({title: 'Success', text: response.message, html: true, type: "success"});
+                        swal.fire({title: 'Success', text: response.message, type: "success"});
+                        reloadTreeMenu(role_id, module_id);
                     }
                 }
             });
@@ -381,4 +422,41 @@ $("#tab-1").on("click", function(event) {
 
         reloadTreeMenu(null, null);
     });
+
+    function getPrivilegeTable(role_id, menu_id){
+        $('#privilage').show();
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo site_url('admin/getPrivilegeMenuTable');?>",
+            data: {role_id: role_id, menu_id : menu_id},
+            success: function(data) {
+                $("#form-privilage").html(data);
+            }
+        });
+        
+    }
+
+    $("#form-ui").on('submit', (function (e) {
+
+        e.preventDefault();
+        var data = $(this).serialize();
+       
+        $.ajax({
+            url: "<?php echo site_url('admin/setPrivilegeMenu');?>", // Url to which the request is send
+            type: "POST",             // Type of request to be send, called as method
+            data: data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+            cache: false,             // To unable request pages to be cached
+            dataType: "json",
+            success: function (data)   // A function to be called if request succeeds
+            {
+                if (data.success == true) {
+                    swal.fire("", data.msg, "success");
+                    getPrivilegeTable(data.role_id, data.menu_id);
+                } else {
+                    swal.fire("", data.msg, "error");
+                }
+            }
+        });
+        return false;
+    }));
 </script>

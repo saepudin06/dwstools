@@ -563,7 +563,7 @@ class Abstract_model extends  CI_Model {
 
     public function generate_id($table_name, $pkey) {
 
-        $sql = "select (nvl(max($pkey),0)+1) as seq from $table_name";
+        $sql = "select (coalesce(max($pkey), null, 0)+1) as seq from $table_name";
         $query = $this->db->query($sql);
 		$row = $query->row_array();
 

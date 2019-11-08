@@ -204,6 +204,19 @@ class Menus extends Abstract_model {
         return $result;
     }
 
+    function getPrivilegeMenu($role_id, $menu_id)
+    {
+        $result = array();
+        $sql = "select a.app_object_type_id, a.code, b.privilage_id, coalesce(b.is_active, null, 'N') as is_active, b.created_date, b.created_by, b.updated_date, b.updated_by, b.role_id, b.menu_id
+                from app_object_type a
+                left join privilage b on a.app_object_type_id = b.app_object_type_id
+                and b.role_id = ? and b.menu_id = ?
+                order by a.app_object_type_id asc";
+        $qs = $this->db->query($sql, array($role_id, $menu_id));
+
+        if ($qs->num_rows() > 0) $result = $qs->result();
+        return $result;
+    }
 }
 
 /* End of file Menus.php */

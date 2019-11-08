@@ -171,4 +171,119 @@ class Admin extends CI_Controller
         echo(json_encode($hasil));
         exit;
     }
+
+
+    public function getPrivilegeMenuTable(){
+        $ci = & get_instance();
+        $ci->load->model('administration/menus');
+        $table = $ci->menus;
+
+        $role_id = $ci->input->post('role_id');
+        $menu_id = $ci->input->post('menu_id');
+
+        $arr_privilege_menu = $table->getPrivilegeMenu($role_id, $menu_id);
+
+        $strOutput = "";
+        // echo '<div style="margin-left:10px;margin-top:10px; margin-bottom:10px;">';
+        // if ($prv['UBAH'] == "Y") {
+        echo '<input type="submit" class="btn btn-sm btn-primary" value="Save Privilage" style="margin-bottom: 10px;">';
+        // } else {
+        //     echo '<input type="submit" class="btn btn-sm btn-primary" value="Save">';
+        // }
+
+
+        echo '<div class="table-responsive-lg">';
+        echo '<table class="table table-bordered m-0">';
+        echo '<thead>';
+        echo '<tr>
+                <th>No</th>
+                <th>Keterangan</th>
+                <th>Status</th>
+                <th>Tgl Pembuatan</th>
+                <th>Dibuat Oleh</th>
+                <th>Tgl Update</th>
+                <th>Diupdate Oleh</th>
+              </tr>';
+        echo '</thead>';        
+        echo '<tbody>';        
+        $no = 1;
+        foreach ($arr_privilege_menu as $item) {
+
+            $options = array('Y' => 'ACTIVE',
+                'N' => 'NOT ACTIVE');
+
+            echo '<tr>';
+            echo '<td>' . $no++ . '</td>';
+            echo '<td><label>' . $item->code . '</label></td>';
+            echo '<td>' . form_dropdown('opt_status[]', $options, $item->is_active) . '</td>';
+            echo '<td><label>' . $item->created_date . '</label></td>';
+            echo '<td><label>' . $item->created_by . '</label></td>';
+            echo '<td><label>' . $item->updated_date . '</label></td>';
+            echo '<td><label>' . $item->updated_by . '</label>' . form_hidden('object_type_id[]', $item->app_object_type_id) . ' ' . form_hidden('privilage_id[]', $item->privilage_id) . ' '. form_hidden('role_id[]', $role_id) . ' ' . form_hidden('menu_id[]', $menu_id) . '</td>';
+            echo '</tr>';
+        }
+        echo '</tbody>';
+        echo '</table>';
+        echo '<input type="hidden" name="' . $ci->security->get_csrf_token_name() . '" value="' . $ci->security->get_csrf_hash() . '">';
+        echo '</div>';
+    }
+
+    public function setPrivilegeMenu(){
+        $ci = & get_instance();
+        $ci->load->model('administration/menus');
+        $table = $ci->menus;
+        $userdata = $ci->session->userdata;
+
+        $object_type_id = $ci->input->post('object_type_id');
+        $opt_status = $ci->input->post('opt_status');
+        $role_id = $ci->input->post('role_id');
+        $menu_id = $ci->input->post('menu_id');
+        $privilage_id = $ci->input->post('privilage_id');
+
+
+        foreach ($object_type_id as $key => $value) {
+
+            $post = array('app_object_type_id' => $object_type_id[$key],
+                      'is_active' => $opt_status[$key],
+                      'role_id' => $role_id[$key],
+                      'menu_id' => $menu_id[$key]);
+
+            if($privilage_id[$key] == ""){ //inesrt
+
+                $post["privilage_id"] = $this->gen_id('privilage', 'privilage_id');
+
+                $post["created_by"] = $userdata['user_name'];
+                $post["updated_by"] = $userdata['user_name'];
+                $ci->db->set("updated_date", "now()", false);
+                $ci->db->set("created_date", "now()", false);
+                $ci->db->set( $post );
+                $ci->db->insert( 'privilage' );
+
+            }else{ //update
+
+                $ci->db->set( $post );
+                $ci->db->where('privilage_id', $privilage_id[$key]);
+                $ci->db->update( 'privilage' );
+            }
+        }
+
+        $data = array();
+        $data['success'] = true;
+        $data['msg'] = 'Data berhasil ditambahkan';
+        $data['role_id'] = $role_id[0];
+        $data['menu_id'] = $menu_id[0];
+
+        echo json_encode($data);
+        exit;
+
+    }
+
+
+    public function gen_id($table_name, $pkey) {
+        $sql = "select (coalesce(max($pkey), null, 0)+1) as seq from $table_name";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        return $row['seq'];
+    }
 }
