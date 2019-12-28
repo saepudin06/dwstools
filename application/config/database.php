@@ -75,7 +75,6 @@ $query_builder = TRUE;
 $active_record = TRUE;
 
 $db['default']['hostname'] ='localhost';
-
 $db['default']['username'] = 'postgres';
 $db['default']['password'] = 'saepudin06';
 $db['default']['database'] = 'postgres';
