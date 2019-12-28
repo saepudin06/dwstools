@@ -74,10 +74,11 @@ $active_group = 'default';
 $query_builder = TRUE;
 $active_record = TRUE;
 
-$db['default']['hostname'] ='localhost';
+$db['default']['hostname'] ='10.62.161.13';
+
 $db['default']['username'] = 'postgres';
-$db['default']['password'] = 'saepudin06';
-$db['default']['database'] = 'postgres';
+$db['default']['password'] = 'telkom123';
+$db['default']['database'] = 'dwstools';
 $db['default']['schema'] = 'public';
 $db['default']['port']     = 5432;
 $db['default']['dbdriver'] = 'postgre';
