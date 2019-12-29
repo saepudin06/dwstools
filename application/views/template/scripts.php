@@ -117,5 +117,21 @@
         return this;
     }
 
+    function get_error_txt(xhr, status, error){
+        /*  tambahan oleh wj, untuk mengetahui error error */
+        var text_error = '';
+        if (xhr.readyState == 4) {
+            // HTTP error (can be checked by xhr.status and xhr.statusText)
+            text_error += 'HTTP Error :: ' + xhr.status + ' :: ' + xhr.statusText;
+        } else if (xhr.readyState == 0) {
+            // Network error (i.e. connection refused, access denied due to CORS, etc.)
+            text_error += 'Network Error';
+        } else {
+            // something weird is happening
+            text_error += 'Something weird is happening :(';
+        }
+
+        return text_error;
+    }
 
 </script>
