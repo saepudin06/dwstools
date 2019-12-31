@@ -99,11 +99,11 @@ class Menus extends Abstract_model {
                 order by b.menu_order asc";
 
         $query = $this->db->query($sql, array($userdata['user_id'], $module_id));
-        return $query->result();
+        return $query->result_array();
     }
 
 
-    function htmlMenuSideBar($module_id) {
+    function htmlMenuSideBar_($module_id) {
 
         $root_id = 0;
         $html = array();
@@ -196,6 +196,63 @@ class Menus extends Abstract_model {
 
         return implode( "\r\n", $html );
     }
+
+    // tambahan oleh wj
+    // generate sidebar ------------------------------------------------------------------------------------------------
+    function htmlMenuSideBar($module_id) {
+        $items = $this->menuItems($module_id);
+        $items_parent = [];
+
+        foreach ($items as $val) {
+          if ($val['parent_id'] == 0){
+            array_push($items_parent, $val);
+          }
+        }
+
+        $html = '<li class="nav-item start active" data-source="dashboard">
+                      <a href="javascript:;" title="Home" data-filter-tags="home">
+                          <i class="fal fa-home"></i> <span class="nav-link-text" data-i18n="nav.home">Home</span>
+                      </a>
+                  </li>';
+
+        foreach ($items_parent as $val) {
+          $html .= $this->get_child($items, $val['menu_id'], $val['menu_url'], $val['menu_title'], $val['menu_icon']);
+        }
+
+        return $html;
+    }
+
+    function get_child($items, $menu_id, $menu_url, $menu_title, $menu_icon){
+      $html = '';
+      $found = false;
+      $items_child = [];
+
+      foreach ($items as $val) {
+        if ($val['parent_id'] == $menu_id){
+          array_push($items_child, $val);
+        }
+      }
+
+      $menu_icon = !empty($items_child) ? "fal fa-folder-open" : $menu_icon;
+
+      $html .= '<li class="nav-item" data-source="'.$menu_url.'" menu-id="'.$menu_id.'">
+                  <a href="javascript:;" title="'.$menu_title.'" data-filter-tags="'.strtolower($menu_title).'" class=" waves-effect waves-themed">
+                      <i class="'.$menu_icon.'"></i> <span class="nav-link-text" data-i18n="nav.'.strtolower($menu_title).'">'.$menu_title.'</span>
+                  </a>';
+
+      if (!empty($items_child)) {
+        $html .= "<ul>";
+        foreach ($items_child as $val) {
+            $html .= $this->get_child($items, $val['menu_id'], $val['menu_url'], $val['menu_title'], $val['menu_icon']);
+        }
+        $html .= "</ul>";
+      }
+
+      $html .= '</li>';
+
+      return $html;
+    }
+    // ------------------------------------------------------------------------------------------------
 
     function myEach(&$arr) {
         $key = key($arr);
