@@ -341,8 +341,15 @@
                      }, 
                     {label: 'Listing No', name: 'listing_no', width: 150, align: 'center', editable: true,
                           editoptions:{
-                                 size: 30,
-                                 maxlength:22
+                               size: 30,
+                               maxlength:22,
+                               dataInit: function(element) {
+                                  $(element).keypress(function(e){
+                                       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                          return false;
+                                       }
+                                  });
+                              }
                          }, editrules: {required: true}
                      }, 
                     {label: 'Description', name: 'description', width: 300, align: 'left', editable: true,
