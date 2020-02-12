@@ -340,13 +340,13 @@
                                  maxlength:7
                          }, editrules: {required: false}
                      }, 
-                    {label: 'Updated Date', name: 'updated_date', width: 150, align: 'center', editable: false,
+                    {label: 'Update Date', name: 'update_date', width: 150, align: 'center', editable: false,
                           editoptions:{
                                  size: 30,
                                  maxlength:7
                          }, editrules: {required: false}
                      }, 
-                    {label: 'Updated By', name: 'updated_by', width: 150, align: 'center', editable: false,
+                    {label: 'Update By', name: 'update_by', width: 150, align: 'center', editable: false,
                           editoptions:{
                                  size: 30,
                                  maxlength:16

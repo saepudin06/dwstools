@@ -82,66 +82,66 @@
                 mtype: "POST",
                 colModel: [
                     {label: 'ID', name: 'p_global_param_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                    {label: 'Code',name: 'code' ,width: 100, align: 'left',editable: true,
+                    {label: 'Code', name: 'code', width: 100, align: 'left', editable: true,
                           editoptions:{
                                  size: 30,
                                  maxlength:64
-                         },editrules: {required: true}
+                         }, editrules: {required: true}
                      }, 
-                    {label: 'Value',name: 'value' ,width: 100, align: 'left',editable: true,
+                    {label: 'Value', name: 'value', width: 100, align: 'left', editable: true,
                           editoptions:{
                                  size: 30,
                                  maxlength:64
-                         },editrules: {required: true}
+                         }, editrules: {required: true}
                      }, 
-                    {label: 'Type 1',name: 'type_1' ,width: 128, align: 'left',editable: true,
+                    {label: 'Type 1', name: 'type_1', width: 128, align: 'left', editable: true,
                           editoptions:{
                                  size: 30,
                                  maxlength:128
-                         },editrules: {required: true}
+                         }, editrules: {required: true}
                      },
-                          {label: 'Is Range',name: 'is_range' ,width: 128, align: 'left',editable: true,
+                          {label: 'Is Range', name: 'is_range', width: 128, align: 'left', editable: true,
                           editoptions:{
                                  size: 30,
                                  maxlength:128
-                         },editrules: {required: true}
+                         }, editrules: {required: true}
                      },
-                             {label: 'Value 2',name: 'value_2' ,width: 128, align: 'left',editable: true,
+                             {label: 'Value 2', name: 'value_2', width: 128, align: 'left', editable: true,
                           editoptions:{
                                  size: 30,
                                  maxlength:128
-                         },editrules: {required: true}
+                         }, editrules: {required: true}
                      },
-                             {label: 'Description',name: 'description' ,width: 128, align: 'left',editable: true,
+                     {label: 'Description', name: 'description', width: 300, align: 'left', editable: true,
                           edittype:'textarea',
                           editoptions:{
                                  size: 30,
                                  maxlength:128
-                         },editrules: {required: true}
+                         }, editrules: {required: true}
                      },
-                     {label: 'created By',name: 'created_by' ,width: 150, align: 'left',editable: false,
+                     {label: 'Created By', name: 'created_by', width: 150, align: 'center', editable: false,
                           editoptions:{
                                  size: 30,
                                  maxlength:16
-                         },editrules: {required: false}
+                         }, editrules: {required: false}
                      }, 
-                    {label: 'Creation Date',name: 'creation_date' ,width: 150, align: 'left',editable: false,
+                    {label: 'Creation Date', name: 'creation_date', width: 150, align: 'center', editable: false,
                           editoptions:{
                                  size: 30,
                                  maxlength:7
-                         },editrules: {required: false}
+                         }, editrules: {required: false}
                      }, 
-                    {label: 'Updated Date',name: 'updated_date' ,width: 150, align: 'left',editable: false,
+                    {label: 'Updated Date', name: 'updated_date', width: 150, align: 'center', editable: false,
                           editoptions:{
                                  size: 30,
                                  maxlength:7
-                         },editrules: {required: false}
+                         }, editrules: {required: false}
                      }, 
-                    {label: 'Updated By',name: 'updated_by' ,width: 150, align: 'left',editable: false,
+                    {label: 'Updated By', name: 'updated_by', width: 150, align: 'center', editable: false,
                           editoptions:{
                                  size: 30,
                                  maxlength:16
-                         },editrules: {required: false}
+                         }, editrules: {required: false}
                      }
                   
                 ],
@@ -173,7 +173,7 @@
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."ws_idd.globalparam_controller/crud"; ?>',
-                caption: "Reference Type"
+                // caption: "Reference Type"
 
             });
 
