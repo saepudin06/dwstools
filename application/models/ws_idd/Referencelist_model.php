@@ -58,9 +58,9 @@ class Referencelist_model extends Abstract_model {
         if($this->actionType == 'CREATE') {
 
 
-            $this->db->set('creation_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+            $this->db->set('creation_date',"now()",false);
             $this->record['created_by'] = $userdata['user_name'];
-            $this->db->set('updated_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+            $this->db->set('updated_date',"now()",false);
             $this->record['updated_by'] = $userdata['user_name'];
             // $this->record['p_reference_type_id'] = $idreferencetype;
 
@@ -72,7 +72,7 @@ class Referencelist_model extends Abstract_model {
 
         }else {
           
-            $this->db->set('updated_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+            $this->db->set('updated_date',"now()",false);
             $this->record['updated_by'] = $userdata['user_name'];
 			
 			if(empty($this->record['p_reference_type_id']) || $this->record['p_reference_type_id'] == '')

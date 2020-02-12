@@ -200,7 +200,7 @@
 
                 {
                     // options for the Edit Dialog
-                    closeAfterEdit: true,
+                    closeAfterEdit: false,
                     closeOnEscape:true,
                     recreateForm: true,
                     serializeEditData: serializeJSON,
@@ -221,6 +221,11 @@
                         if(response.success == false) {
                             return [false,response.message,response.responseText];
                         }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+
                         return [true,"",response.responseText];
                     }
                 },
@@ -278,6 +283,7 @@
                         if(response.success == false) {
                             return [false,response.message,response.responseText];
                         }
+                        swal.fire({title: 'Success', text: response.message, type: "success"});
                         return [true,"",response.responseText];
                     }
                 },

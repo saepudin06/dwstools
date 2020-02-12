@@ -49,9 +49,9 @@ class Globalparam_model extends Abstract_model {
             $this->record['updated_date'] = date('Y-m-d');
             $this->record['updated_by'] = $userdata['user_name'];
             */
-            $this->db->set('creation_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+            $this->db->set('creation_date',"now()",false);
             $this->record['created_by'] = $userdata['user_name'];
-            $this->db->set('updated_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+            $this->db->set('updated_date',"now()",false);
             $this->record['updated_by'] = $userdata['user_name'];
 
             $this->record[$this->pkey] = $this->generate_id($this->table, $this->pkey);
@@ -66,7 +66,7 @@ class Globalparam_model extends Abstract_model {
             $this->record['updated_by'] = $userdata['user_name']; */
             //if false please throw new Exception
 
-           $this->db->set('updated_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+           $this->db->set('updated_date',"now()",false);
             $this->record['updated_by'] = $userdata['user_name'];
 
         }
