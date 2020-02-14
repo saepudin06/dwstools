@@ -1,9 +1,5 @@
 <!-- breadcrumb -->
-<ol class="breadcrumb page-breadcrumb">
-    <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
-    <li class="breadcrumb-item">Administrator</li>
-    <li class="breadcrumb-item active">Global Parameter</li>
-</ol>
+<?php echo breadCrumbs(getVarClean('menu_id', 'str', '0')); ?>
 <!-- end breadcrumb -->
 <div class="panel">
     <div class="panel-hdr">

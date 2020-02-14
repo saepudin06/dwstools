@@ -28,9 +28,9 @@ function html_spaces($number=1) {
 function breadCrumbs($menu_id) {
 
     $ci =& get_instance();
-    $sql = "WITH qs(menu_id, parent_id, menu_title) AS
+    $sql = "WITH RECURSIVE qs(menu_id, parent_id, menu_title) AS
             (
-                SELECT menu_id, parent_id, menu_title
+                SELECT menu_id, parent_id, menu_title || '' as menu_title
                 FROM menus m
                 WHERE parent_id is null
                 UNION ALL
@@ -39,9 +39,9 @@ function breadCrumbs($menu_id) {
                 INNER JOIN qs
                 ON qs.menu_id = child.parent_id
             )
-            SELECT *
-            FROM qs
-            where qs.menu_id = ?";
+            SELECT qs.*, b.module_name
+            FROM qs, menus a, modules b
+            where qs.menu_id = ? and a.menu_id = qs.menu_id and a.module_id = b.module_id";
 
     $query = $ci->db->query($sql, array($menu_id));
     $item = $query->row_array();
@@ -50,27 +50,18 @@ function breadCrumbs($menu_id) {
     $crumbs = explode('>', $crumbsstr);
 
     $output = '
-    <ul class="page-breadcrumb">
-    <li>
-        <a href="'.base_url().'">Home</a>
-        <i class="fa fa-circle"></i>
-    </li>';
+        <ol class="breadcrumb page-breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="javascript:void(0);">Home</a>
+            </li>
+            <li class="breadcrumb-item">'. $item['module_name'] .'</li>';
 
     for($i = 0; $i < count($crumbs); $i++) {
-
-        if($i == count($crumbs) - 1) {
-            $output .= '<li>
-                <span>'.$crumbs[$i].'</span>
-            </li>';
-        }else {
-            $output .= '<li>
-                <a href="javascript:;">'.$crumbs[$i].'</a>
-                <i class="fa fa-circle"></i>
-            </li>';
-        }
+        $active = $i == count($crumbs) - 1 ? " active" : "";
+        $output .= '<li class="breadcrumb-item'. $active .'">'.$crumbs[$i].'</li>';
     }
 
-    $output .= '</ul>';
+    $output .= '</ol>';
 
     return $output;
 }

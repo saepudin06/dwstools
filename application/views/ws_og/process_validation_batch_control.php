@@ -1,10 +1,5 @@
 <!-- breadcrumb -->
-<ol class="breadcrumb page-breadcrumb">
-    <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
-    <li class="breadcrumb-item">Telkom WS - Outgoing</li>
-    <li class="breadcrumb-item">Process</li>
-    <li class="breadcrumb-item active">Validation</li>
-</ol>
+<?php echo breadCrumbs(getVarClean('menu_id', 'str', '0')); ?>
 <!-- end breadcrumb -->
 
 <div class="panel">
