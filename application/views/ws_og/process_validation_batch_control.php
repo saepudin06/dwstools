@@ -1,7 +1,7 @@
 <!-- breadcrumb -->
 <ol class="breadcrumb page-breadcrumb">
     <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
-    <li class="breadcrumb-item">Telkom WS - IDD OLO</li>
+    <li class="breadcrumb-item">Telkom WS - Outgoing</li>
     <li class="breadcrumb-item">Process</li>
     <li class="breadcrumb-item active">Validation</li>
 </ol>
@@ -49,7 +49,7 @@
             return false;
         }
 
-        loadContentWithParams("ws_idd_olo.process_validation_process", {
+        loadContentWithParams("ws_og.process_validation_process", {
             input_data_control_id: input_data_control_id,
             code: get_selected_grid("#grid-table", 'code')
         });
@@ -83,7 +83,7 @@
             is_set_grid.val("true");
 
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_idd_olo.process_validation_batch_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_og.process_validation_batch_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
@@ -101,7 +101,7 @@
                         editrules: {edithidden: true, required:false},
                         edittype: 'select',
                         editoptions: {
-                            dataUrl: "<?php echo WS_JQGRID.'ws_idd_olo.process_validation_batch_controller/html_select_options_reference_type'; ?>",
+                            dataUrl: "<?php echo WS_JQGRID.'ws_og.process_validation_batch_controller/html_select_options_reference_type'; ?>",
                             dataInit: function(elem) {
                                 $(elem).width(250);  // set the width which you need
                             },
@@ -135,7 +135,7 @@
                         editrules: {edithidden: true, required:false},
                         edittype: 'select',
                         editoptions: {
-                            dataUrl: "<?php echo WS_JQGRID.'ws_idd_olo.process_validation_batch_controller/html_select_options_finance_periode'; ?>",
+                            dataUrl: "<?php echo WS_JQGRID.'ws_og.process_validation_batch_controller/html_select_options_finance_periode'; ?>",
                             dataInit: function(elem) {
                                 $(elem).width(250);  // set the width which you need
                             },
@@ -197,7 +197,7 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_idd_olo.process_validation_batch_controller/crud"; ?>',
+                editurl: '<?php echo WS_JQGRID."ws_og.process_validation_batch_controller/crud"; ?>',
                 caption: "File"
 
             });
