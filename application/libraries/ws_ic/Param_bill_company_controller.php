@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Daftar_job_controller
-* @version 29-11-2017 02:10:48
+* @class Param_bill_company_controller
+* @version 29-11-2017 02:11:12
 */
-class Daftar_job_controller {
+class Param_bill_company_controller {
 
     function read() {
 
@@ -12,17 +12,15 @@ class Daftar_job_controller {
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','');
         $sord = getVarClean('sord','str','desc');
-        $module_id = getVarClean('module_id', 'int', 0);
-        $p_job_type_id = getVarClean('p_job_type_id', 'int', 0);
-        $parent_id = getVarClean('parent_id', 'str', '0');
+       // $idreferencetype = getVarClean('p_reference_type_id','int',0);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         try {
 
             $ci = & get_instance();
-            $ci->load->model('process_admin/daftar_job_model');
-            $table = $ci->daftar_job_model;
+            $ci->load->model('ws_ic/param_bill_company');
+            $table = $ci->param_bill_company;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -39,8 +37,7 @@ class Daftar_job_controller {
             );
 
             // Filter Table
-            $whereClause = $parent_id == '0' ? " and parent_id is null" : " and parent_id = " . $parent_id;
-            $req_param['where'] = array("module_id = " . $module_id . " and p_job_type_id = " . $p_job_type_id . $whereClause);
+            $req_param['where'] = array();
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -77,24 +74,26 @@ class Daftar_job_controller {
 
         $data = array();
         $oper = getVarClean('oper', 'str', '');
+        // $idreferencetype = getVarClean('p_reference_type_id','int',0);
         switch ($oper) {
             case 'add' :
-              //  permission_check('can-add-referencetype');
+                // permission_check('can-add-referencelist');
+				// echo "masuk..";
                 $data = $this->create();
             break;
 
             case 'edit' :
-               // permission_check('can-edit-referencetype');
+                // permission_check('can-edit-referencelist');
                 $data = $this->update();
             break;
 
             case 'del' :
-              //  permission_check('can-del-referencetype');
+                // permission_check('can-del-referencelist');
                 $data = $this->destroy();
             break;
 
             default :
-               // permission_check('can-view-referencetype');
+                // permission_check('can-view-referencelist');
                 $data = $this->read();
             break;
         }
@@ -106,9 +105,10 @@ class Daftar_job_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('process_admin/daftar_job_model');
-        $table = $ci->daftar_job_model;
-
+  	
+        $ci->load->model('ws_ic/param_bill_company');
+        $table = $ci->param_bill_company;
+        
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         $jsonItems = getVarClean('items', 'str', '');
@@ -121,6 +121,8 @@ class Daftar_job_controller {
 
         $table->actionType = 'CREATE';
         $errors = array();
+
+      //  $table->record['p_reference_type_id'] = $idreferencetype;
 
         if (isset($items[0])){
             $numItems = count($items);
@@ -158,7 +160,7 @@ class Daftar_job_controller {
                     $table->create();
 
                 $table->db->trans_commit(); //Commit Trans
-
+                
                 $data['success'] = true;
                 $data['message'] = 'Data added successfully';
 
@@ -177,8 +179,10 @@ class Daftar_job_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('process_admin/daftar_job_model');
-        $table = $ci->daftar_job_model;
+       // $idreferencetype = getVarClean('p_reference_type_id','int',0);
+        $ci->load->model('ws_ic/param_bill_company');
+        $table = $ci->param_bill_company;
+        // $table->getidreferencetype($idreferencetype);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -247,8 +251,8 @@ class Daftar_job_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('process_admin/daftar_job_model');
-        $table = $ci->daftar_job_model;
+        $ci->load->model('ws_ic/param_bill_company');
+        $table = $ci->param_bill_company;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -288,80 +292,6 @@ class Daftar_job_controller {
         }
         return $data;
     }
-
-    public function tree_job() {
-
-        $ci = & get_instance();
-        $ci->load->model('process_admin/daftar_job_model');
-        $table = $ci->daftar_job_model;
-
-        $p_job_type_id = getVarClean('p_job_type_id', 'int', 0);
-        $selected = getVarClean('selected', 'str', '');
-
-        $sql = "select * from p_job_type where p_job_type_id = " . $p_job_type_id;
-        $res = $table->db->query($sql)->row_array();
-
-        $sql = "
-            with recursive subjob as (
-               select p_job_id, nvl (parent_id, 0) parent_id, code, procedure_name, description
-               from p_job
-               where p_job_type_id = " . $p_job_type_id . "
-               union
-                  select e.p_job_id, e.parent_id, e.code, e.procedure_name, e.description
-                  from p_job e
-                  inner join subjob s on s.p_job_id = e.parent_id
-            ) 
-            select *
-            from subjob
-            order by parent_id asc nulls first, p_job_id;";
-
-        $items = $table->db->query($sql)->result_array();
-        $data = array();
-        $data[] = array('id' => 0,
-                  'parentid' => -1,
-                  'text' => $res['code'],
-                  'expanded' => true,
-                  'selected' => ( $selected == "0" || $selected == ""),
-                  'icon' => base_url('images/home.png'));
-
-        foreach($items as $item) {
-
-            if( $this->empty_children($items, $item['p_job_id']) ) {
-                $data[] = array(
-                            'id' => $item['p_job_id'],
-                            'parentid' => empty($item['parent_id']) ? 0 : $item['parent_id'],
-                            'text' => $item['code'],
-                            'expanded' => false,
-                            'selected' => $selected == $item['p_job_id'],
-                            'icon' => base_url('images/file-icon.png')
-                          );
-            } else {
-                $data[] = array(
-                            'id' => $item['p_job_id'],
-                            'parentid' => empty($item['parent_id']) ? 0 : $item['parent_id'],
-                            'text' => $item['code'],
-                            'expanded' => true,
-                            'selected' => $selected == $item['p_job_id'],
-                            'icon' => base_url('images/folder-close.png')
-                          );
-            }
-        }
-
-        echo json_encode($data);
-        exit;
-    }
-
-    function empty_children($items, $p_job_id){
-      $items_child = [];
-
-      foreach ($items as $val) {
-        if ($val['parent_id'] == $p_job_id){
-          array_push($items_child, $val);
-        }
-      }
-
-      return empty($items_child);
-    }
 }
 
-/* End of file Daftar_job_controller.php */
+/* End of file Param_bill_company_controller.php */

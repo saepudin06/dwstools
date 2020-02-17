@@ -100,10 +100,15 @@ class Daftar_job_model extends Abstract_model {
             $this->record['updated_by'] = $userdata['user_name']; */
             //if false please throw new Exception
 
-           $this->db->set('updated_date',"now()",false);
+            $this->db->set('updated_date',"now()",false);
             $this->record['updated_by'] = $userdata['user_name'];
 
         }
+
+        if ($this->record['parent_id'] == '0'){
+            unset($this->record['parent_id']);
+        }
+        
         return true;
     }
 
