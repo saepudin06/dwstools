@@ -16,3 +16,4 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootgrid.custom.css"/>
 <link href="<?php echo base_url(); ?>jqwidgets/styles/jqx.base.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" media="screen, print" href="<?php echo base_url(); ?>assets/css/datagrid/datatables/datatables.bundle.css">
+<link rel="stylesheet" media="screen, print" href="<?php echo base_url(); ?>assets/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.css">

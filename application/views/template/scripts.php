@@ -36,6 +36,7 @@
 
 <script src="<?php echo base_url(); ?>assets/js/jquery.number.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/js/datagrid/datatables/datatables.bundle.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
 
 
 <script type="text/javascript">
