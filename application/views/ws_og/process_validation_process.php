@@ -45,7 +45,9 @@
 <script>
     $("#tab-1").on("click", function(event) {
         event.stopPropagation();
-        loadContentWithParams("ws_og.process_validation_batch_control", {});
+        loadContentWithParams("ws_og.process_validation_batch_control", {
+            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
+        });
     });
 </script>
 <script>
@@ -457,7 +459,7 @@
                 }
             );
         } else {
-            reload_grid(grid_selector, null);
+            reload_grid(grid_selector, {job_control_id: get_selected_grid("#grid-table", "job_control_id")});
         }
     }
 

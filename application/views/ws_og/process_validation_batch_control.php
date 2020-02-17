@@ -46,7 +46,8 @@
 
         loadContentWithParams("ws_og.process_validation_process", {
             input_data_control_id: input_data_control_id,
-            code: get_selected_grid("#grid-table", 'code')
+            code: get_selected_grid("#grid-table", 'code'),
+            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
         });
     });
 </script>
