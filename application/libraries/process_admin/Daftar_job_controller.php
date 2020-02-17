@@ -14,6 +14,7 @@ class Daftar_job_controller {
         $sord = getVarClean('sord','str','desc');
         $module_id = getVarClean('module_id', 'int', 0);
         $p_job_type_id = getVarClean('p_job_type_id', 'int', 0);
+        $parent_id = getVarClean('parent_id', 'str', null);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -38,7 +39,8 @@ class Daftar_job_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("module_id = " . $module_id . " and p_job_type_id = " . $p_job_type_id);
+            $whereClause = $parent_id == null ? " and parent_id is null" : " and parent_id = " . $parent_id;
+            $req_param['where'] = array("module_id = " . $module_id . " and p_job_type_id = " . $p_job_type_id . $whereClause);
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

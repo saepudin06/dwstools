@@ -38,12 +38,6 @@
     </div>
 </div>
 <script>
-$("#tab-1").on("click", function(event) {
-
-    event.stopPropagation();
-    loadContentWithParams("process_admin.job_type", {});
-});
-
 $("#tab-2").on("click", function(event) {
 
     event.stopPropagation();
@@ -57,7 +51,8 @@ $("#tab-2").on("click", function(event) {
 
     loadContentWithParams("process_admin.daftar_job", {
         module_id: module_id,
-        p_job_type_id : p_job_type_id
+        p_job_type_id : p_job_type_id,
+        menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
     });
 });
 </script>
@@ -216,7 +211,7 @@ $("#tab-2").on("click", function(event) {
                 colModel: [
                     {label: 'ID', name: 'p_job_type_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true },
                     {label: 'Module Id', name: 'module_id', width: 150, align: 'left', editable: true, hidden: true }, 
-                    {label: 'Code', name: 'code', width: 150, align: 'center', editable: true,
+                    {label: 'Code', name: 'code', width: 300, editable: true,
                           editoptions:{
                                  size: 30,
                                  maxlength:32

@@ -22,13 +22,14 @@
         <div class="panel-content">
             <div class="frame-wrap m-0">
                 <div class="row">
+                    <div class="col-md-4">
+                        <!-- tree -->
+                    </div>
                     <div class="col-md-8">
                         <input type="hidden" id="is_set_grid" value="false">
                         <table id="grid-table"></table>
                         <div id="grid-pager"></div>
                     </div>
-                    <div class="col-md-4">
-                   </div>
                 </div>
             </div>
         </div>
@@ -38,7 +39,9 @@
 $("#tab-1").on("click", function(event) {
 
     event.stopPropagation();
-    loadContentWithParams("process_admin.job_type", {});
+    loadContentWithParams("process_admin.job_type", {
+        menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
+    });
 });
 </script>
 <script>
@@ -85,52 +88,124 @@ $("#tab-1").on("click", function(event) {
                 url: '<?php echo WS_JQGRID."process_admin.daftar_job_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
-                postData: { module_id: <?php echo $this->input->post('module_id'); ?>, p_job_type_id: <?php echo $this->input->post('p_job_type_id'); ?> },
+                postData: { module_id: <?php echo $this->input->post('module_id'); ?>, p_job_type_id: <?php echo $this->input->post('p_job_type_id'); ?>, parent_id: '' },
                 colModel: [
                     {label: 'ID', name: 'p_job_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                     {label: 'P Job Type ID', name: 'p_job_type_id', width: 5, sorttype: 'number', editable: true, hidden: true},
-                    {label: 'Code', name: 'code', width: 150, align: 'center', editable: true,
+                    {label: 'Module ID', name: 'module_id', width: 5, sorttype: 'number', editable: true, hidden: true},
+                    {label: 'Code', name: 'code_pjt', width: 300, editable: false,
                           editoptions:{
                               size: 30,
                               maxlength:64
                          }, editrules: { required: true }
                     },
-                    {label: 'Nama Procedure', name: 'procedure_name', width: 150, editable: true,
+                    {label: 'Code', name: 'code', width: 300, align: 'center', hidden: true, editable: true,
                           editoptions:{
                               size: 30,
                               maxlength:64
                          }, editrules: { required: true }
                     },
-                    {label: 'List NO', name: 'listing_no', width: 150, editable: true,
+                    {label: 'Nama Procedure', name: 'procedure_name', width: 300, editable: true,
                           editoptions:{
                               size: 30,
                               maxlength:64
                          }, editrules: { required: true }
                     },
-                    {label: 'Parallel', name: 'is_parallel', width: 150, editable: true,
+                    {label: 'List NO', name: 'listing_no', width: 150, editable: true, align: 'center',
+                        editoptions:{
+                            size: 30,
+                            maxlength:64,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                     }
+                                });
+                            }
+                        }, editrules: { required: true }
+                    },
+                    {label: 'Parallel', name: 'is_parallel', width: 150, editable: true, align: 'center',
+                        editrules: { required: true },
+                        formatter: function (cellvalue, options, rowObject) { 
+                            return rowObject['is_parallel'] == 'Y' ? 'YA' : 'TIDAK';
+                        },
+                        edittype: 'select',
+                        editoptions: {
+                            value: "N:TIDAK;Y:YA",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
+                    },
+                    {label: 'Tingkat Parallel', name: 'parallel_degree', width: 150, editable: true, align: 'center',
+                        editoptions:{
+                            size: 30,
+                            maxlength:64,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                     }
+                                });
+                            }
+                        }, editrules: { required: true }
+                    },
+                    {label: 'Selesai', name: 'is_finish', width: 150, editable: true, align: 'center',
+                        editrules: { required: true },
+                        formatter: function (cellvalue, options, rowObject) { 
+                            return rowObject['is_finish'] == 'Y' ? 'YA' : 'TIDAK';
+                        },
+                        edittype: 'select',
+                        editoptions: {
+                            value: "N:TIDAK;Y:YA",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
+                    },
+                    {label: 'Proses Ulang', name: 'is_reprocess', width: 150, editable: true, align: 'center',
+                        editrules: { required: true },
+                        formatter: function (cellvalue, options, rowObject) { 
+                            return rowObject['is_reprocess'] == 'Y' ? 'YA' : 'TIDAK';
+                        },
+                        edittype: 'select',
+                        editoptions: {
+                            value: "N:TIDAK;Y:YA",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
+                    },
+                    {label: 'Exclude dalam antrian', name: 'exclude_in_queues', width: 150, editable: true, align: 'center',
+                        editrules: { required: true },
+                        formatter: function (cellvalue, options, rowObject) { 
+                            return rowObject['exclude_in_queues'] == 'Y' ? 'YA' : 'TIDAK';
+                        },
+                        edittype: 'select',
+                        editoptions: {
+                            value: "N:TIDAK;Y:YA",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
+                    },
+                    {label: 'Induk', name: 'parent_id', width: 75, sorttype: 'number', align: 'center', editable: true},
+                    // {label: 'Batalkan Parent', name: 'parent_id', width: 75, sorttype: 'number', align: 'center' },
+                    {label: 'Nama Table Control', name: 'control_table_name', width: 300, editable: true,
                           editoptions:{
                               size: 30,
                               maxlength:64
                          }, editrules: { required: true }
                     },
-                    {label: 'Tingkat Parallel', name: 'parallel_degree', width: 150, editable: true,
-                          editoptions:{
-                              size: 30,
-                              maxlength:64
-                         }, editrules: { required: true }
-                    },
-                    {label: 'Selesai', name: 'is_finish', width: 150, editable: true,
-                          editoptions:{
-                              size: 30,
-                              maxlength:64
-                         }, editrules: { required: true }
-                    },
-                    {label: 'Description', name: 'description', width: 308, align: 'left', editable: true,
-                          edittype:'textarea',
-                          editoptions:{
-                              size: 30,
-                              maxlength:128
-                         }, editrules: {required: true}
+                    {label: 'Keterangan', name: 'description', width: 308, align: 'left', editable: true,
+                        edittype:'textarea',
+                        editoptions:{
+                            size: 30,
+                            maxlength: 128,
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
                      },
                      {label: 'Created By', name: 'created_by', width: 150, align: 'center', editable: false,
                           editoptions:{
@@ -196,11 +271,11 @@ $("#tab-1").on("click", function(event) {
 
             jQuery(grid_selector).jqGrid('navGrid', pager_selector,
                 {   //navbar options
-                    edit: false,
+                    edit: true,
                     editicon: 'fal fa-pencil green',
-                    add: false,
+                    add: true,
                     addicon: 'fal fa-plus-circle blue',
-                    del: false,
+                    del: true,
                     delicon: 'fal fa-trash-alt red',
                     search: true,
                     searchicon: 'fal fa-search orange',
@@ -217,6 +292,17 @@ $("#tab-1").on("click", function(event) {
 
                 {
                     // options for the Edit Dialog
+                    editData: {
+                        parent_id: function() {
+                            return '1';
+                        },
+                        module_id: function() {
+                            return <?php echo $this->input->post('module_id'); ?>;
+                        }, 
+                        p_job_type_id: function() {
+                            return <?php echo $this->input->post('p_job_type_id'); ?>;
+                        }
+                    },
                     closeAfterEdit: false,
                     closeOnEscape:true,
                     recreateForm: true,
@@ -228,6 +314,8 @@ $("#tab-1").on("click", function(event) {
                     beforeShowForm: function (e, form) {
                         var form = $(e[0]);
                         style_edit_form(form);
+                        $('#tr_code', form).show();
+                        $('#tr_parent_id', form).hide();
 
                     },
                     afterShowForm: function(form) {
@@ -249,6 +337,17 @@ $("#tab-1").on("click", function(event) {
                 {
             
                     //new record form
+                    editData: {
+                        parent_id: function() {
+                            return '1';
+                        },
+                        module_id: function() {
+                            return <?php echo $this->input->post('module_id'); ?>;
+                        }, 
+                        p_job_type_id: function() {
+                            return <?php echo $this->input->post('p_job_type_id'); ?>;
+                        }
+                    },
                     closeAfterAdd: false,
                     clearAfterAdd : true,
                     closeOnEscape:true,
@@ -262,6 +361,8 @@ $("#tab-1").on("click", function(event) {
                     beforeShowForm: function (e, form) {
                         var form = $(e[0]);
                         style_edit_form(form);
+                        $('#tr_code', form).show();
+                        $('#tr_parent_id', form).hide();
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();
