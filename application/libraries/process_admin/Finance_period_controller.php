@@ -70,44 +70,6 @@ class Finance_period_controller {
         return $data;
     }
 
-    function readLov() {
-
-        $start = getVarClean('current','int',0);
-        $limit = getVarClean('rowCount','int',5);
-
-        $sort = getVarClean('sort','str','');
-        $dir  = getVarClean('dir','str','asc');
-
-        $searchPhrase = getVarClean('searchPhrase', 'str', '');
-
-        $data = array('rows' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
-
-        try {
-
-            $ci = & get_instance();
-            $ci->load->model('.wsidd/referencelist_model');
-            $table = $ci->finance_period_model;
-
-            if(!empty($searchPhrase)) {
-                //$table->setCriteria("upper(icon_code) like upper('%".$searchPhrase."%')");
-            }
-
-            $start = ($start-1) * $limit;
-            $items = $table->getAll($start, $limit, $sort, $dir);
-            $totalcount = $table->countAll();
-
-            $data['rows'] = $items;
-            $data['success'] = true;
-            $data['total'] = $totalcount;
-
-        }catch (Exception $e) {
-            $data['message'] = $e->getMessage();
-        }
-
-        return $data;
-    }
-
-
     function crud() {
 
         $data = array();
@@ -198,37 +160,6 @@ class Finance_period_controller {
                     $table->create();
 
                 $table->db->trans_commit(); //Commit Trans
-
-                 // $sql = "
-                 //        BEGIN
-                 //             update  input_data_opex
-                 //             set UBIS= :ubis, AKUN= :akun, DESC_AKUN= :desc_akun, OUTLOOK= :outlook, COSTLEADERSHIP= :costleadership, ADDTIONALCOST= :addtionalcost, REALISASI_CI= :realisasi_ci
-                 //             where  input_data_opex = :input_data_opex;
-                 //             commit;
-                 //        END;
-                 //    ";  
-
-
-                 //    $sql = "
-                 //        BEGIN
-                 //             insert into p_reference_list (p_reference_list_id, code, p_reference_type_id, reference_name, listing_no)
-                 //             values((select nvl(max(temp_learning_id),0)+1 from temp_learning),(select nvl(max(temp_learning_id),0)+1 from temp_learning),  :learning_name, :created_by, sysdate);
-                 //             commit;
-                 //        END;
-                 //    ";                  
-                 //    $stmt = oci_parse($table->db->conn_id, $sql);
-                 //    oci_bind_by_name($stmt, ':input_data_opex', $items['input_data_opex']);
-                 //    oci_bind_by_name($stmt, ':ubis', $items['ubis']);
-                 //    oci_bind_by_name($stmt, ':akun', $items['akun']);
-                 //    oci_bind_by_name($stmt, ':desc_akun', $items['desc_akun']);
-                 //    oci_bind_by_name($stmt, ':outlook', $items['outlook']);
-                 //    oci_bind_by_name($stmt, ':costleadership', $items['costleadership']);
-                 //    oci_bind_by_name($stmt, ':addtionalcost', $items['addtionalcost']);
-                 //    oci_bind_by_name($stmt, ':realisasi_ci', $items['realisasi_ci']);
-                   
-                  
-                 //    ociexecute($stmt);       
-
                 $data['success'] = true;
                 $data['message'] = 'Data added successfully';
 
@@ -359,6 +290,28 @@ class Finance_period_controller {
             $data['total'] = 0;
         }
         return $data;
+    }
+
+    function html_select_options_period_status() {
+        try {
+            $ci = & get_instance();
+            $ci->load->model('process_admin/finance_period_model');
+            $table = $ci->finance_period_model;
+
+            $user_info = $ci->session->userdata;
+
+            $res = $table->db->get('p_status_list')->result_array();
+        
+            echo "<select>";
+            foreach ($res as $item) {
+                echo '<option value="'.$item['p_status_list_id'].'" title="'.$item['code'].'">'.$item['code'].'</option>';
+            }
+            echo "</select>";
+            exit;
+        }catch (Exception $e) {
+            echo $e->getMessage();
+            exit;
+        }
     }
 }
 

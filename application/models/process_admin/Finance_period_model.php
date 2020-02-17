@@ -29,7 +29,11 @@ class Finance_period_model extends Abstract_model {
                             );
 
     public $selectClause    = "*";
-    public $fromClause      = "p_finance_period";
+    public $fromClause      = "(
+        select a.*, b.code status_code
+        from p_finance_period a, p_status_list b
+        where a.period_status_id = b.p_status_list_id
+    ) x";
 
     public $refs            = array();
     public $idretype        ='';

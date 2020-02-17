@@ -102,6 +102,8 @@
                                     todayHighlight : true,
                                     setDate: new Date()
                                 });
+
+                                $(elem).width(210);  // set the width which you need
                             }
                         }
                     },
@@ -116,21 +118,42 @@
                                     showOn: 'focus',
                                     setDate: new Date()
                                 });
+
+                                $(elem).width(210);  // set the width which you need
                             }
                         }
                     },
-                    {label: 'Period Status ID', name: 'period_status_id', width: 150, align: 'center', editable: true,
-                          editoptions:{
-                              size: 30,
-                              maxlength:64
-                         }, editrules: { required: true }
+                    {label: 'Period Status', name: 'status_code', width: 150, editable: false },
+                    {label: 'Period Status', name: 'period_status_id', width: 100, align: "center", editable: true, hidden: true,
+                        editrules: {edithidden: true, required:false},
+                        edittype: 'select',
+                        editoptions: {
+                            dataUrl: "<?php echo WS_JQGRID.'process_admin.finance_period_controller/html_select_options_period_status'; ?>",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                            buildSelect: function (data) {
+                                try {
+                                    var response = $.parseJSON(data);
+                                    if(response.success == false) {
+                                        swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                                        return "";
+                                    }
+                                }catch(err) {
+                                    return data;
+                                }
+                            }
+                        },
                     },
                     {label: 'Description', name: 'description', width: 308, align: 'left', editable: true,
-                          edittype:'textarea',
-                          editoptions:{
-                              size: 30,
-                              maxlength:128
-                         }, editrules: {required: true}
+                        edittype:'textarea',
+                        editoptions:{
+                            size: 30,
+                            maxlength:128,
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                        }, editrules: {required: true}
                      },
                      {label: 'Created By', name: 'created_by', width: 150, align: 'center', editable: false,
                           editoptions:{
@@ -228,6 +251,8 @@
                     beforeShowForm: function (e, form) {
                         var form = $(e[0]);
                         style_edit_form(form);
+                        $('#tr_status_code', form).hide();
+                        $('#tr_period_status_id', form).show();
 
                     },
                     afterShowForm: function(form) {
@@ -262,6 +287,8 @@
                     beforeShowForm: function (e, form) {
                         var form = $(e[0]);
                         style_edit_form(form);
+                        $('#tr_status_code', form).hide();
+                        $('#tr_period_status_id', form).show();
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();
@@ -382,19 +409,35 @@
                             }
                         }
                     },
-                    {label: 'Period Status ID', name: 'period_status_id', width: 150, align: 'center', editable: true,
-                          editoptions:{
-                              size: 30,
-                              maxlength:64
-                         }, editrules: { required: true }
+                    {label: 'Period Status', name: 'status_code', width: 150, editable: false },
+                    {label: 'Period Status', name: 'period_status_id', width: 100, align: "center", editable: true, hidden: true,
+                        editrules: {edithidden: true, required:false},
+                        edittype: 'select',
+                        editoptions: {
+                            dataUrl: "<?php echo WS_JQGRID.'process_admin.finance_period_controller/html_select_options_period_status'; ?>",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                            buildSelect: function (data) {
+                                try {
+                                    var response = $.parseJSON(data);
+                                    if(response.success == false) {
+                                        swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                                        return "";
+                                    }
+                                }catch(err) {
+                                    return data;
+                                }
+                            }
+                        },
                     },
-                    {label: 'Ref No', name: 'ref_no', width: 150, align: 'center', editable: true,
+                    {label: 'Ref No', name: 'ref_no', width: 150, align: 'center', hidden: true, editable: true,
                           editoptions:{
                                  size: 30,
                                  maxlength:32
-                         }, editrules: {required: true}
+                         }
                     }, 
-                    {label: 'Ref Date', name: 'ref_date', width: 150, align: "center", editable: true,
+                    {label: 'Ref Date', name: 'ref_date', width: 150, align: "center", hidden: true, editable: true,
                         editoptions: {
                             dataInit : function (elem) {
                                 $(elem).datepicker({
@@ -409,11 +452,14 @@
                         }
                     }, 
                     {label: 'Description', name: 'description', width: 300, align: 'left', editable: true,
-                          edittype:'textarea',
-                          editoptions:{
-                                 size: 30,
-                                 maxlength:128
-                         }, editrules: {required: true}
+                        edittype:'textarea',
+                        editoptions:{
+                            size: 30,
+                            maxlength:128,
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                        }, editrules: {required: true}
                      },
                      {label: 'Created By', name: 'created_by', width: 150, align: 'center', editable: false,
                           editoptions:{
@@ -505,6 +551,9 @@
                     beforeShowForm: function (e, form) {
                         var form = $(e[0]);
                         style_edit_form(form);
+                        
+                        $('#tr_status_code', form).hide();
+                        $('#tr_period_status_id', form).show();
 
                     },
                     afterShowForm: function(form) {
@@ -544,6 +593,8 @@
                     beforeShowForm: function (e, form) {
                         var form = $(e[0]);
                         style_edit_form(form);
+                        $('#tr_status_code', form).hide();
+                        $('#tr_period_status_id', form).show();
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();
