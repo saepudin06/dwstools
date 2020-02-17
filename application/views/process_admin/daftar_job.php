@@ -246,8 +246,32 @@ $("#tab-1").on("click", function(event) {
                             $(elem).width(210);  // set the width which you need
                         }
                     }
-                 },
-                 {label: 'Created By', name: 'created_by', width: 150, align: 'center', editable: false,
+                },
+                {label: 'Nama Eksternal Program', name: 'external_program', width: 300, editable: true,
+                      editoptions:{
+                          size: 30,
+                          maxlength:64
+                     }
+                },
+                {label: 'Path Program', name: 'path_prog', width: 300, editable: true,
+                      editoptions:{
+                          size: 30,
+                          maxlength:64
+                     }
+                },
+                {label: 'Eksternal Program', name: 'is_external', width: 300, editable: true,
+                    formatter: function (cellvalue, options, rowObject) { 
+                        return rowObject['is_external'] == 'Y' ? 'YA' : 'TIDAK';
+                    },
+                    edittype: 'select',
+                    editoptions: {
+                        value: "N:TIDAK;Y:YA",
+                        dataInit: function(elem) {
+                            $(elem).width(210);  // set the width which you need
+                        }
+                    }
+                },
+                {label: 'Created By', name: 'created_by', width: 150, align: 'center', editable: false,
                       editoptions:{
                           size: 30,
                           maxlength:16
