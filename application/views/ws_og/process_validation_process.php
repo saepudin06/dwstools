@@ -481,7 +481,7 @@
     function submit_job() {
         Swal.fire({
             title: "Attention",
-            text: 'Submit selected job?',
+            text: 'Submit job?',
             type: "info",
             showCancelButton: true,
             showLoaderOnConfirm: true,
@@ -515,11 +515,75 @@
     }
 
     function cancel_all_job() {
-        alert('cancel_all_job');
+        Swal.fire({
+            title: "Attention",
+            text: 'Cancel All job?',
+            type: "info",
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: "Yes",
+            confirmButtonColor: "#00a65a",
+            cancelButtonText: "No",
+            closeOnConfirm: false,
+            closeOnCancel: true
+        }).then((result) => {
+            if (result.value) {
+                var var_url = "<?php echo WS_JQGRID."ws_og.process_validation_process_controller/cancel_all_job"; ?>";
+                $.ajax({
+                  url: var_url ,
+                  type: "POST",
+                  dataType: "json",
+                  data: {input_data_control_id: '<?php echo $this->input->post('input_data_control_id'); ?>'},
+                  async: false,
+                  success: function (data) {
+                    if (data.success){
+                        Swal.fire({title: "Success", text: data.message, type: "success"});
+                    } else {
+                        Swal.fire({title: "Error", text: data.message, type: "error"});
+                    }
+                  },
+                  error: function (xhr, status, error) {
+                    Swal.fire({title: "Error!", text: get_error_txt(xhr, status, error), html: true, type: "error"});
+                  }
+                });
+              }
+        });
     }
 
     function cancel_last_job() {
-        alert('cancel_last_job');
+        Swal.fire({
+            title: "Attention",
+            text: 'Cancel Last job?',
+            type: "info",
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: "Yes",
+            confirmButtonColor: "#00a65a",
+            cancelButtonText: "No",
+            closeOnConfirm: false,
+            closeOnCancel: true
+        }).then((result) => {
+            if (result.value) {
+                var var_url = "<?php echo WS_JQGRID."ws_og.process_validation_process_controller/cancel_last_job"; ?>";
+                $.ajax({
+                  url: var_url ,
+                  type: "POST",
+                  dataType: "json",
+                  data: {input_data_control_id: '<?php echo $this->input->post('input_data_control_id'); ?>'},
+                  async: false,
+                  success: function (data) {
+                    if (data.success){
+                        Swal.fire({title: "Success", text: data.message, type: "success"});
+                    } else {
+                        Swal.fire({title: "Error", text: data.message, type: "error"});
+                    }
+                  },
+                  error: function (xhr, status, error) {
+                    Swal.fire({title: "Error!", text: get_error_txt(xhr, status, error), html: true, type: "error"});
+                  }
+                });
+              }
+        });
     }
 
 </script>
