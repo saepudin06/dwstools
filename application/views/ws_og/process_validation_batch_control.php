@@ -169,7 +169,7 @@
                 viewrecords: true,
                 rowNum: 10,
                 rowList: [10,20,50],
-                rownumbers: true, // show row numbers
+                rownumbers: false, // show row numbers
                 rownumWidth: 35, // the width of the row numbers columns
                 altRows: true,
                 shrinkToFit: true,

@@ -337,7 +337,9 @@ class Process_validation_batch_controller {
 
             $user_info = $ci->session->userdata;
 
-            $res = $table->db->where('p_reference_type_id', 8)->get('p_reference_list')->result_array();
+            $table->db->where('p_reference_type_id', 8);
+            $table->db->where('p_reference_list_id', 2);
+            $res = $table->db->get('p_reference_list')->result_array();
         
             echo "<select>";
             foreach ($res as $item) {
