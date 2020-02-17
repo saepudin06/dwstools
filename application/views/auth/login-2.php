@@ -49,7 +49,7 @@
                         <div class="container py-4 py-lg-5 my-lg-5 px-4 px-sm-0">
                             <div class="row">
                                 <div class="col col-md-6 col-lg-7 hidden-sm-down">
-                                    <h2 class="fs-xxl fw-500 mt-4 text-white">
+                                    <!--<h2 class="fs-xxl fw-500 mt-4 text-white">
                                         The simplest UI toolkit for developers &amp; programmers
                                         <small class="h3 fw-300 mt-3 mb-5 text-white opacity-60">
                                             Presenting you with the next level of innovative UX design and engineering. The most modular toolkit available with over 600+ layout permutations. Experience the simplicity of SmartAdmin, everywhere you go!
@@ -74,7 +74,9 @@
                                                 <i class="fab fa-linkedin"></i>
                                             </a>
                                         </div>
-                                    </div>
+                                    </div>-->
+                                    
+                                    <img class="fs-xxl fw-500 mt-4 text-white" src="<?php echo base_url();?>assets/telkom.png" width="500px" height="300px">
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4 ml-auto">
                                     <h1 class="text-white fw-300 mb-3 d-sm-block d-md-none">
