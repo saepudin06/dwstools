@@ -49,12 +49,7 @@ class Home extends CI_Controller
         }catch(Exception $e) {
             echo "
                 <script>
-                    swal({
-                      title: 'Session Timeout',
-                      text: '".$e->getMessage()."',
-                      html: true,
-                      type: 'error'
-                    });
+                    Swal.fire({title: 'Session Timeout', text: '".$e->getMessage()."', html: true, type: 'error'});
                 </script>
             ";
             exit;
