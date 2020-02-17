@@ -112,6 +112,10 @@
                 loadComplete: function (response) {
                     if(response.success == false) {
                         swal.fire({title: 'Attention', text: response.message, html: true, type: "warning"});
+                    } else {
+                        if (response.rows.length > 0){
+                            jQuery(grid_selector).jqGrid('setSelection', response.rows[0].job_control_id);
+                        }
                     }
 
                     responsive_jqgrid(grid_selector, pager_selector);
