@@ -20,16 +20,15 @@ class Home extends CI_Controller
             $file = explode(".", $id);
             $url_file = "";
             if(count($file) > 1) {
-                $lastindex = count($file)-1;
-                if(strtolower(substr($file[$lastindex],-4)) != ".php")
-                    $file[$lastindex] .= ".php";
-                if(file_exists(APPPATH."views/".implode("/", $file))) {
-                    $this->load->view(implode("/", $file));
+                if(strtolower(substr($file[1],-4)) != ".php")
+                    $file[1] .= ".php";
+                if(file_exists(APPPATH."views/".$file[0].'/'.$file[1])) {
+                    $this->load->view($file[0].'/'.$file[1]);
                 }else {
                     $file_exist = false;
                 }
 
-                $url_file = APPPATH."views/".implode("/", $file);
+                $url_file = APPPATH."views/".$file[0].'/'.$file[1];
             }else {
                 if(strtolower(substr($id,-4)) != ".php")
                     $id .= ".php";
