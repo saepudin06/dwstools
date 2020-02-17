@@ -14,7 +14,7 @@ class Daftar_job_controller {
         $sord = getVarClean('sord','str','desc');
         $module_id = getVarClean('module_id', 'int', 0);
         $p_job_type_id = getVarClean('p_job_type_id', 'int', 0);
-        $parent_id = getVarClean('parent_id', 'str', null);
+        $parent_id = getVarClean('parent_id', 'str', '0');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -39,7 +39,7 @@ class Daftar_job_controller {
             );
 
             // Filter Table
-            $whereClause = $parent_id == null ? " and parent_id is null" : " and parent_id = " . $parent_id;
+            $whereClause = $parent_id == '0' ? " and parent_id is null" : " and parent_id = " . $parent_id;
             $req_param['where'] = array("module_id = " . $module_id . " and p_job_type_id = " . $p_job_type_id . $whereClause);
 
             $table->setJQGridParam($req_param);
@@ -287,6 +287,79 @@ class Daftar_job_controller {
             $data['total'] = 0;
         }
         return $data;
+    }
+
+    public function tree_job() {
+
+        $ci = & get_instance();
+        $ci->load->model('process_admin/daftar_job_model');
+        $table = $ci->daftar_job_model;
+
+        $p_job_type_id = getVarClean('p_job_type_id', 'int', 0);
+
+        $sql = "select * from p_job_type where p_job_type_id = " . $p_job_type_id;
+        $res = $table->db->query($sql)->row_array();
+
+        $sql = "
+            with recursive subjob as (
+               select p_job_id, nvl (parent_id, 0) parent_id, code, procedure_name, description
+               from p_job
+               where p_job_type_id = " . $p_job_type_id . "
+               union
+                  select e.p_job_id, e.parent_id, e.code, e.procedure_name, e.description
+                  from p_job e
+                  inner join subjob s on s.p_job_id = e.parent_id
+            ) 
+            select *
+            from subjob
+            order by parent_id asc nulls first, p_job_id;";
+
+        $items = $table->db->query($sql)->result_array();
+        $data = array();
+        $data[] = array('id' => 0,
+                  'parentid' => -1,
+                  'text' => $res['code'],
+                  'expanded' => true,
+                  'selected' => true,
+                  'icon' => base_url('images/home.png'));
+
+        foreach($items as $item) {
+
+            if( $this->empty_children($items, $item['p_job_id']) ) {
+                $data[] = array(
+                            'id' => $item['p_job_id'],
+                            'parentid' => empty($item['parent_id']) ? 0 : $item['parent_id'],
+                            'text' => $item['code'],
+                            'expanded' => false,
+                            'selected' => false,
+                            'icon' => base_url('images/file-icon.png')
+                          );
+            } else {
+                $data[] = array(
+                            'id' => $item['p_job_id'],
+                            'parentid' => empty($item['parent_id']) ? 0 : $item['parent_id'],
+                            'text' => $item['code'],
+                            'expanded' => false,
+                            'selected' => false,
+                            'icon' => base_url('images/folder-close.png')
+                          );
+            }
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
+    function empty_children($items, $p_job_id){
+      $items_child = [];
+
+      foreach ($items as $val) {
+        if ($val['parent_id'] == $p_job_id){
+          array_push($items_child, $val);
+        }
+      }
+
+      return empty($items_child);
     }
 }
 

@@ -31,7 +31,32 @@ class Daftar_job_model extends Abstract_model {
  								'updated_by'=> array (  'type' => 'str' , 'nullable' => true , 'unique' => false , 'display' =>  'Updated By' )
                             );
 
-    public $selectClause    = "*";
+    public $selectClause    = "
+        code_pjt,
+        p_job_id,
+        code,
+        procedure_name,
+        listing_no,
+        is_parallel,
+        parallel_degree,
+        is_finish,
+        p_job_type_id,
+        is_cancelled_process,
+        is_reprocess,
+        nvl(parent_id, 0) parent_id,
+        cancel_parent_id,
+        control_table_name,
+        description,
+        creation_date,
+        created_by,
+        updated_date,
+        updated_by,
+        exclude_in_queues,
+        external_program,
+        path_prog,
+        is_external,
+        module_id
+    ";
     public $fromClause      = "vw_p_job";
 
     public $refs            = array();
