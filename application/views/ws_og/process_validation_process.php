@@ -505,6 +505,7 @@
                     } else {
                         Swal.fire({title: "Error", text: data.message, type: "error"});
                     }
+                    set_grid();
                   },
                   error: function (xhr, status, error) {
                     Swal.fire({title: "Error!", text: get_error_txt(xhr, status, error), html: true, type: "error"});
@@ -541,6 +542,7 @@
                     } else {
                         Swal.fire({title: "Error", text: data.message, type: "error"});
                     }
+                    set_grid();
                   },
                   error: function (xhr, status, error) {
                     Swal.fire({title: "Error!", text: get_error_txt(xhr, status, error), html: true, type: "error"});
@@ -577,6 +579,7 @@
                     } else {
                         Swal.fire({title: "Error", text: data.message, type: "error"});
                     }
+                    set_grid();
                   },
                   error: function (xhr, status, error) {
                     Swal.fire({title: "Error!", text: get_error_txt(xhr, status, error), html: true, type: "error"});
