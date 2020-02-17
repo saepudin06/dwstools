@@ -81,6 +81,7 @@
                 url: '<?php echo WS_JQGRID."ws_og.process_validation_batch_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
+                postData: {input_data_class_id: 2},
                 colModel: [
                     {label: 'ID', name: 'input_data_control_id', key: true, width: 75, align: 'center', sorttype: 'number', editable: true},
                     {label: 'Parameter', name: 'parameters', width: 75, align: "left", editable: true},
@@ -330,7 +331,7 @@
                 }
             );
         } else {
-            reload_grid(grid_selector, null);
+            reload_grid(grid_selector, {input_data_class_id: 2});
         }
     }
 

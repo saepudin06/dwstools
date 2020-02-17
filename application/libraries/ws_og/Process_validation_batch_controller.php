@@ -12,6 +12,7 @@ class Process_validation_batch_controller {
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','input_data_control_id');
         $sord = getVarClean('sord','str','desc');
+        $input_data_class_id = getVarClean('input_data_class_id','int',2);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
         $i_search = getVarClean('i_search', 'str', '');
@@ -37,7 +38,7 @@ class Process_validation_batch_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array();
+            $req_param['where'] = array("input_data_class_id = " . $input_data_class_id);
 
             if(!empty($i_search)) {
                 $table->setCriteria("upper(icon_code) like upper('%".$i_search."%')");
