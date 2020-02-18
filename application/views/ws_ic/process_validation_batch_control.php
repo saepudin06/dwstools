@@ -41,7 +41,7 @@
         event.stopPropagation();
 
         if(input_data_control_id == null) {
-            swal.fire('Informasi','Silahkan pilih salah satu batch process','info');
+            swal.fire('Info','Please select batch process','info');
             return false;
         }
 
