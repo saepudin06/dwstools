@@ -3,6 +3,14 @@
 <!-- end breadcrumb -->
 
 <div class="panel">
+    <div class="panel-hdr">
+        <h2>
+        </h2>
+        <div class="panel-toolbar">
+            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+        </div>
+    </div>
     <div class="panel-container show">
         <div class="panel-content">
             <div class="frame-wrap m-0">
@@ -19,6 +27,14 @@
 
 
 <div class="panel" id="grid-category">
+        <div class="panel-hdr">
+        <h2>
+        </h2>
+        <div class="panel-toolbar">
+            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+        </div>
+    </div>
     <div class="panel-container show">
         <div class="panel-content">
             <div class="frame-wrap m-0">
@@ -94,7 +110,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."ws_ic.param_net_service_controller/read"; ?>',
-            caption: "Service Type"
+            // caption: "Service Type"
 
         });
 
@@ -285,7 +301,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."ws_ic.param_net_service_controller/readCategory"; ?>',
-            caption: "Service Category"
+            // caption: "Service Category"
 
         });
 
