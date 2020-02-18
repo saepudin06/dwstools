@@ -12,8 +12,8 @@ class Process_validation_batch extends Abstract_model {
 
     public $fields          = array(
                                 'input_data_control_id'             => array('pkey' => true, 'type' => 'int', 'nullable' => true, 'unique' => true, 'display' => 'input_data_control_id'),
-                                'input_data_class_id'           => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'input_data_class_id'),
-                                'p_finance_period_id'    => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'p_finance_period_id'),
+                                'input_data_class_id'           => array('nullable' => true, 'type' => 'int', 'unique' => false, 'display' => 'input_data_class_id'),
+                                'p_finance_period_id'    => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Finance Period'),
                                 'input_file_name'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'input_file_name'),
                                 'parameters'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'parameters'),
 
@@ -21,7 +21,7 @@ class Process_validation_batch extends Abstract_model {
 
                             );
 
-    public $selectClause    = "input_data_control_id , code, input_file_name, input_data_class_id, p_finance_period_id, creation_date , operator_id, is_finish_processed, status_code, parameters";
+    public $selectClause    = "input_data_control_id , code, input_file_name, input_data_class_id, p_finance_period_id, creation_date , operator_id, is_finish_processed, status_code, parameters, p_finance_period_id temp_p_finance_period_id";
     public $fromClause      = "v_input_data_control";
 
     public $refs            = array();
@@ -49,10 +49,12 @@ class Process_validation_batch extends Abstract_model {
             //if false please throw new Exception
         }
 
-        $res_code = $this->db->where('p_reference_list_id', $this->record['input_data_class_id'])->get('p_reference_list')->row_array();
+        $input_data_class_id = 3;
         $periode = $this->db->where('p_finance_period_id', $this->record['p_finance_period_id'])->get('p_finance_period')->row_array();
-        $this->record['input_file_name'] = "IDD_OLO_".$res_code['code']."_".$periode['finance_period_code'];
-        $this->record['parameters'] = $periode['finance_period_code'];
+        
+        $this->db->set('input_file_name', "POPULATEDATAITKP_".$periode['finance_period_code']);
+        $this->db->set('parameters', $periode['finance_period_code']);
+        $this->db->set('input_data_class_id', $input_data_class_id);
 
         // $this->db->set('updated_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
         // $this->record['updated_by'] = $userdata['user_name'];

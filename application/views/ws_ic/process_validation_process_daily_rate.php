@@ -45,7 +45,7 @@
 <script>
     $("#tab-1").on("click", function(event) {
         event.stopPropagation();
-        loadContentWithParams("ws_idd_olo.process_validation_batch_control", {
+        loadContentWithParams("ws_ic.process_validation_batch_control_daily_rate", {
             menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
         });
     });
@@ -78,7 +78,7 @@
             is_set_grid.val("true");
 
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_idd_olo.process_validation_process_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 postData: {input_data_control_id: '<?php echo $this->input->post('input_data_control_id'); ?>'},
@@ -124,7 +124,7 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_idd_olo.process_validation_process_controller/crud"; ?>',
+                editurl: '<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/crud"; ?>',
                 caption: "Daftar Proses"
 
             });
@@ -291,7 +291,7 @@
             is_set_grid.val("true");
 
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_idd_olo.process_validation_process_controller/read_log"; ?>',
+                url: '<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/read_log"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 postData: {job_control_id: get_selected_grid("#grid-table", "job_control_id")},
@@ -329,7 +329,7 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_idd_olo.process_validation_process_controller/read_log"; ?>',
+                editurl: '<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/read_log"; ?>',
                 caption: "Log Proses"
 
             });
@@ -498,7 +498,7 @@
             closeOnCancel: true
         }).then((result) => {
             if (result.value) {
-                var var_url = "<?php echo WS_JQGRID."ws_idd_olo.process_validation_process_controller/submit_job"; ?>";
+                var var_url = "<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/submit_job"; ?>";
                 $.ajax({
                   url: var_url ,
                   type: "POST",

@@ -12,7 +12,6 @@ class Process_validation_batch_controller {
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','input_data_control_id');
         $sord = getVarClean('sord','str','desc');
-        $input_data_class_id = getVarClean('input_data_class_id','int',2);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
         $i_search = getVarClean('i_search', 'str', '');
@@ -38,7 +37,7 @@ class Process_validation_batch_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("input_data_class_id = " . $input_data_class_id);
+            $req_param['where'] = array("input_data_class_id = 2");
 
             if(!empty($i_search)) {
                 $table->setCriteria("upper(icon_code) like upper('%".$i_search."%')");
@@ -75,44 +74,6 @@ class Process_validation_batch_controller {
 
         return $data;
     }
-
-    function readLov() {
-
-        $start = getVarClean('current','int',0);
-        $limit = getVarClean('rowCount','int',5);
-
-        $sort = getVarClean('sort','str','icon_id');
-        $dir  = getVarClean('dir','str','asc');
-
-        $searchPhrase = getVarClean('searchPhrase', 'str', '');
-
-        $data = array('rows' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
-
-        try {
-
-            $ci = & get_instance();
-            $ci->load->model('ws_og/process_validation_batch');
-            $table = $ci->process_validation_batch;
-
-            if(!empty($searchPhrase)) {
-                $table->setCriteria("upper(icon_code) like upper('%".$searchPhrase."%')");
-            }
-
-            $start = ($start-1) * $limit;
-            $items = $table->getAll($start, $limit, $sort, $dir);
-            $totalcount = $table->countAll();
-
-            $data['rows'] = $items;
-            $data['success'] = true;
-            $data['total'] = $totalcount;
-
-        }catch (Exception $e) {
-            $data['message'] = $e->getMessage();
-        }
-
-        return $data;
-    }
-
 
     function crud() {
 
@@ -354,25 +315,77 @@ class Process_validation_batch_controller {
     }
 
     function html_select_options_finance_periode() {
+
+        $data = array('success' => false, 'message' => '');
+
         try {
             $ci = & get_instance();
-            $ci->load->model('ws_og/process_validation_batch');
+            $ci->load->model('ws_ic/process_validation_batch');
+            $table = $ci->process_validation_batch;
+            $user_info = $ci->session->userdata;
+
+            $p_year_period_id = getVarClean('p_year_period_id', 'str', '');
+            $p_finance_period_id = getVarClean('selected', 'str', '');
+
+            $res = $table->db->where("p_year_period_id", $p_year_period_id)->get('p_finance_period')->result_array();
+            $select = "";
+        
+            $select .= '<select  role="select" class="FormElement form-control" style="width: 250px;" id="p_finance_period_id" name="p_finance_period_id" rowid="_empty">';
+            foreach ($res as $item) {
+
+                $selected = $p_finance_period_id == $item['p_finance_period_id'] ? "selected" : "";
+                $select .= '<option value="'.$item['p_finance_period_id'].'" title="'.$item['finance_period_code'].'" '. $selected.' >'.$item['finance_period_code'].'</option>';
+            }
+            $select .= "</select>";
+
+
+            $data['select'] = $select;
+            $data['default_value'] = $default_value;
+            $data['success'] = true;
+            $data['message'] = '';
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
+    function html_select_options_year_periode() {
+
+        $data = array('success' => false, 'message' => '');
+
+        try {
+            $ci = & get_instance();
+            $ci->load->model('ws_ic/process_validation_batch');
             $table = $ci->process_validation_batch;
 
             $user_info = $ci->session->userdata;
 
-            $res = $table->db->get('p_finance_period')->result_array();
+            $res = $table->db->get('p_year_period')->result_array();
+            $select = "";
+            $default_value = "";
         
-            echo "<select>";
+            $select .= "<select id='year_period_id'>";
+            $i = 0;
             foreach ($res as $item) {
-                echo '<option value="'.$item['p_finance_period_id'].'" title="'.$item['finance_period_code'].'">'.$item['finance_period_code'].'</option>';
+                $select .= '<option value="'.$item['p_year_period_id'].'" title="'.$item['code'].'">'.$item['code'].'</option>';
+                $default_value = $i == 0 ? $item['p_year_period_id'] : $default_value;
+                $i++;
             }
-            echo "</select>";
-            exit;
+            $select .= "</select>";
+
+
+            $data['select'] = $select;
+            $data['default_value'] = $default_value;
+            $data['success'] = true;
+            $data['message'] = '';
         }catch (Exception $e) {
-            echo $e->getMessage();
-            exit;
+            $data['message'] = $e->getMessage();
         }
+
+        echo json_encode($data);
+        exit;
     }
 }
 

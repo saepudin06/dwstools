@@ -45,7 +45,9 @@
 <script>
     $("#tab-1").on("click", function(event) {
         event.stopPropagation();
-        loadContentWithParams("ws_ic.process_validation_batch_control", {});
+        loadContentWithParams("ws_ic.process_validation_batch_control", {
+            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
+        });
     });
 </script>
 <script>
@@ -112,6 +114,10 @@
                 loadComplete: function (response) {
                     if(response.success == false) {
                         swal.fire({title: 'Attention', text: response.message, html: true, type: "warning"});
+                    } else {
+                        if (response.rows.length > 0){
+                            jQuery(grid_selector).jqGrid('setSelection', response.rows[0].job_control_id);
+                        }
                     }
 
                     responsive_jqgrid(grid_selector, pager_selector);

@@ -45,7 +45,7 @@
             return false;
         }
 
-        loadContentWithParams("ws_idd_olo.process_validation_process", {
+        loadContentWithParams("ws_ic.process_validation_process_daily_rate", {
             input_data_control_id: input_data_control_id,
             code: get_selected_grid("#grid-table", 'code'),
             menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
@@ -93,7 +93,7 @@
           }
         });
     }
-    
+
     function set_grid() {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
@@ -103,7 +103,7 @@
             is_set_grid.val("true");
 
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_idd_olo.process_validation_batch_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_ic.process_validation_batch_daily_rate_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
@@ -187,7 +187,7 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_idd_olo.process_validation_batch_controller/crud"; ?>',
+                editurl: '<?php echo WS_JQGRID."ws_ic.process_validation_batch_daily_rate_controller/crud"; ?>',
                 caption: "File"
 
             });
@@ -228,9 +228,7 @@
                         style_edit_form(form);
                         $('#tr_parameters',form).hide();
                         $('#tr_input_data_control_id',form).hide();
-
                         $('#selected_finance_period').val($('#tr_temp_p_finance_period_id #temp_p_finance_period_id', form).val());
-
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();

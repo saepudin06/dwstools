@@ -25,6 +25,7 @@
                 <div class="row">
                     <div class="col-md-12 grid-ui">
                         <input type="hidden" id="is_set_grid" value="false">
+                        <input type="hidden" id="selected_finance_period" value="">
                         <table id="grid-table"></table>
                         <div id="grid-pager"></div>
                     </div>
@@ -70,6 +71,29 @@
         }
     }
 
+    var edit_options_finance_period = function(p_year_period_id) {
+        $('#tr_p_finance_period_id .DataTD').empty();
+        var var_url = "<?php echo WS_JQGRID.'ws_ic.process_validation_batch_controller/html_select_options_finance_periode'; ?>";
+        $.ajax({
+          url: var_url ,
+          type: "POST",
+          dataType: "json",
+          data: {p_year_period_id: p_year_period_id, selected: $('#selected_finance_period').val()},
+          async: false,
+          success: function (data) {
+            if (data.success){
+                $('#tr_p_finance_period_id .DataTD').html("&nbsp;"+data.select);
+                $('#selected_finance_period').val('');
+            } else {
+                Swal.fire({title: "Error!", text: data.message, html: true, type: "error"});    
+            }
+          },
+          error: function (xhr, status, error) {
+            Swal.fire({title: "Error!", text: get_error_txt(xhr, status, error), html: true, type: "error"});
+          }
+        });
+    }
+
     function set_grid() {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
@@ -82,23 +106,17 @@
                 url: '<?php echo WS_JQGRID."ws_og.process_validation_batch_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
-                postData: {input_data_class_id: 2},
                 colModel: [
                     {label: 'ID', name: 'input_data_control_id', key: true, width: 75, align: 'center', sorttype: 'number', editable: true},
-                    {label: 'Parameter', name: 'parameters', width: 75, align: "left", editable: true},
-                    {label: 'Batch', name: 'input_file_name', width: 300, align: "left", editable: false,
-                        edittype: 'text',
-                        editoptions: {
-                            size: 30,
-                            maxlength:60
-                        },
-                    },
-                    {label: 'Code', name: 'code', width: 150, align: 'center', sorttype: 'number', search: false},
-                    {label: 'Code', name: 'input_data_class_id', width: 100, align: "center", editable: true, hidden: true,
+                    {label: 'Parameter', name: 'parameters', width: 75 },
+                    {label: 'Batch', name: 'input_file_name', width: 300 },
+                    {label: 'Code', name: 'code', width: 150, align: 'center', sorttype: 'number', search: false },
+                    {label: 'Year', name: 'temp_p_finance_period_id', width: 100, align: "center", editable: true, hidden: true },
+                    {label: 'Year', name: 'p_year_period_id', width: 100, align: "center", editable: true, hidden: true,
                         editrules: {edithidden: true, required:false},
                         edittype: 'select',
                         editoptions: {
-                            dataUrl: "<?php echo WS_JQGRID.'ws_og.process_validation_batch_controller/html_select_options_reference_type'; ?>",
+                            dataUrl: "<?php echo WS_JQGRID.'ws_ic.process_validation_batch_controller/html_select_options_year_periode'; ?>",
                             dataInit: function(elem) {
                                 $(elem).width(250);  // set the width which you need
                             },
@@ -108,13 +126,17 @@
                                 // },
                             // },
                             buildSelect: function (data) {
+                                var response = "";
                                 try {
-                                    var response = $.parseJSON(data);
+                                    response = $.parseJSON(data);
                                     if(response.success == false) {
                                         swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                                         return "";
+                                    } else {
+                                        edit_options_finance_period(response.default_value);
+                                        return response.select;
                                     }
-                                }catch(err) {
+                                } catch (err) {
                                     return data;
                                 }
                             },
@@ -122,8 +144,8 @@
                                 { 
                                     type: 'change', fn: function(e) {
                                         var selected = $(this).val();
-                                        $('#tr_input_data_class_id #input_data_class_id').val(selected);
-                                    } 
+                                        edit_options_finance_period(selected);
+                                    }
                                 },
                             ]
                         }
@@ -131,36 +153,7 @@
                     {label: 'Finance Periode', name: 'p_finance_period_id', width: 100, align: "center", editable: true, hidden: true,
                         editrules: {edithidden: true, required:false},
                         edittype: 'select',
-                        editoptions: {
-                            dataUrl: "<?php echo WS_JQGRID.'ws_og.process_validation_batch_controller/html_select_options_finance_periode'; ?>",
-                            dataInit: function(elem) {
-                                $(elem).width(250);  // set the width which you need
-                            },
-                            // postData : {
-                                // role_id : function() {
-                                //     return <?php //echo $this->input->post('role_id'); ?>;
-                                // },
-                            // },
-                            buildSelect: function (data) {
-                                try {
-                                    var response = $.parseJSON(data);
-                                    if(response.success == false) {
-                                        swal({title: 'Attention', text: response.message, html: true, type: "warning"});
-                                        return "";
-                                    }
-                                }catch(err) {
-                                    return data;
-                                }
-                            },
-                            dataEvents: [
-                                { 
-                                    type: 'change', fn: function(e) {
-                                        var selected = $(this).val();
-                                        $('#tr_parameters #parameters').val(selected);
-                                    } 
-                                },
-                            ]
-                        }
+                        editoptions: {}
                     },
                     {label: 'Finish',name: 'is_finish_processed', width: 150, align: "center"},
                     {label: 'Status',name: 'status_code', width: 150, align: "center"}
@@ -235,6 +228,8 @@
                         style_edit_form(form);
                         $('#tr_parameters',form).hide();
                         $('#tr_input_data_control_id',form).hide();
+
+                        $('#selected_finance_period').val($('#tr_temp_p_finance_period_id #temp_p_finance_period_id', form).val());
 
                     },
                     afterShowForm: function(form) {
@@ -332,7 +327,7 @@
                 }
             );
         } else {
-            reload_grid(grid_selector, {input_data_class_id: 2});
+            reload_grid(grid_selector, null);
         }
     }
 
