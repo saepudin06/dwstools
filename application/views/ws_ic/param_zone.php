@@ -73,16 +73,17 @@
         if (is_set_grid != 'true'){
             $('#is_set_grid').val('true');
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.param_zone_coverage_area_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_ic.param_zone_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
-                    {label: 'P Coverage Area ID', name: 'p_coverage_area_id', key: true, width: 5, hidden: true },
-                    {label: 'Code', name: 'code', width: 150, align: 'center' },
-                    {label: 'Keterangan', name: 'description', width: 300 },
-                    {label: 'Update Date', name: 'update_date', width: 150, align: 'center' }, 
+                    {label: 'P Zone ID', name: 'p_zone_id', key: true, align: 'center', width: 150, hidden: true },
+                    {label: 'Code', name: 'code', align: 'center', width: 150 },
+                    {label: 'SAP Code', name: 'sap_code', align: 'center', width: 150 },
+                    {label: 'Zone Soki', name: 'zone_soki', align: 'center', width: 150 },
+                    {label: 'Description', name: 'description', width: 300 },
+                    {label: 'Update Date', name: 'update_date', width: 200, align: 'center' }, 
                     {label: 'Update By', name: 'update_by', width: 150, align: 'center' }
-                  
                 ],
                 height: '100%',
                 autowidth: true,
@@ -111,7 +112,7 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.param_zone_coverage_area_controller/crud"; ?>',
+                editurl: '<?php echo WS_JQGRID."ws_ic.param_zone_controller/crud"; ?>',
                 // caption: "Reference Type"
 
             });
