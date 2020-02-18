@@ -158,11 +158,11 @@
 
             jQuery(grid_selector).jqGrid('navGrid', pager_selector,
                 {   //navbar options
-                    edit: true,
+                    edit: false,
                     editicon: 'fal fa-pencil green',
-                    add: true,
+                    add: false,
                     addicon: 'fal fa-plus-circle blue',
-                    del: true,
+                    del: false,
                     delicon: 'fal fa-trash-alt red',
                     search: true,
                     searchicon: 'fal fa-search orange',
@@ -176,96 +176,9 @@
                     view: false,
                     viewicon: 'fal fa-search-plus orange'
                 },
-
-                {
-                    // options for the Edit Dialog
-                    closeAfterEdit: false,
-                    closeOnEscape:true,
-                    recreateForm: true,
-                    serializeEditData: serializeJSON,
-                    width: 'auto',
-                    errorTextFormat: function (data) {
-                        return 'Error: ' + data.responseText
-                    },
-                    beforeShowForm: function (e, form) {
-                        var form = $(e[0]);
-                        style_edit_form(form);
-
-                    },
-                    afterShowForm: function(form) {
-                        form.closest('.ui-jqdialog').center();
-                    },
-                    afterSubmit:function(response,postdata) {
-                        var response = jQuery.parseJSON(response.responseText);
-                        if(response.success == false) {
-                            return [false,response.message,response.responseText];
-                        }
-
-                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
-                        var tinfoel = $(".tinfo").show();
-                        tinfoel.delay(3000).fadeOut();
-
-                        return [true,"",response.responseText];
-                    }
-                },
-                {
-            
-                    //new record form
-                    closeAfterAdd: false,
-                    clearAfterAdd : true,
-                    closeOnEscape:true,
-                    recreateForm: true,
-                    width: 'auto',
-                    errorTextFormat: function (data) {
-                        return 'Error: ' + data.responseText
-                    },
-                    serializeEditData: serializeJSON,
-                    viewPagerButtons: false,
-                    beforeShowForm: function (e, form) {
-                        var form = $(e[0]);
-                        style_edit_form(form);
-                    },
-                    afterShowForm: function(form) {
-                        form.closest('.ui-jqdialog').center();
-                    },
-                    afterSubmit:function(response,postdata) {
-                        var response = jQuery.parseJSON(response.responseText);
-                        if(response.success == false) {
-                            return [false,response.message,response.responseText];
-                        }
-
-                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
-                        var tinfoel = $(".tinfo").show();
-                        tinfoel.delay(3000).fadeOut();
-
-
-                        return [true,"",response.responseText];
-                    }
-                },
-                {
-                    //delete record form
-                    serializeDelData: serializeJSON,
-                    recreateForm: true,
-                    beforeShowForm: function (e) {
-                        var form = $(e[0]);
-                        style_delete_form(form);
-
-                    },
-                    afterShowForm: function(form) {
-                        form.closest('.ui-jqdialog').center();
-                    },
-                    onClick: function (e) {
-                        //alert(1);
-                    },
-                    afterSubmit:function(response,postdata) {
-                        var response = jQuery.parseJSON(response.responseText);
-                        if(response.success == false) {
-                            return [false,response.message,response.responseText];
-                        }
-                        swal.fire({title: 'Success', text: response.message, type: "success"});
-                        return [true,"",response.responseText];
-                    }
-                },
+                { /* options for the Edit Dialog */ },
+                { /* new record form */ },
+                { /* delete record form */ },
                 {
                     //search form
                     closeAfterSearch: false,
