@@ -45,7 +45,7 @@ $("#tab-2").on("click", function(event) {
     var p_job_type_id = get_selected_grid('#grid-list', 'p_job_type_id');
 
     if(module_id == null || p_job_type_id == null) {
-        swal.fire('Informasi','Silahkan pilih salah satu module dan salah satu job', 'info');
+        swal.fire('Info','Please select module and job', 'info');
         return false;
     }
 

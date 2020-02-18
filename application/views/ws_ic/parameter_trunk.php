@@ -12,17 +12,8 @@
                         <div id="grid-pager"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="panel"  id="grid_group">
-    <div class="panel-container show">
-        <div class="panel-content">
-            <div class="frame-wrap m-0">
-                <div class="row">
+                <br>
+                <div class="row" id="grid_group">
                     <div class="col-md-12 grid-ui">
                         <table id="grid-table-group"></table>
                         <div id="grid-pager-group"></div>
@@ -47,23 +38,23 @@
             mtype: "POST",
             colModel: [
 
-                {label: 'Trunk ID', key:true, name: 'p_trunk_id', width: 75, align: 'left', hidden:true},
-                {label: 'Code', name: 'code', width: 130, align: "left"},
-                {label: 'Company ID', name: 'p_company_id', width: 120, align: 'left', hidden:true},
-                {label: 'Organization ID',name: 'p_organization_id', width: 100, align: "left", hidden:true},
-                {label: 'City Code',name: 'p_city_code', width: 100, align: "left"},
-                {label: 'Em Deg', name: 'em_deg', width: 120, align: 'left'},
-                {label: 'Em Min', name: 'em_min', width: 120, align: "left"},
-                {label: 'Sl Deg', name: 'sl_deg', width: 100, align: 'left'},
-                {label: 'Sl Min', name: 'sl_min', width: 75, align: 'left'},
-                {label: 'Coverage Area ID',name: 'p_coverage_area_id', width: 150, align: "left", hidden:true},
-                {label: 'Description', name: 'description', width: 200, align: "left"},
-                {label: 'Em Sec', name: 'em_sec', width: 150, align: 'left'},
-                {label: 'Sl Sec',name: 'sl_sec', width: 100, align: "left"},
-                {label: 'Regulation ID', name: 'p_regulation_id', width: 150, align: 'left', hidden:true},
-                {label: 'Access Code',name: 'p_access_code', width: 100, align: "left"},
-                {label: 'Update Date',name: 'update_date', width: 150, align: "left"},
-                {label: 'Update By',name: 'update_by', width: 150, align: "left"}
+                {label: 'Trunk ID', key:true, name: 'p_trunk_id', width: 75, hidden:true },
+                {label: 'Code', name: 'code', width: 150, align: "center" },
+                {label: 'Company ID', name: 'p_company_id', width: 120, hidden:true},
+                {label: 'Organization ID',name: 'p_organization_id', width: 100, hidden:true},
+                {label: 'City Code',name: 'p_city_code', width: 150, align: "center" },
+                {label: 'Em Deg', name: 'em_deg', width: 150, align: 'center'},
+                {label: 'Em Min', name: 'em_min', width: 150, align: "center"},
+                {label: 'Sl Deg', name: 'sl_deg', width: 150, align: 'center'},
+                {label: 'Sl Min', name: 'sl_min', width: 150, align: 'center'},
+                {label: 'Coverage Area ID',name: 'p_coverage_area_id', width: 150, hidden:true},
+                {label: 'Description', name: 'description', width: 300 },
+                {label: 'Em Sec', name: 'em_sec', width: 150, align: 'center'},
+                {label: 'Sl Sec',name: 'sl_sec', width: 150, align: "center"},
+                {label: 'Regulation ID', name: 'p_regulation_id', width: 150, hidden:true},
+                {label: 'Access Code',name: 'p_access_code', width: 150, align: "center"},
+                {label: 'Update Date',name: 'update_date', width: 150, align: "center"},
+                {label: 'Update By',name: 'update_by', width: 150, align: "center"}
                
             ],
             height: '100%',
@@ -97,6 +88,8 @@
             loadComplete: function (response) {
                 if(response.success == false) {
                     swal.fire({title: 'Attention', text: response.message, html: true, type: "warning"});
+                } else {
+                    $('#grid_group').hide();
                 }
 
                 responsive_jqgrid(grid_selector, pager_selector);
@@ -252,24 +245,24 @@
             mtype: "POST",
             colModel: [
 
-                {label: 'Trunk Group ID', key:true, name: 'p_trunk_group_id', width: 75, align: 'left', hidden:true},
-                {label: 'Code', name: 'code', width: 130, align: "left"},
-                {label: 'Trunk ID', name: 'p_trunk_id', width: 120, align: 'left', hidden:true},
-                {label: 'Company ID',name: 'p_company_id', width: 100, align: 'left', hidden:true},
-                {label: 'Organization ID',name: 'p_organization_id', width: 100, align: 'left',hidden:true},
-                {label: 'Service Category ID',name: 'p_service_category_id', width: 150, align: 'left', hidden:true},
-                {label: 'Minimum Usage',name: 'minimum_usage', width: 150, align: 'left', hidden:true},
-                {label: 'Access Code', name: 'p_access_code', width: 120, align: 'left'},
-                {label: 'Is International', name: 'is_international', width: 120, align: 'left'},
-                {label: 'Is Interlink', name: 'is_interlink', width: 100, align: 'left'},
-                {label: 'Sl Min', name: 'sl_min', width: 75, align: 'left'},
-                {label: 'Allocation',name: 'allocation', width: 150, align: 'left'},
-                {label: 'Regulation ID',name: 'p_regulation_id', width: 100, align: 'left', hidden:true},
-                {label: 'Description', name: 'description', width: 200, align: 'left'},
-                {label: 'Valid From',name: 'valid_from', width: 150, align: 'left'},
-                {label: 'Valid Until', name: 'valid_until', width: 150, align: 'left'},
-                {label: 'Update Date',name: 'update_date', width: 150, align: 'left'},
-                {label: 'Update By', name: 'update_by', width: 200, align: 'left'}
+                {label: 'Trunk Group ID', key:true, name: 'p_trunk_group_id', width: 75, hidden:true},
+                {label: 'Code', name: 'code', width: 150, align: "center"},
+                {label: 'Trunk ID', name: 'p_trunk_id', width: 120, hidden:true},
+                {label: 'Company ID',name: 'p_company_id', width: 100, hidden:true},
+                {label: 'Organization ID',name: 'p_organization_id', width: 100,hidden:true},
+                {label: 'Service Category ID',name: 'p_service_category_id', width: 150, hidden:true},
+                {label: 'Minimum Usage',name: 'minimum_usage', width: 150, hidden:true},
+                {label: 'Access Code', name: 'p_access_code', width: 150, align: 'center'},
+                {label: 'Is International', name: 'is_international', width: 150, align: 'center'},
+                {label: 'Is Interlink', name: 'is_interlink', width: 150, align: 'center'},
+                {label: 'Sl Min', name: 'sl_min', width: 150, align: 'center'},
+                {label: 'Allocation',name: 'allocation', width: 150, align: 'center'},
+                {label: 'Regulation ID',name: 'p_regulation_id', width: 100, hidden:true},
+                {label: 'Description', name: 'description', width: 300 },
+                {label: 'Valid From',name: 'valid_from', width: 150, align: 'center'},
+                {label: 'Valid Until', name: 'valid_until', width: 150, align: 'center'},
+                {label: 'Update Date',name: 'update_date', width: 150, align: 'center'},
+                {label: 'Update By', name: 'update_by', width: 150, align: 'center'}
             ],
             height: '100%',
             autowidth: true,
