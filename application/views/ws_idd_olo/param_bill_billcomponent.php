@@ -73,13 +73,42 @@
         if (is_set_grid != 'true'){
             $('#is_set_grid').val('true');
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.param_bill_call_type_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_idd_olo.param_bill_billcomponent_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
-                    {label: 'P Call Type ID', name: 'p_call_type_id', key: true, width: 5, hidden: true },
-                    {label: 'Description', name: 'description', width: 300 },
-                    {label: 'Call Type SAP Id', name: 'p_ic_call_type_sap_id', width: 150, align: 'center' }
+                    {label: 'P BIll Component ID', name: 'p_bill_component_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true },
+                    {label: 'Code', name: 'code', width: 150, editable: true, align: 'center',
+                        editoptions:{
+                            size: 30,
+                            maxlength:64
+                        }, editrules: {required: true}
+                    },
+                    {label: 'Display Order', name: 'display_order', width: 150, editable: true, align: 'center',
+                        editoptions:{
+                            size: 30,
+                            maxlength:64,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                     }
+                                });
+                            }
+                        }, editrules: { required: true }
+                    },
+                    {label: 'Description', name: 'description', width: 308, align: 'left', editable: true,
+                        edittype:'textarea',
+                        editoptions:{
+                            size: 30,
+                            maxlength: 128,
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
+                    },
+                    {label: 'Update Date', name: 'update_date', width: 150, align: 'center' }, 
+                    {label: 'Update By', name: 'update_by', width: 150, align: 'center' }
                   
                 ],
                 height: '100%',
@@ -109,8 +138,8 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.param_bill_call_type_controller/crud"; ?>',
-                caption: "Call Type"
+                editurl: '<?php echo WS_JQGRID."ws_idd_olo.param_bill_billcomponent_controller/crud"; ?>',
+                // caption: "Reference Type"
 
             });
 

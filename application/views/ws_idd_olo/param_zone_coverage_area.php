@@ -73,13 +73,15 @@
         if (is_set_grid != 'true'){
             $('#is_set_grid').val('true');
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.param_bill_call_type_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_idd_olo.param_zone_coverage_area_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
-                    {label: 'P Call Type ID', name: 'p_call_type_id', key: true, width: 5, hidden: true },
-                    {label: 'Description', name: 'description', width: 300 },
-                    {label: 'Call Type SAP Id', name: 'p_ic_call_type_sap_id', width: 150, align: 'center' }
+                    {label: 'P Coverage Area ID', name: 'p_coverage_area_id', key: true, width: 5, hidden: true },
+                    {label: 'Code', name: 'code', width: 150, align: 'center' },
+                    {label: 'Keterangan', name: 'description', width: 300 },
+                    {label: 'Update Date', name: 'update_date', width: 150, align: 'center' }, 
+                    {label: 'Update By', name: 'update_by', width: 150, align: 'center' }
                   
                 ],
                 height: '100%',
@@ -109,8 +111,8 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.param_bill_call_type_controller/crud"; ?>',
-                caption: "Call Type"
+                editurl: '<?php echo WS_JQGRID."ws_idd_olo.param_zone_coverage_area_controller/crud"; ?>',
+                // caption: "Reference Type"
 
             });
 

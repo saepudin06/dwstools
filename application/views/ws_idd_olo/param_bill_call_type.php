@@ -73,7 +73,7 @@
         if (is_set_grid != 'true'){
             $('#is_set_grid').val('true');
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.param_bill_call_type_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_idd_olo.param_bill_call_type_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
@@ -109,8 +109,8 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.param_bill_call_type_controller/crud"; ?>',
-                caption: "Call Type"
+                editurl: '<?php echo WS_JQGRID."ws_idd_olo.param_bill_call_type_controller/crud"; ?>',
+                // caption: "Reference Type"
 
             });
 

@@ -79,7 +79,7 @@
         if (is_set_grid == "false"){
             $('#is_set_grid').val("true");
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.param_bill_err_msg_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_idd_olo.param_bill_err_msg_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 postData: postData,
@@ -165,8 +165,8 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.param_bill_err_msg_controller/crud"; ?>',
-                caption: "Error Message"
+                editurl: '<?php echo WS_JQGRID."ws_idd_olo.param_bill_err_msg_controller/crud"; ?>',
+                caption: ""
 
             });
 

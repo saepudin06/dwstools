@@ -4,14 +4,14 @@
 <div class="panel">
     <div class="panel-hdr">
         <h2>
-            <!-- <ul class="nav nav-tabs border-bottom-0 nav-tabs-clean" role="tablist">
+            <ul class="nav nav-tabs border-bottom-0 nav-tabs-clean" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Modules</a>
+                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Company</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> Menus</a>
+                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> Organization</a>
                 </li>
-            </ul> -->
+            </ul>
         </h2>
         <div class="panel-toolbar">
             <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
@@ -33,6 +33,27 @@
     </div>
 </div>
 <script>
+
+    $("#tab-2").on( "click", function() { 
+        var grid = $('#grid-table');
+        selRowId = grid.jqGrid ('getGridParam', 'selrow');
+
+        var p_company_id = grid.jqGrid ('getCell', selRowId, 'p_company_id');
+
+        if(selRowId == null) {
+            swal.fire('Informasi', 'Please select one company', 'info');
+            return false;
+        }
+
+        event.stopPropagation();
+        loadContentWithParams("ws_idd_olo.param_bill_organization", {
+            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>",
+            p_company_id: p_company_id
+        });
+
+
+    });
+
     $(function() {
         set_grid();
     });
@@ -73,18 +94,31 @@
         if (is_set_grid != 'true'){
             $('#is_set_grid').val('true');
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.param_bill_billcomponent_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_idd_olo.param_bill_company_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
-                    {label: 'P BIll Component ID', name: 'p_bill_component_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true },
-                    {label: 'Code', name: 'code', width: 150, editable: true, align: 'center',
+                    {label: 'P Company ID', name: 'p_company_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true },
+                    {label: 'Code', name: 'code', width: 150, editable: true, 
                         editoptions:{
                             size: 30,
                             maxlength:64
                         }, editrules: {required: true}
                     },
-                    {label: 'Display Order', name: 'display_order', width: 150, editable: true, align: 'center',
+                    {label: 'Is Owner', name: 'is_owner', width: 150, editable: true, align: 'center',
+                        editrules: { required: true },
+                        formatter: function (cellvalue, options, rowObject) { 
+                            return rowObject['is_owner'] == 'Y' ? 'YA' : 'TIDAK';
+                        },
+                        edittype: 'select',
+                        editoptions: {
+                            value: "N:TIDAK;Y:YA",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
+                    },
+                    {label: 'Payment Priority', name: 'payment_priority', width: 150, editable: true, align: 'center',
                         editoptions:{
                             size: 30,
                             maxlength:64,
@@ -97,7 +131,7 @@
                             }
                         }, editrules: { required: true }
                     },
-                    {label: 'Description', name: 'description', width: 308, align: 'left', editable: true,
+                    {label: 'Keterangan', name: 'description', width: 308, align: 'left', editable: true,
                         edittype:'textarea',
                         editoptions:{
                             size: 30,
@@ -138,8 +172,8 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.param_bill_billcomponent_controller/crud"; ?>',
-                caption: "Bill Component"
+                editurl: '<?php echo WS_JQGRID."ws_idd_olo.param_bill_company_controller/crud"; ?>',
+                // caption: "Reference Type"
 
             });
 
@@ -167,7 +201,96 @@
                 { /* new record form */ },
                 { /* delete record form */ },
                 {
-                    //search form
+                // options for the Edit Dialog
+                    closeAfterEdit: false,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    serializeEditData: serializeJSON,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+            
+                    //new record form
+                    closeAfterAdd: false,
+                    clearAfterAdd : true,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    serializeEditData: serializeJSON,
+                    viewPagerButtons: false,
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+
+
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                    //delete record form
+                    serializeDelData: serializeJSON,
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        style_delete_form(form);
+
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    onClick: function (e) {
+                        //alert(1);
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+                        swal.fire({title: 'Success', text: response.message, type: "success"});
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                //search form
                     closeAfterSearch: false,
                     recreateForm: true,
                     afterShowSearch: function (e) {

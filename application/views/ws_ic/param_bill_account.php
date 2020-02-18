@@ -125,7 +125,7 @@
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."ws_ic.param_bill_account_controller/crud"; ?>',
-                // caption: "Reference Type"
+                caption: "Account"
 
             });
 
