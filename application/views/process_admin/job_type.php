@@ -9,7 +9,7 @@
                     <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Job Type</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> Daftar Job</a>
+                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> List Job</a>
                 </li>
             </ul>
         </h2>
@@ -139,7 +139,7 @@ $("#tab-2").on("click", function(event) {
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."process_admin.job_type_controller/read_module"; ?>',
-                caption: "Daftar Module",
+                caption: "List Module",
                 pgbuttons: false,
                 pginput: false,
                 pgtext: "",
@@ -278,7 +278,7 @@ $("#tab-2").on("click", function(event) {
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."process_admin.job_type_controller/crud";?>',
-                caption: "Dafar Tipe Job"
+                caption: "Job Type"
             });
 
             jQuery(grid_selector).jqGrid('navGrid', pager_selector,

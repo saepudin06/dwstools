@@ -9,7 +9,7 @@
                     <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Job Type</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> Daftar Job</a>
+                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> List Job</a>
                 </li>
             </ul>
         </h2>
@@ -23,8 +23,17 @@
             <div class="frame-wrap m-0">
                 <div class="row">
                     <div class="col-md-4">
-                        <input type="hidden" id="temp_id_tree" value="">
-                        <div id="tree-job"></div>
+                        <div class="card m-auto border">
+                            <div class="card-header py-2">
+                                <div class="card-title">
+                                    Job
+                                </div>
+                            </div>
+                            <div class="card-body"> 
+                                <input type="hidden" id="temp_id_tree" value="">
+                                <div id="tree-job"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <input type="hidden" id="is_set_grid" value="false">
@@ -272,7 +281,25 @@ $("#tab-1").on("click", function(event) {
                             value: "N:NO;Y:YES",
                             dataInit: function(elem) {
                                 $(elem).width(210);  // set the width which you need
-                            }
+                            },
+                            dataEvents: [
+                                { 
+                                    type: 'change', fn: function(e) {
+                                        var selected = $(this).val();
+
+                                        if (selected == 'Y'){
+                                            $('#tr_external_program').show();
+                                            $('#tr_path_prog').show();
+                                        } else {
+                                            $('#tr_external_program').hide();
+                                            $('#tr_path_prog').hide();
+                                        }
+
+                                        $('#tr_external_program #external_program').val('');
+                                        $('#tr_path_prog #path_prog').val('');
+                                    }
+                                },
+                            ]
                         }
                     },
                     {label: 'Created By', name: 'created_by', width: 150, align: 'center', editable: false,
@@ -387,6 +414,9 @@ $("#tab-1").on("click", function(event) {
                         $('#tr_code', form).show();
                         $('#tr_parent_id', form).hide();
 
+                        $('#tr_external_program', form).hide();
+                        $('#tr_path_prog', form).hide();
+
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();
@@ -435,6 +465,9 @@ $("#tab-1").on("click", function(event) {
                         style_edit_form(form);
                         $('#tr_code', form).show();
                         $('#tr_parent_id', form).hide();
+
+                        $('#tr_external_program', form).hide();
+                        $('#tr_path_prog', form).hide();
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();
