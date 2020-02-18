@@ -84,7 +84,7 @@
                             maxlength:64
                         }, editrules: {required: true}
                     },
-                    {label: 'Keterangan', name: 'description', width: 308, align: 'left', editable: true,
+                    {label: 'Description', name: 'description', width: 308, align: 'left', editable: true,
                         edittype:'textarea',
                         editoptions:{
                             size: 30,

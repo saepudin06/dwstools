@@ -78,13 +78,13 @@
                 mtype: "POST",
                 colModel: [
                     {label: 'P BIll Component ID', name: 'p_bill_component_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true },
-                    {label: 'Code', name: 'code', width: 150, editable: true, 
+                    {label: 'Code', name: 'code', width: 150, editable: true, align: 'center',
                         editoptions:{
                             size: 30,
                             maxlength:64
                         }, editrules: {required: true}
                     },
-                    {label: 'Urutan', name: 'display_order', width: 150, editable: true, align: 'center',
+                    {label: 'Display Order', name: 'display_order', width: 150, editable: true, align: 'center',
                         editoptions:{
                             size: 30,
                             maxlength:64,
@@ -97,7 +97,7 @@
                             }
                         }, editrules: { required: true }
                     },
-                    {label: 'Keterangan', name: 'description', width: 308, align: 'left', editable: true,
+                    {label: 'Description', name: 'description', width: 308, align: 'left', editable: true,
                         edittype:'textarea',
                         editoptions:{
                             size: 30,

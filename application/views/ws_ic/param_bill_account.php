@@ -83,7 +83,7 @@
                             maxlength:64
                         }, editrules: {required: true}
                     },
-                    {label: 'Keterangan', name: 'description', width: 308, editable: true,
+                    {label: 'Description', name: 'description', width: 308, editable: true,
                         edittype:'textarea',
                         editoptions:{
                             size: 30,
