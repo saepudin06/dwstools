@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Process_validation_batch_controller
+* @class Process_validation_batch_daily_rate_controller
 * @version 07/05/2015 12:18:00
 */
-class Process_validation_batch_controller {
+class Process_validation_batch_daily_rate_controller {
 
     function read() {
 
@@ -19,8 +19,8 @@ class Process_validation_batch_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('ws_og/process_validation_batch');
-            $table = $ci->process_validation_batch;
+            $ci->load->model('ws_og/process_validation_batch_daily_rate');
+            $table = $ci->process_validation_batch_daily_rate;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -37,11 +37,7 @@ class Process_validation_batch_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("input_data_class_id = 2");
-
-            if(!empty($i_search)) {
-                $table->setCriteria("upper(icon_code) like upper('%".$i_search."%')");
-            }
+            $req_param['where'] = array("input_data_class_id = 4");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -104,8 +100,8 @@ class Process_validation_batch_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_og/process_validation_batch');
-        $table = $ci->process_validation_batch;
+        $ci->load->model('ws_og/process_validation_batch_daily_rate');
+        $table = $ci->process_validation_batch_daily_rate;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -176,8 +172,8 @@ class Process_validation_batch_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_og/process_validation_batch');
-        $table = $ci->process_validation_batch;
+        $ci->load->model('ws_og/process_validation_batch_daily_rate');
+        $table = $ci->process_validation_batch_daily_rate;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -247,8 +243,8 @@ class Process_validation_batch_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('ws_og/process_validation_batch');
-        $table = $ci->process_validation_batch;
+        $ci->load->model('ws_og/process_validation_batch_daily_rate');
+        $table = $ci->process_validation_batch_daily_rate;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -293,14 +289,12 @@ class Process_validation_batch_controller {
     function html_select_options_reference_type() {
         try {
             $ci = & get_instance();
-            $ci->load->model('ws_og/process_validation_batch');
-            $table = $ci->process_validation_batch;
+            $ci->load->model('ws_og/process_validation_batch_daily_rate');
+            $table = $ci->process_validation_batch_daily_rate;
 
             $user_info = $ci->session->userdata;
 
-            $table->db->where('p_reference_type_id', 8);
-            $table->db->where('p_reference_list_id', 2);
-            $res = $table->db->get('p_reference_list')->result_array();
+            $res = $table->db->where('p_reference_type_id', 8)->get('p_reference_list')->result_array();
         
             echo "<select>";
             foreach ($res as $item) {
@@ -389,4 +383,4 @@ class Process_validation_batch_controller {
     }
 }
 
-/* End of file Process_validation_batch_controller.php */
+/* End of file Process_validation_batch_daily_rate_controller.php */
