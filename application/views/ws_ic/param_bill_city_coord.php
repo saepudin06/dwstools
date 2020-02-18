@@ -3,6 +3,14 @@
 <!-- end breadcrumb -->
 
 <div class="panel">
+    <div class="panel-hdr">
+        <h2>
+        </h2>
+        <div class="panel-toolbar">
+            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+        </div>
+    </div>
     <div class="panel-container show">
         <div class="panel-content">
             <div class="frame-wrap m-0">
@@ -75,7 +83,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."ws_ic.param_bill_city_controller/read"; ?>',
-            caption: "City Coordinate"
+            // caption: "City Coordinate"
 
         });
 
