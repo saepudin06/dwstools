@@ -302,6 +302,7 @@
                         if(response.success == false) {
                             return [false,response.message,response.responseText];
                         }
+                        swal.fire({title: 'Success', text: response.message, type: "success"});
                         return [true,"",response.responseText];
                     }
                 },
