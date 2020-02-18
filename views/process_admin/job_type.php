@@ -9,7 +9,7 @@
                     <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Job Type</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> Daftar Job</a>
+                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> List Job</a>
                 </li>
             </ul>
         </h2>
@@ -38,12 +38,6 @@
     </div>
 </div>
 <script>
-$("#tab-1").on("click", function(event) {
-
-    event.stopPropagation();
-    loadContentWithParams("process_admin.job_type", {});
-});
-
 $("#tab-2").on("click", function(event) {
 
     event.stopPropagation();
@@ -51,13 +45,14 @@ $("#tab-2").on("click", function(event) {
     var p_job_type_id = get_selected_grid('#grid-list', 'p_job_type_id');
 
     if(module_id == null || p_job_type_id == null) {
-        swal.fire('Informasi','Silahkan pilih salah satu module dan salah satu job', 'info');
+        swal.fire('Info','Please select module and job', 'info');
         return false;
     }
 
     loadContentWithParams("process_admin.daftar_job", {
         module_id: module_id,
-        p_job_type_id : p_job_type_id
+        p_job_type_id : p_job_type_id,
+        menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
     });
 });
 </script>
@@ -144,7 +139,7 @@ $("#tab-2").on("click", function(event) {
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."process_admin.job_type_controller/read_module"; ?>',
-                caption: "Daftar Module",
+                caption: "List Module",
                 pgbuttons: false,
                 pginput: false,
                 pgtext: "",
@@ -216,7 +211,7 @@ $("#tab-2").on("click", function(event) {
                 colModel: [
                     {label: 'ID', name: 'p_job_type_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true },
                     {label: 'Module Id', name: 'module_id', width: 150, align: 'left', editable: true, hidden: true }, 
-                    {label: 'Code', name: 'code', width: 150, align: 'center', editable: true,
+                    {label: 'Code', name: 'code', width: 300, editable: true,
                           editoptions:{
                                  size: 30,
                                  maxlength:32
@@ -283,7 +278,7 @@ $("#tab-2").on("click", function(event) {
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."process_admin.job_type_controller/crud";?>',
-                caption: "Dafar Tipe Job"
+                caption: "Job Type"
             });
 
             jQuery(grid_selector).jqGrid('navGrid', pager_selector,
