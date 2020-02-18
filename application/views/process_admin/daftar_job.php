@@ -137,7 +137,7 @@ $("#tab-1").on("click", function(event) {
                     {label: 'ID', name: 'p_job_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                     {label: 'P Job Type ID', name: 'p_job_type_id', width: 5, sorttype: 'number', editable: true, hidden: true},
                     {label: 'Module ID', name: 'module_id', width: 5, sorttype: 'number', editable: true, hidden: true},
-                    {label: 'Code', name: 'code_pjt', width: 300, editable: false,
+                    {label: 'Code', name: 'code', width: 300, editable: false,
                           editoptions:{
                               size: 30,
                               maxlength:64
