@@ -201,18 +201,7 @@
                 { /* new record form */ },
                 { /* delete record form */ },
                 {
-<<<<<<< .mine
-                    // options for the Edit Dialog
-                },
-                {
-                    //new record form
-                },
-                {
-                    //delete record form
-                },
-                {
-||||||| .r52
-                    // options for the Edit Dialog
+                // options for the Edit Dialog
                     closeAfterEdit: false,
                     closeOnEscape:true,
                     recreateForm: true,
@@ -301,9 +290,7 @@
                     }
                 },
                 {
-=======
->>>>>>> .r66
-                    //search form
+                //search form
                     closeAfterSearch: false,
                     recreateForm: true,
                     afterShowSearch: function (e) {
