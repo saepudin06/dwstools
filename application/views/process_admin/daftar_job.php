@@ -149,13 +149,13 @@ $("#tab-1").on("click", function(event) {
                               maxlength:64
                          }, editrules: { required: true }
                     },
-                    {label: 'Nama Procedure', name: 'procedure_name', width: 300, editable: true,
+                    {label: 'Procedure Name', name: 'procedure_name', width: 300, editable: true,
                           editoptions:{
                               size: 30,
                               maxlength:64
                          }, editrules: { required: true }
                     },
-                    {label: 'List NO', name: 'listing_no', width: 150, editable: true, align: 'center',
+                    {label: 'List No', name: 'listing_no', width: 150, editable: true, align: 'center',
                         editoptions:{
                             size: 30,
                             maxlength:64,
@@ -171,17 +171,17 @@ $("#tab-1").on("click", function(event) {
                     {label: 'Parallel', name: 'is_parallel', width: 150, editable: true, align: 'center',
                         editrules: { required: true },
                         formatter: function (cellvalue, options, rowObject) { 
-                            return rowObject['is_parallel'] == 'Y' ? 'YA' : 'TIDAK';
+                            return rowObject['is_parallel'] == 'Y' ? 'YES' : 'NO';
                         },
                         edittype: 'select',
                         editoptions: {
-                            value: "N:TIDAK;Y:YA",
+                            value: "N:NO;Y:YES",
                             dataInit: function(elem) {
                                 $(elem).width(210);  // set the width which you need
                             }
                         }
                     },
-                    {label: 'Tingkat Parallel', name: 'parallel_degree', width: 150, editable: true, align: 'center',
+                    {label: 'Parallel Degree', name: 'parallel_degree', width: 150, editable: true, align: 'center',
                         editoptions:{
                             size: 30,
                             maxlength:64,
@@ -194,54 +194,54 @@ $("#tab-1").on("click", function(event) {
                             }
                         }, editrules: { required: true }
                     },
-                    {label: 'Selesai', name: 'is_finish', width: 150, editable: true, align: 'center',
+                    {label: 'Finish', name: 'is_finish', width: 150, editable: true, align: 'center',
                         editrules: { required: true },
                         formatter: function (cellvalue, options, rowObject) { 
-                            return rowObject['is_finish'] == 'Y' ? 'YA' : 'TIDAK';
+                            return rowObject['is_finish'] == 'Y' ? 'YES' : 'NO';
                         },
                         edittype: 'select',
                         editoptions: {
-                            value: "N:TIDAK;Y:YA",
+                            value: "N:NO;Y:YES",
                             dataInit: function(elem) {
                                 $(elem).width(210);  // set the width which you need
                             }
                         }
                     },
-                    {label: 'Proses Ulang', name: 'is_reprocess', width: 150, editable: true, align: 'center',
+                    {label: 'Reprocess', name: 'is_reprocess', width: 150, editable: true, align: 'center',
                         editrules: { required: true },
                         formatter: function (cellvalue, options, rowObject) { 
-                            return rowObject['is_reprocess'] == 'Y' ? 'YA' : 'TIDAK';
+                            return rowObject['is_reprocess'] == 'Y' ? 'YES' : 'NO';
                         },
                         edittype: 'select',
                         editoptions: {
-                            value: "N:TIDAK;Y:YA",
+                            value: "N:NO;Y:YES",
                             dataInit: function(elem) {
                                 $(elem).width(210);  // set the width which you need
                             }
                         }
                     },
-                    {label: 'Exclude dalam antrian', name: 'exclude_in_queues', width: 150, editable: true, align: 'center',
+                    {label: 'Exclude in queue\'s', name: 'exclude_in_queues', width: 150, editable: true, align: 'center',
                         editrules: { required: true },
                         formatter: function (cellvalue, options, rowObject) { 
-                            return rowObject['exclude_in_queues'] == 'Y' ? 'YA' : 'TIDAK';
+                            return rowObject['exclude_in_queues'] == 'Y' ? 'YES' : 'NO';
                         },
                         edittype: 'select',
                         editoptions: {
-                            value: "N:TIDAK;Y:YA",
+                            value: "N:NO;Y:YES",
                             dataInit: function(elem) {
                                 $(elem).width(210);  // set the width which you need
                             }
                         }
                     },
-                    {label: 'Induk', name: 'parent_id', width: 75, sorttype: 'number', align: 'center', editable: true},
+                    {label: 'Parent ID', name: 'parent_id', width: 75, sorttype: 'number', align: 'center', editable: true},
                     // {label: 'Batalkan Parent', name: 'parent_id', width: 75, sorttype: 'number', align: 'center' },
-                    {label: 'Nama Table Control', name: 'control_table_name', width: 300, editable: true,
+                    {label: 'Control Table Name', name: 'control_table_name', width: 300, editable: true,
                           editoptions:{
                               size: 30,
                               maxlength:64
                          }, editrules: { required: true }
                     },
-                    {label: 'Keterangan', name: 'description', width: 308, align: 'left', editable: true,
+                    {label: 'Description', name: 'description', width: 308, align: 'left', editable: true,
                         edittype:'textarea',
                         editoptions:{
                             size: 30,
@@ -251,7 +251,7 @@ $("#tab-1").on("click", function(event) {
                             }
                         }
                     },
-                    {label: 'Nama Eksternal Program', name: 'external_program', width: 300, editable: true,
+                    {label: 'External Program Name', name: 'external_program', width: 300, editable: true,
                           editoptions:{
                               size: 30,
                               maxlength:64
@@ -263,13 +263,13 @@ $("#tab-1").on("click", function(event) {
                               maxlength:64
                          }
                     },
-                    {label: 'Eksternal Program', name: 'is_external', width: 300, editable: true,
+                    {label: 'External Program', name: 'is_external', width: 300, editable: true,
                         formatter: function (cellvalue, options, rowObject) { 
-                            return rowObject['is_external'] == 'Y' ? 'YA' : 'TIDAK';
+                            return rowObject['is_external'] == 'Y' ? 'YES' : 'NO';
                         },
                         edittype: 'select',
                         editoptions: {
-                            value: "N:TIDAK;Y:YA",
+                            value: "N:NO;Y:YES",
                             dataInit: function(elem) {
                                 $(elem).width(210);  // set the width which you need
                             }
