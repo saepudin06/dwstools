@@ -102,7 +102,7 @@ $("#tab-2").on("click", function(event) {
                 mtype: "POST",
                 colModel: [
                     { label: 'Module ID', name: 'module_id', hidden: true, key: true },
-                    { label: 'Nama Module', name: 'module_name' }
+                    { label: 'Module Name', name: 'module_name' }
                 ],
                 height: '100%',
                 autowidth: true,
