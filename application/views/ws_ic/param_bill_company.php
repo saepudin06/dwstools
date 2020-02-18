@@ -33,6 +33,27 @@
     </div>
 </div>
 <script>
+
+    $("#tab-2").on( "click", function() { 
+        var grid = $('#grid-table');
+        selRowId = grid.jqGrid ('getGridParam', 'selrow');
+
+        var p_company_id = grid.jqGrid ('getCell', selRowId, 'p_company_id');
+
+        if(selRowId == null) {
+            swal.fire('Informasi', 'Please select one company', 'info');
+            return false;
+        }
+
+        event.stopPropagation();
+        loadContentWithParams("ws_ic.param_bill_organization", {
+            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>",
+            p_company_id: p_company_id
+        });
+
+
+    });
+
     $(function() {
         set_grid();
     });
@@ -180,6 +201,108 @@
                 { /* new record form */ },
                 { /* delete record form */ },
                 {
+<<<<<<< .mine
+                    // options for the Edit Dialog
+                },
+                {
+                    //new record form
+                },
+                {
+                    //delete record form
+                },
+                {
+||||||| .r52
+                    // options for the Edit Dialog
+                    closeAfterEdit: false,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    serializeEditData: serializeJSON,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+            
+                    //new record form
+                    closeAfterAdd: false,
+                    clearAfterAdd : true,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    serializeEditData: serializeJSON,
+                    viewPagerButtons: false,
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+
+
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                    //delete record form
+                    serializeDelData: serializeJSON,
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        style_delete_form(form);
+
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    onClick: function (e) {
+                        //alert(1);
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+                        swal.fire({title: 'Success', text: response.message, type: "success"});
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+=======
+>>>>>>> .r66
                     //search form
                     closeAfterSearch: false,
                     recreateForm: true,

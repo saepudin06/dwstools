@@ -3,13 +3,6 @@
 <!-- end breadcrumb -->
 
 <div class="panel">
-    <div class="panel-hdr">
-        <h2></h2>
-        <div class="panel-toolbar">
-            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
-            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
-        </div>
-    </div>
     <div class="panel-container show">
         <div class="panel-content">
             <div class="frame-wrap m-0">
@@ -31,27 +24,26 @@
     var pager_selector = "#grid-pager";
 
         jQuery(grid_selector).jqGrid({
-            url: '<?php echo WS_JQGRID."ws_ic.parameter_poc_controller/read"; ?>',
+            url: '<?php echo WS_JQGRID."ws_ic.param_bill_city_controller/read"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
 
-                {label: 'POC Code', name: 'p_poc_code', width: 150, align: 'center'},
-                {label: 'Switch Coordinate ID', name: 'p_switch_coordinate_id', width: 130, hidden:true},
-                {label: 'Organization ID', name: 'p_organization_id', width: 120, hidden:true},
-                {label: 'City Code',name: 'p_city_code', width: 150, align: "center"},
-                {label: 'Service Type ID',name: 'p_service_type_id', width: 100, hidden:true},
-                {label: 'Coverage Area ID', name: 'p_coverage_area_id', width: 120, hidden:true},
-                {label: 'Access Code', name: 'p_access_code', width: 150, align: "center"},
-                {label: 'Is Billing Center', name: 'is_billing_center', width: 150, align: 'center'},
-                {label: 'Trunk ID', name: 'p_trunk_id', width: 75, hidden:true},
-                {label: 'Regulation ID',name: 'p_regulation_id', width: 100, hidden:true},
-                {label: 'Description', name: 'description', width: 300 },
-                {label: 'Valid From', name: 'valid_from', width: 150, align: 'center'},
-                {label: 'Valid Until',name: 'valid_until', width: 100, align: "center"},
-                {label: 'Update Date',name: 'update_date', width: 150, align: "center"},
-                {label: 'Update By',name: 'update_by', width: 150, align: "center"}
-
+                {label: 'City Code', name: 'p_city_code', width: 100, align: 'left'},
+                {label: 'Is Domestic', name: 'is_domestic', width: 100, align: 'left'},
+                {label: 'Em Deg', name: 'em_deg', width: 100, align: 'left'},
+                {label: 'Em Min',name: 'em_min', width: 100, align: 'left'},
+                {label: 'Em Sec',name: 'em_sec', width: 100, align: 'left'},
+                {label: 'Sl Deg', name: 'sl_deg', width: 100, align: 'left'},
+                {label: 'Sl Min', name: 'sl_min', width: 100, align: "left"},
+                {label: 'Sl Sec', name: 'sl_sec', width: 100, align: 'left'},
+                {label: 'Time Ref', name: 'time_ref', width: 75, align: 'left'},
+                {label: 'City Soki', name: 'city_soki', width: 100, align: 'left'},
+                {label: 'City Divre',name: 'city_divre', width: 100, align: "left"},
+                {label: 'Description', name: 'description', width: 250, align: "left"},
+                {label: 'Update Date',name: 'update_date', width: 160, align: "left"},
+                {label: 'Update By',name: 'update_by', width: 130, align: "left"}
+               
             ],
             height: '100%',
             autowidth: true,
@@ -82,8 +74,8 @@
 
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."ws_ic.parameter_poc_controller/read"; ?>',
-            // caption: "Point Of Charge"
+            editurl: '<?php echo WS_JQGRID."ws_ic.param_bill_city_controller/read"; ?>',
+            caption: "City Coordinate"
 
         });
 
