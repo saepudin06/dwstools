@@ -12,7 +12,7 @@ class Param_bill_day_category_controller {
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','dates');
         $sord = getVarClean('sord','str','desc');
-       // $idreferencetype = getVarClean('p_reference_type_id','int',0);
+        $period = getVarClean('period','int',0);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -37,7 +37,7 @@ class Param_bill_day_category_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array();
+            $req_param['where'] = array("period = '$period'");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

@@ -113,7 +113,7 @@
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."ws_idd_olo.param_zone_controller/crud"; ?>',
-                // caption: "Reference Type"
+                caption: "Zone"
 
             });
 
