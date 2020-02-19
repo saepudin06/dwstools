@@ -78,13 +78,13 @@
                 mtype: "POST",
                 colModel: [
                     {label: 'P Check Unbill ID', name: 'p_check_unbill_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true },
-                    {label: 'Orig', name: 'orig', width: 150, editable: true, align: 'center',
+                    {label: 'Orig', name: 'orig', width: 150, editable: true,
                         editoptions:{
                             size: 30,
                             maxlength:64
                         }, editrules: {required: true}
                     },
-                    {label: 'Term', name: 'term', width: 150, editable: true, align: 'center',
+                    {label: 'Term', name: 'term', width: 150, editable: true,
                         editoptions:{
                             size: 30,
                             maxlength:64
@@ -96,7 +96,7 @@
                             maxlength:64
                         }, editrules: {required: true}
                     },
-                    {label: 'Err Message', name: 'err_message', width: 308, align: 'left', editable: true,
+                    {label: 'Err Message', name: 'err_message', width: 308, editable: true,
                         edittype:'textarea',
                         editoptions:{
                             size: 30,
