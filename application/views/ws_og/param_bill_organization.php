@@ -177,7 +177,7 @@
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."ws_og.param_bill_organization_controller/read"; ?>',
-                // caption: "Reference Type"
+                caption: "Organization"
 
             });
 

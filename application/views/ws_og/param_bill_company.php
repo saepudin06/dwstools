@@ -173,7 +173,7 @@
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."ws_og.param_bill_company_controller/crud"; ?>',
-                // caption: "Reference Type"
+                caption: "Company"
 
             });
 
