@@ -190,6 +190,52 @@ class Process_validation_process_controller {
         exit;
     }
 
+    function cancel_all_job() {
+        $ci = & get_instance();
+        $ci->load->model('ws_ic/process_validation_process');
+        $table = $ci->process_validation_process;
+        $userdata = $ci->session->userdata;
+
+        $data = array("success" => false, "message" => "");
+        $data_control_id = getVarClean("input_data_control_id", "int", 0);
+
+        try {
+            $sql = "select public.f_cancel_all_job( ".$data_control_id.", '".$userdata['user_name']."') as hasil";
+            // $sql = "select nvl(0,1) as hasil";
+            $res = $table->db->query($sql)->row_array();
+            $data['message'] = $res['hasil'];
+            $data['success'] = true;
+        } catch (Exception $e){
+            $data["message"] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
+    function cancel_last_job() {
+        $ci = & get_instance();
+        $ci->load->model('ws_ic/process_validation_process');
+        $table = $ci->process_validation_process;
+        $userdata = $ci->session->userdata;
+
+        $data = array("success" => false, "message" => "");
+        $data_control_id = getVarClean("input_data_control_id", "int", 0);
+
+        try {
+            $sql = "select public.f_cancel_last_job( ".$data_control_id.", '".$userdata['user_name']."') as hasil";
+            // $sql = "select nvl(0,1) as hasil";
+            $res = $table->db->query($sql)->row_array();
+            $data['message'] = $res['hasil'];
+            $data['success'] = true;
+        } catch (Exception $e){
+            $data["message"] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
 }
 
 /* End of file Process_validation_process_controller.php */
