@@ -166,7 +166,7 @@
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."ws_og.param_bill_err_msg_controller/crud"; ?>',
-                caption: ""
+                caption: "Error Message"
 
             });
 
