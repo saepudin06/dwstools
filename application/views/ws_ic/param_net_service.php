@@ -110,7 +110,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."ws_ic.param_net_service_controller/read"; ?>',
-            // caption: "Service Type"
+            caption: "Service Type"
 
         });
 
@@ -301,7 +301,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."ws_ic.param_net_service_controller/readCategory"; ?>',
-            // caption: "Service Category"
+            caption: "Service Category"
 
         });
 

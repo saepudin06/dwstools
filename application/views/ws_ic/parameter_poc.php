@@ -36,21 +36,21 @@
             mtype: "POST",
             colModel: [
 
-                {label: 'POC Code', name: 'p_poc_code', width: 150, align: 'center'},
+                {label: 'POC Code', name: 'p_poc_code', width: 150, align: 'left'},
                 {label: 'Switch Coordinate ID', name: 'p_switch_coordinate_id', width: 130, hidden:true},
                 {label: 'Organization ID', name: 'p_organization_id', width: 120, hidden:true},
-                {label: 'City Code',name: 'p_city_code', width: 150, align: "center"},
+                {label: 'City Code',name: 'p_city_code', width: 150, align: "left"},
                 {label: 'Service Type ID',name: 'p_service_type_id', width: 100, hidden:true},
                 {label: 'Coverage Area ID', name: 'p_coverage_area_id', width: 120, hidden:true},
-                {label: 'Access Code', name: 'p_access_code', width: 150, align: "center"},
-                {label: 'Is Billing Center', name: 'is_billing_center', width: 150, align: 'center'},
+                {label: 'Access Code', name: 'p_access_code', width: 150, align: "left"},
+                {label: 'Is Billing Center', name: 'is_billing_center', width: 150, align: 'left'},
                 {label: 'Trunk ID', name: 'p_trunk_id', width: 75, hidden:true},
                 {label: 'Regulation ID',name: 'p_regulation_id', width: 100, hidden:true},
                 {label: 'Description', name: 'description', width: 300 },
-                {label: 'Valid From', name: 'valid_from', width: 150, align: 'center'},
-                {label: 'Valid Until',name: 'valid_until', width: 100, align: "center"},
-                {label: 'Update Date',name: 'update_date', width: 150, align: "center"},
-                {label: 'Update By',name: 'update_by', width: 150, align: "center"}
+                {label: 'Valid From', name: 'valid_from', width: 150, align: 'left'},
+                {label: 'Valid Until',name: 'valid_until', width: 100, align: "left"},
+                {label: 'Update Date',name: 'update_date', width: 150, align: "left"},
+                {label: 'Update By',name: 'update_by', width: 150, align: "left"}
 
             ],
             height: '100%',
@@ -83,7 +83,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."ws_ic.parameter_poc_controller/read"; ?>',
-            // caption: "Point Of Charge"
+            caption: "Point Of Charge"
 
         });
 
