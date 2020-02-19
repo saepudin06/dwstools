@@ -66,7 +66,6 @@
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
-
     }
 
     function get_selected_grid(grid_selector, field_selector){
