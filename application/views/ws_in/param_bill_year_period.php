@@ -4,14 +4,14 @@
 <div class="panel">
     <div class="panel-hdr">
         <h2>
-            <!-- <ul class="nav nav-tabs border-bottom-0 nav-tabs-clean" role="tablist">
+            <ul class="nav nav-tabs border-bottom-0 nav-tabs-clean" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Modules</a>
+                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Year Period</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> Menus</a>
+                    <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> Day Category</a>
                 </li>
-            </ul> -->
+            </ul>
         </h2>
         <div class="panel-toolbar">
             <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
@@ -32,6 +32,22 @@
         </div>
     </div>
 </div>
+<script>
+    $("#tab-2").on("click", function(event) {
+        var p_year_period_id = get_selected_grid("#grid-table", 'p_year_period_id');
+        event.stopPropagation();
+
+        if(p_year_period_id == null) {
+            swal.fire('Info','Please select Year Periode','info');
+            return false;
+        }
+
+        loadContentWithParams("ws_in.param_bill_day_category", {
+            p_year_period_id: p_year_period_id,
+            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
+        });
+    });
+</script>
 <script>
     $(function() {
         set_grid();
@@ -73,70 +89,102 @@
         if (is_set_grid != 'true'){
             $('#is_set_grid').val('true');
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_idd.globalparam_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."process_admin.year_period_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
-                    {label: 'ID', name: 'p_global_param_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                    {label: 'Code', name: 'code', width: 100, align: 'left', editable: true,
+                    {label: 'ID', name: 'p_year_period_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
+                    {label: 'Code', name: 'code', width: 150, align: 'center', editable: true,
                           editoptions:{
-                                 size: 30,
-                                 maxlength:64
-                         }, editrules: {required: true}
-                     }, 
-                    {label: 'Value', name: 'value', width: 100, align: 'left', editable: true,
-                          editoptions:{
-                                 size: 30,
-                                 maxlength:64
-                         }, editrules: {required: true}
-                     }, 
-                    {label: 'Type 1', name: 'type_1', width: 128, align: 'left', editable: true,
-                          editoptions:{
-                                 size: 30,
-                                 maxlength:128
-                         }, editrules: {required: true}
-                     },
-                          {label: 'Is Range', name: 'is_range', width: 128, align: 'left', editable: true,
-                          editoptions:{
-                                 size: 30,
-                                 maxlength:128
-                         }, editrules: {required: true}
-                     },
-                             {label: 'Value 2', name: 'value_2', width: 128, align: 'left', editable: true,
-                          editoptions:{
-                                 size: 30,
-                                 maxlength:128
-                         }, editrules: {required: true}
-                     },
-                     {label: 'Description', name: 'description', width: 300, align: 'left', editable: true,
-                          edittype:'textarea',
-                          editoptions:{
-                                 size: 30,
-                                 maxlength:128
-                         }, editrules: {required: true}
+                              size: 30,
+                              maxlength:64
+                         }, editrules: { required: true }
+                    },
+                    {label: 'Start Date', name: 'start_date', width: 150, align: "center", editable: true,
+                        editoptions: {
+                            dataInit : function (elem) {
+                                $(elem).datepicker({
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    orientation: "bottom left",
+                                    todayHighlight : true,
+                                    setDate: new Date()
+                                });
+
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
+                    },
+                    {label: 'End Date', name: 'end_date', width: 150, align: "center", editable: true,
+                        editoptions: {
+                            dataInit : function (elem) {
+                                $(elem).datepicker({
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    orientation: "bottom left",
+                                    todayHighlight : true,
+                                    showOn: 'focus',
+                                    setDate: new Date()
+                                });
+
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
+                    },
+                    {label: 'Period Status', name: 'status_code', width: 150, editable: false },
+                    {label: 'Period Status', name: 'period_status_id', width: 100, align: "center", editable: true, hidden: true,
+                        editrules: {edithidden: true, required:false},
+                        edittype: 'select',
+                        editoptions: {
+                            dataUrl: "<?php echo WS_JQGRID.'process_admin.finance_period_controller/html_select_options_period_status'; ?>",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                            buildSelect: function (data) {
+                                try {
+                                    var response = $.parseJSON(data);
+                                    if(response.success == false) {
+                                        swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                                        return "";
+                                    }
+                                }catch(err) {
+                                    return data;
+                                }
+                            }
+                        },
+                    },
+                    {label: 'Description', name: 'description', width: 308, align: 'left', editable: true,
+                        edittype:'textarea',
+                        editoptions:{
+                            size: 30,
+                            maxlength:128,
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                        }, editrules: {required: true}
                      },
                      {label: 'Created By', name: 'created_by', width: 150, align: 'center', editable: false,
                           editoptions:{
-                                 size: 30,
-                                 maxlength:16
+                              size: 30,
+                              maxlength:16
                          }, editrules: {required: false}
                      }, 
                     {label: 'Creation Date', name: 'creation_date', width: 150, align: 'center', editable: false,
                           editoptions:{
-                                 size: 30,
-                                 maxlength:7
+                              size: 30,
+                              maxlength:7
                          }, editrules: {required: false}
                      }, 
                     {label: 'Updated Date', name: 'updated_date', width: 150, align: 'center', editable: false,
                           editoptions:{
-                                 size: 30,
-                                 maxlength:7
+                              size: 30,
+                              maxlength:7
                          }, editrules: {required: false}
                      }, 
                     {label: 'Updated By', name: 'updated_by', width: 150, align: 'center', editable: false,
                           editoptions:{
-                                 size: 30,
-                                 maxlength:16
+                              size: 30,
+                              maxlength:16
                          }, editrules: {required: false}
                      }
                   
@@ -153,6 +201,7 @@
                 multiboxonly: true,
                 onSelectRow: function (rowid) {
                     /*do something when selected*/
+
                 },
                 sortorder:'',
                 pager: pager_selector,
@@ -164,22 +213,24 @@
                 loadComplete: function (response) {
                     if(response.success == false) {
                         swal.fire({title: 'Attention', text: response.message, type: "warning"});
+                    } else {
+                        $('#gridList').hide();
                     }
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_idd.globalparam_controller/crud"; ?>',
-                caption: "Global Parameter"
+                editurl: '<?php echo WS_JQGRID."process_admin.year_period_controller/crud"; ?>',
+                caption: "Year Period"
 
             });
 
             jQuery(grid_selector).jqGrid('navGrid', pager_selector,
                 {   //navbar options
-                    edit: true,
+                    edit: false,
                     editicon: 'fal fa-pencil green',
-                    add: true,
+                    add: false,
                     addicon: 'fal fa-plus-circle blue',
-                    del: true,
+                    del: false,
                     delicon: 'fal fa-trash-alt red',
                     search: true,
                     searchicon: 'fal fa-search orange',
@@ -207,6 +258,8 @@
                     beforeShowForm: function (e, form) {
                         var form = $(e[0]);
                         style_edit_form(form);
+                        $('#tr_status_code', form).hide();
+                        $('#tr_period_status_id', form).show();
 
                     },
                     afterShowForm: function(form) {
@@ -241,6 +294,8 @@
                     beforeShowForm: function (e, form) {
                         var form = $(e[0]);
                         style_edit_form(form);
+                        $('#tr_status_code', form).hide();
+                        $('#tr_period_status_id', form).show();
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();

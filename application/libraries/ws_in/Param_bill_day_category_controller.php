@@ -19,7 +19,7 @@ class Param_bill_day_category_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('ws_ic/param_bill_day_category');
+            $ci->load->model('ws_in/param_bill_day_category');
             $table = $ci->param_bill_day_category;
 
             $req_param = array(
@@ -106,7 +106,7 @@ class Param_bill_day_category_controller {
 
         $ci = & get_instance();
   	
-        $ci->load->model('ws_ic/param_bill_day_category');
+        $ci->load->model('ws_in/param_bill_day_category');
         $table = $ci->param_bill_day_category;
         
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -180,7 +180,7 @@ class Param_bill_day_category_controller {
 
         $ci =& get_instance();
         $userdata = $ci->session->userdata;
-        $ci->load->model('ws_ic/param_bill_day_category');
+        $ci->load->model('ws_in/param_bill_day_category');
         $table = $ci->param_bill_day_category;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -250,7 +250,7 @@ class Param_bill_day_category_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('ws_ic/param_bill_day_category');
+        $ci->load->model('ws_in/param_bill_day_category');
         $table = $ci->param_bill_day_category;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -294,7 +294,7 @@ class Param_bill_day_category_controller {
 
     function generate_day_category() {
         $ci = & get_instance();
-        $ci->load->model('ws_ic/param_bill_day_category');
+        $ci->load->model('ws_in/param_bill_day_category');
         $table = $ci->param_bill_day_category;
         $userdata = $ci->session->userdata;
 

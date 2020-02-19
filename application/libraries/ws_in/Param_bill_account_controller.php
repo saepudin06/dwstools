@@ -1,26 +1,26 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Param_bill_day_category_controller
+* @class Param_bill_account_controller
 * @version 29-11-2017 02:11:12
 */
-class Param_bill_day_category_controller {
+class Param_bill_account_controller {
 
     function read() {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','dates');
+        $sidx = getVarClean('sidx','str','p_account_id');
         $sord = getVarClean('sord','str','desc');
-        $period = getVarClean('period','int',0);
+       // $idreferencetype = getVarClean('p_reference_type_id','int',0);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         try {
 
             $ci = & get_instance();
-            $ci->load->model('ws_ic/param_bill_day_category');
-            $table = $ci->param_bill_day_category;
+            $ci->load->model('ws_in/param_bill_account');
+            $table = $ci->param_bill_account;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -37,7 +37,7 @@ class Param_bill_day_category_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("period = '$period'");
+            $req_param['where'] = array();
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -106,8 +106,8 @@ class Param_bill_day_category_controller {
 
         $ci = & get_instance();
   	
-        $ci->load->model('ws_ic/param_bill_day_category');
-        $table = $ci->param_bill_day_category;
+        $ci->load->model('ws_in/param_bill_account');
+        $table = $ci->param_bill_account;
         
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -180,8 +180,8 @@ class Param_bill_day_category_controller {
 
         $ci =& get_instance();
         $userdata = $ci->session->userdata;
-        $ci->load->model('ws_ic/param_bill_day_category');
-        $table = $ci->param_bill_day_category;
+        $ci->load->model('ws_in/param_bill_account');
+        $table = $ci->param_bill_account;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -250,8 +250,8 @@ class Param_bill_day_category_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('ws_ic/param_bill_day_category');
-        $table = $ci->param_bill_day_category;
+        $ci->load->model('ws_in/param_bill_account');
+        $table = $ci->param_bill_account;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -291,28 +291,6 @@ class Param_bill_day_category_controller {
         }
         return $data;
     }
-
-    function generate_day_category() {
-        $ci = & get_instance();
-        $ci->load->model('ws_ic/param_bill_day_category');
-        $table = $ci->param_bill_day_category;
-        $userdata = $ci->session->userdata;
-
-        $data = array("success" => false, "message" => "");
-        $in_periode = getVarClean("in_periode", "int", 0);
-
-        try {
-            $sql = "select ic_dws.f_generate_day_category( ?, ? ) as hasil";
-            $res = $table->db->query($sql, array($in_periode, $userdata['user_name']))->row_array();
-            $data['message'] = $res['hasil'];
-            $data['success'] = true;
-        } catch (Exception $e){
-            $data["message"] = $e->getMessage();
-        }
-
-        echo json_encode($data);
-        exit;
-    }
 }
 
-/* End of file Param_bill_day_category_controller.php */
+/* End of file Param_bill_account_controller.php */
