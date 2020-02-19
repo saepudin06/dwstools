@@ -41,7 +41,7 @@
         var p_company_id = grid.jqGrid ('getCell', selRowId, 'p_company_id');
 
         if(selRowId == null) {
-            swal.fire('Informasi', 'Please select one company', 'info');
+            swal.fire('Informasi', 'Please select company', 'info');
             return false;
         }
 
