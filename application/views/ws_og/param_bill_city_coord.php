@@ -83,7 +83,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."ws_og.param_bill_city_controller/read"; ?>',
-            // caption: "City Coordinate"
+            caption: "City Coordinate"
 
         });
 

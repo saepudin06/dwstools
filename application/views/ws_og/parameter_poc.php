@@ -83,7 +83,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."ws_og.parameter_poc_controller/read"; ?>',
-            // caption: "Point Of Charge"
+            caption: "Point Of Charge"
 
         });
 
