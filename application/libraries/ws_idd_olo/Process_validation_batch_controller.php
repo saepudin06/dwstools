@@ -37,7 +37,7 @@ class Process_validation_batch_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("input_data_class_id = 3");
+            $req_param['where'] = array("input_data_class_id = 7");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

@@ -49,11 +49,11 @@ class Process_validation_batch extends Abstract_model {
             //if false please throw new Exception
         }
 
-        $input_data_class_id = 3;
+        $input_data_class_id = 7;
         $periode = $this->db->where('p_finance_period_id', $this->record['p_finance_period_id'])->get('p_finance_period')->row_array();
         
-        $this->db->set('input_file_name', "POPULATEDATAITKP_".$periode['finance_period_code']);
-        $this->db->set('parameters', $periode['finance_period_code']);
+        $this->db->set('input_file_name', "VALIDATIONITKP_".$periode['p_finance_period_id']);
+        $this->db->set('parameters', $periode['p_finance_period_id']);
         $this->db->set('input_data_class_id', $input_data_class_id);
 
         // $this->db->set('updated_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
