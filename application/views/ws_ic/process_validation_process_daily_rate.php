@@ -460,7 +460,7 @@
                 }
             );
         } else {
-            reload_grid(grid_selector, null);
+            reload_grid(grid_selector, {job_control_id: get_selected_grid("#grid-table", "job_control_id")});
         }
     }
 
