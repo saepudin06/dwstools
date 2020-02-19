@@ -297,6 +297,7 @@
                 postData: {job_control_id: get_selected_grid("#grid-table", "job_control_id")},
                 colModel: [
                     {label: 'ID', name: 'job_control_id', key: true, width: 75, align: 'center', sorttype: 'number', hidden: true},
+                    {label: 'No', name: 'counter_no', width: 30, align: 'center', sorttype: 'number'},
                     {label: 'Time', name: 'log_date', width: 200, align: "left"},
                     {label: 'Message', name: 'log_message', width: 300, align: 'left'}
                 ],
@@ -305,7 +306,7 @@
                 viewrecords: true,
                 rowNum: 10,
                 rowList: [10,20,50],
-                rownumbers: true, // show row numbers
+                rownumbers: false, // show row numbers
                 rownumWidth: 35, // the width of the row numbers columns
                 altRows: true,
                 shrinkToFit: true,
