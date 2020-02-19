@@ -3,6 +3,14 @@
 <!-- end breadcrumb -->
 
 <div class="panel">
+    <div class="panel-hdr">
+        <h2>
+        </h2>
+        <div class="panel-toolbar">
+            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+        </div>
+    </div>
     <div class="panel-container show">
         <div class="panel-content">
             <div class="frame-wrap m-0">
@@ -12,10 +20,27 @@
                         <div id="grid-pager"></div>
                     </div>
                 </div>
-                <br>
-                <div class="row" id="grid_group">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel" id="grid_group">
+    <div class="panel-hdr">
+        <h2>
+        </h2>
+        <div class="panel-toolbar">
+            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+        </div>
+    </div>
+    <div class="panel-container show">
+        <div class="panel-content">
+            <div class="frame-wrap m-0">
+                <div class="row">
                     <div class="col-md-12 grid-ui">
-                        <table id="grid-table-group"></table>
+                       <table id="grid-table-group"></table>
                         <div id="grid-pager-group"></div>
                     </div>
                 </div>
@@ -23,6 +48,7 @@
         </div>
     </div>
 </div>
+
 
 
 <script>
