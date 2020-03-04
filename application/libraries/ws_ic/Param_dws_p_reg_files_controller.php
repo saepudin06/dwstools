@@ -329,15 +329,15 @@ class Param_dws_p_reg_files_controller {
                     $filedata = $ci->upload->data();
                     $file_name = $config['file_name'];
                     $directory = $config['upload_path'];
-
-                    $table->db->trans_begin();
-                    $table->db->set('file_name', $file_name);
-                    $table->db->set('directory', $directory);
-                    $table->db->where('p_reg_files_id', $p_reg_files_id)->update($table->table);
-                    $table->db->trans_commit();
-
-                    $data['file_name'] = $file_name;
                 }
+
+                $table->db->trans_begin();
+                $table->db->set('file_name', $file_name);
+                $table->db->set('directory', $directory);
+                $table->db->where('p_reg_files_id', $p_reg_files_id)->update($table->table);
+                $table->db->trans_commit();
+
+                $data['file_name'] = $file_name;
             }
             $data['success'] = true;
         } catch (Exception $e){
