@@ -339,7 +339,7 @@
                             }
                         },
                     },
-                    {label: 'File Name Existing', name: 'file_name', width: 150, editable: true, 
+                    {label: 'File Name Existing', name: 'file_name', width: 300, editable: true, 
                         editoptions: {
                             size: 38,
                             dataInit: function(elem) {
@@ -375,7 +375,7 @@
                 rownumbers: true, // show row numbers
                 rownumWidth: 35, // the width of the row numbers columns
                 altRows: true,
-                shrinkToFit: true,
+                shrinkToFit: false,
                 multiboxonly: true,
                 onSelectRow: function (rowid) {
                     /*do something when selected*/
