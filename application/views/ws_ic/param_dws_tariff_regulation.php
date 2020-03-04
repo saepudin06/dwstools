@@ -487,12 +487,19 @@
                             return [false,response.message,response.responseText];
                         }
 
-                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
-                        var tinfoel = $(".tinfo").show();
-                        tinfoel.delay(3000).fadeOut();
+                        var ret = upload_file(response);
 
-
-                        return [true,"",response.responseText];
+                        if (ret.success){
+                            $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                            var tinfoel = $(".tinfo").show();
+                            tinfoel.delay(3000).fadeOut();
+                            return [true,"",response.responseText];   
+                        } else {
+                            $(".tinfo").html('<div class="ui-state-success">' + ret.message + '</div>');
+                            var tinfoel = $(".tinfo").show();
+                            tinfoel.delay(3000).fadeOut();
+                            return [false,"",ret.message];   
+                        }
                     }
                 },
                 {
@@ -545,12 +552,11 @@
         }
     }
 
-    function upload_file(p_reg_files_id, p_regulation_id){
+    function upload_file(response){
         var file = $('#files').prop('files')[0];
         var postData = new FormData();
         postData.append('uploadParamFile', file);
-        postData.append('p_reg_files_id', p_reg_files_id);
-        postData.append('p_regulation_id', p_regulation_id);
+        postData.append('p_reg_files_id', response.id);
 
         $.ajax({
             url: '<?php echo WS_JQGRID."ws_ic.param_dws_p_reg_files_controller/upload_files"; ?>',
@@ -560,13 +566,9 @@
             cache: false,
             processData:false,
             data: postData,
+            async: false,
             success: function (data) {
-                if (data.success) {
-                    // swal({title: "Success", text: data.message, html: true, type: "success"});
-                } else {
-                    swal({title: "Info", text: data.message, html: true, type: "warning"});
-                }
-               
+                return data;
             },
             error: function (xhr, status, error) {
                 swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
