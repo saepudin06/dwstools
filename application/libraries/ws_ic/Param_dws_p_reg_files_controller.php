@@ -163,6 +163,7 @@ class Param_dws_p_reg_files_controller {
                 
                 $data['success'] = true;
                 $data['message'] = 'Data added successfully';
+                $data['id'] = ((int)$table->generate_id($table->table, $table->pkey))-1;
 
             }catch (Exception $e) {
                 $table->db->trans_rollback(); //Rollback Trans
@@ -237,6 +238,7 @@ class Param_dws_p_reg_files_controller {
                 $data['success'] = true;
                 $data['message'] = 'Data update successfully';
                 $data['rows'] = $table->get($items[$table->pkey]);
+                $data['id'] = $items[$table->pkey];
             }catch (Exception $e) {
                 $table->db->trans_rollback(); //Rollback Trans
 
@@ -322,7 +324,7 @@ class Param_dws_p_reg_files_controller {
                 $directory = "";
                 $file_name = "";
                 if (!$ci->upload->do_upload("uploadParamFile")) {
-                    $file_name =  = $ci->upload->display_errors();
+                    $file_name = $ci->upload->display_errors();
                 } else {
                     $filedata = $ci->upload->data();
                     $file_name = $config['file_name'];
