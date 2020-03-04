@@ -324,7 +324,7 @@
                 colModel: [
                     {label: 'P reg files ID', name: 'p_reg_files_id', key: true, align: 'center', width: 150, hidden: true, editable: true },
                     {label: 'P Regulation ID', name: 'p_regulation_id', align: 'center', width: 150, hidden: true, editable: true },
-                    {label: 'Regulation No', name: 'regulation_no', align: 'left', width: 150, editable: true, 
+                    {label: 'Regulation No', name: 'p_regulation_no', align: 'left', width: 150, editable: true, 
                         editoptions:{
                             size: 38,
                             maxlength: 128
