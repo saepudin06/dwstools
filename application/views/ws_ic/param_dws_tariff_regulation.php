@@ -29,7 +29,7 @@
                     </div>     
                 </div>
                 <br>
-                <div class="row">
+                <div class="row" id="div-grid-table-detail">
                     <div class="col-md-12">
                         <input type="hidden" id="is_set_grid_detail" value="false">
                         <table id="grid-table-detail"></table>
@@ -165,6 +165,8 @@
                     if(response.success == false) {
                         swal.fire({title: 'Attention', text: response.message, type: "warning"});
                     }
+
+                    $('#div-' + grid_selector.substr(1) + '-detail').hide();
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
@@ -313,6 +315,8 @@
         var pager_selector = "#grid-pager-detail";
         var is_set_grid = $('#is_set_grid_detail').val();
         var postData = {p_regulation_id: get_selected_grid("#grid-table", 'p_regulation_id')};
+
+        $('#div-' + grid_selector.substr(1)).show();
 
         if (is_set_grid != 'true'){
             $('#is_set_grid_detail').val('true');
