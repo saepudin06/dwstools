@@ -449,6 +449,9 @@
                             return [false,response.message,response.responseText];
                         }
 
+                        upload_file(response, 'update');
+                        jQuery(grid_selector).jqGrid('setSelection', response.id);
+
                         $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
                         var tinfoel = $(".tinfo").show();
                         tinfoel.delay(3000).fadeOut();
@@ -487,19 +490,12 @@
                             return [false,response.message,response.responseText];
                         }
 
-                        var ret = upload_file(response);
+                        upload_file(response, 'create');
 
-                        if (ret.success){
-                            $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
-                            var tinfoel = $(".tinfo").show();
-                            tinfoel.delay(3000).fadeOut();
-                            return [true,"",response.responseText];   
-                        } else {
-                            $(".tinfo").html('<div class="ui-state-success">' + ret.message + '</div>');
-                            var tinfoel = $(".tinfo").show();
-                            tinfoel.delay(3000).fadeOut();
-                            return [false,"",ret.message];   
-                        }
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+                        return [true,"",response.responseText];   
                     }
                 },
                 {
@@ -552,8 +548,8 @@
         }
     }
 
-    function upload_file(response){
-        var file = $('#files').prop('files')[0];
+    function upload_file(response, crud){
+        var file = $('#TblGrid_grid-table-detail #files').prop('files')[0];
         var postData = new FormData();
         postData.append('uploadParamFile', file);
         postData.append('p_reg_files_id', response.id);
@@ -566,9 +562,17 @@
             cache: false,
             processData:false,
             data: postData,
-            async: false,
             success: function (data) {
-                return data;
+                console.log(data);
+                if (!data.success){
+                    swal({title: "Error!", text: data.message, html: true, type: "error"});    
+                } else {
+                    set_grid_detail();
+
+                    if (crud == 'update'){
+                        $('#TblGrid_grid-table-detail #file_name').val(data.file_name);
+                    }
+                }
             },
             error: function (xhr, status, error) {
                 swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
