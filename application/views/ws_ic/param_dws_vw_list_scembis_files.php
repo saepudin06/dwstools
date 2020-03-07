@@ -137,7 +137,7 @@
                             { label: 'p_reg_files_id', name: 'p_reg_files_id', key: true, width: 150, hidden: true },
                             {name: 'Actions', width: 150, align: "center",
                                 formatter:function(cellvalue, options, rowObject) {
-                                    var path_file = rowObject['path_file'];
+                                    var path_file = rowObject['directory'];
                                     var file_name = rowObject['file_name'];
                                     var location  = path_file+file_name;
                                     
