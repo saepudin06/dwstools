@@ -39,7 +39,7 @@
     
 </div>
 
-
+<?php $this->load->view('lov/lov_icon'); ?>
 
 <script>
 $("#tab-2").on("click", function(event) {
@@ -71,51 +71,89 @@ $("#tab-2").on("click", function(event) {
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'module_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Nama Modul',name: 'module_name',width: 150, align: "left",editable: true,
+                {label: 'Nama Modul',name: 'module_name', width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32,
-
                     },
                     editrules: {required: true}
                 },
-                {label: 'Deskripsi',name: 'module_description',width: 200, align: "left",editable: true,
+                {label: 'Deskripsi',name: 'module_description', width: 200, align: "left",editable: true,
                     edittype:'textarea',
                     editoptions: {
                         rows: 2,
-                        cols:50
+                        cols:50,
+                        dataInit: function(elem) {
+                            $(elem).width(210);  // set the width which you need
+                        }
                     }
                 },
-                {label: 'Icon',name: 'module_icon',width: 150, align: "left",editable: true,
+                {label: 'Icon',
+                    name: 'module_icon',
+                    width: 200,
+                    sortable: true,
+                    editable: true,
+                    hidden: true,
+                    editrules: {edithidden: true, required:false},
+                    edittype: 'custom',
                     editoptions: {
-                        size: 30,
-                        maxlength:32,
+                        "custom_element":function( value  , options) {
+                            var elm = $('<span></span>');
 
-                    },
-                    editrules: {required: false}
+                            // give the editor time to initialize
+                            setTimeout( function() {
+                                elm.append('<input id="form_icon_id" type="text"  style="display:none;">'+
+                                        '<input id="form_icon_code" readonly type="text" class="FormElement form-control" placeholder="Choose Icon">'+
+                                        '<button class="btn btn-success" style="margin-bottom: 2px; margin-left: 2px;" type="button" onclick="showLOVIcon(\'form_icon_id\',\'form_icon_code\')">'+
+                                        '   <span class="fal fa-search bigger-110"></span>'+
+                                        '</button>');
+                                $("#form_icon_id").val(value);
+                                elm.parent().removeClass('jqgrid-required');
+                            }, 100);
+
+                            return elm;
+                        },
+                        "custom_value":function( element, oper, gridval) {
+
+                            if(oper === 'get') {
+                                return $("#form_icon_id").val();
+                            } else if( oper === 'set') {
+                                $("#form_icon_id").val(gridval);
+                                var gridId = this.id;
+                                // give the editor time to set display
+                                setTimeout(function(){
+                                    var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
+                                    if(selectedRowId != null) {
+                                        var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'module_icon');
+                                        $("#form_icon_code").val( code_display );
+                                    }
+                                },100);
+                            }
+                        }
+                    }
                 },
                 {label: 'Title',name: 'module_title',width: 150, align: "left",editable: true,
                     editoptions: {
-                        size: 5,
-                        maxlength:5,
-
+                        size: 30,
+                        maxlength:5
                     },
                     editrules: {required: false}
                 },
-                {label: 'Class',name: 'module_class',width: 150, align: "left",editable: true,
+                {label: 'Class', name: 'module_class', width: 150, editable: true, edittype: 'select',
                     editoptions: {
-                        size: 30,
-                        maxlength:32,
-
+                        value: "bg-success-200:bg-success-200;bg-warning-200:bg-warning-200;bg-danger-200:bg-danger-200;bg-info-200:bg-info-200;bg-primary-200:bg-primary-200;bg-fusion-200:bg-fusion-200",
+                        dataInit: function(elem) {
+                            $(elem).width(210);  // set the width which you need
+                        }
                     },
-                    editrules: {required: false}
+                    editrules: {edithidden: true, required: false}
                 },
                 {label: 'Status Aktif',name: 'is_active',width: 120, align: "left",editable: true, edittype: 'select', hidden:true,
                     editrules: {edithidden: true, required: false},
                     editoptions: {
                     value: "Y:AKTIF;N:TIDAK AKTIF",
                     dataInit: function(elem) {
-                        $(elem).width(150);  // set the width which you need
+                        $(elem).width(210);  // set the width which you need
                     }
                 }},
                 {label: 'Status Aktif', name: 'status_active', width: 120, align: "left", editable: false}

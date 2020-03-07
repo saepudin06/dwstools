@@ -15,10 +15,16 @@
         <?php foreach($modules as $module): ?>
         <div class="col-sm-3 col-xl-3">
             <a href="<?php echo base_url().'panel?module_id='.$module['module_id'];?>">
-            <div class="<?php echo 'p-3 '.$module['module_class'].' rounded overflow-hidden position-relative text-white mb-g'; ?>">
+            <div class="<?php echo 'p-3 '.($module['module_class'] == "" ? 'bg-fusion-200' : $module['module_class']).' rounded overflow-hidden position-relative text-white mb-g'; ?>">
                 <div class="">
                     <h3 class="display-4 d-block l-h-n m-0 fw-500">
-                        <?php echo $module['module_title']; ?>
+                        <?php 
+                            if ($module['module_title'] != ""){
+                                echo $module['module_title'];    
+                            } else {
+                                echo "&nbsp;";
+                            }
+                        ?>
                         <small class="m-0 l-h-n"><?php echo $module['module_name']; ?></small>
                     </h3>
                 </div>
