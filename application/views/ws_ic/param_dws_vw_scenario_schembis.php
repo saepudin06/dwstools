@@ -26,7 +26,15 @@
                         <input type="hidden" id="is_set_grid" value="false">
                         <table id="grid-table"></table>
                         <div id="grid-pager"></div>
-                    </div>     
+                    </div>
+                </div>
+                <br/>
+                <div class="row" id="div-grid-detail">
+                    <div class="col-md-12">
+                        <input type="hidden" id="is_set_grid_detail" value="false">
+                        <table id="grid-table-detail"></table>
+                        <div id="grid-pager-detail"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -178,6 +186,7 @@
                  },
                 onSelectRow: function (rowid) {
                     /*do something when selected*/
+                    set_grid_detail();
                 },
                 sortorder:'',
                 pager: pager_selector,
@@ -189,6 +198,8 @@
                 loadComplete: function (response) {
                     if(response.success == false) {
                         swal.fire({title: 'Attention', text: response.message, type: "warning"});
+                    } else {
+                        $('#div-grid-detail').hide();
                     }
 
                 },
@@ -221,6 +232,218 @@
                 { /* options for the Edit Dialog */ },
                 { /* options for the New Dialog */ },
                 { /* options for the Delete Dialog */ },
+                {
+                    //search form
+                    closeAfterSearch: false,
+                    recreateForm: true,
+                    afterShowSearch: function (e) {
+                        var form = $(e[0]);
+                        style_search_form(form);
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterRedraw: function () {
+                        style_search_filters($(this));
+                    }
+                },
+                {
+                    //view record form
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                    }
+                }
+            );
+        } else {
+            reload_grid(grid_selector, postData);
+        }
+    }
+
+    function set_grid_detail(){
+        var grid_selector = "#grid-table-detail";
+        var pager_selector = "#grid-pager-detail";
+        var is_set_grid = $('#is_set_grid_detail').val();
+        var postData = {p_schembis_id: get_selected_grid("#grid-table", 'p_schembis_id')};
+
+        $('#div-grid-detail').show();
+
+        if (is_set_grid != 'true'){
+            $('#is_set_grid_detail').val('true');
+            jQuery(grid_selector).jqGrid({
+                url: '<?php echo WS_JQGRID."ws_ic.param_dws_vw_list_scembis_files_controller/read_detail"; ?>',
+                datatype: "json",
+                mtype: "POST",
+                postData: postData,
+                colModel: [
+                    {label: 'P Schembis ID', name: 'p_schembis_id', key: true, align: 'center', width: 150, hidden: true },
+                    {label: 'P Call Scenario ID', name: 'p_call_scenario_id', key: true, align: 'center', width: 150, hidden: true },
+                    {label: 'P Srevice Type ID', name: 'p_service_type_id', align: 'center', width: 150, hidden: true },
+                    {label: 'Orig ID', name: 'orig_id' ,align: 'center', width: 150, hidden: true },
+                    {label: 'Term ID', name: 'term_id' ,align: 'center', width: 150, hidden: true },
+                    {label: 'Zone ID', name: 'zone_id' ,align: 'center', width: 150, hidden: true },
+                    {label: 'P Company ID', name: 'p_company_id', align: 'center', width: 150, hidden: true, editable: true },
+                    {label: 'VC Name', name: 'vc_name', width: 150 },
+                    {label: 'Orig Code', name: 'orig_code', width: 150 },
+                    {label: 'Term Code', name: 'term_code', width: 150 },
+                    {label: 'Zone Code', name: 'zone_code', width: 150 },
+                    {label: 'Sap Zone Code', name: 'sap_zone_code', width: 150 },
+                    {label: 'SVC Code', name: 'svc_code', width: 150 },
+                    {label: 'Valid From', name: 'valid_from', width: 150, align: 'center' },
+                    {label: 'Valid To', name: 'valid_to', width: 150, align: 'center' },
+                    {label: 'Created Date', name: 'created_date', width: 200, align: 'center' }, 
+                    {label: 'Created By', name: 'created_by', width: 150, align: 'center' },
+                    {label: 'Update Date', name: 'update_date', width: 200, align: 'center' }, 
+                    {label: 'Update By', name: 'update_by', width: 150, align: 'center' }
+                ],
+                height: '100%',
+                autowidth: true,
+                viewrecords: true,
+                rowNum: 10,
+                rowList: [10,20,50],
+                rownumbers: true, // show row numbers
+                rownumWidth: 35, // the width of the row numbers columns
+                altRows: true,
+                shrinkToFit: false,
+                multiboxonly: true,
+                onSelectRow: function (rowid) {
+                    /*do something when selected*/
+                },
+                sortorder:'',
+                pager: pager_selector,
+                jsonReader: {
+                    root: 'rows',
+                    id: 'id',
+                    repeatitems: false
+                },
+                loadComplete: function (response) {
+                    if(response.success == false) {
+                        swal.fire({title: 'Attention', text: response.message, type: "warning"});
+                    }
+
+                },
+                //memanggil controller jqgrid yang ada di controller crud
+                editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_p_organization_controller/crud"; ?>',
+                caption: "Schembis Files"
+
+            });
+
+            jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                {   //navbar options
+                    edit: true,
+                    editicon: 'fal fa-pencil green',
+                    add: true,
+                    addicon: 'fal fa-plus-circle blue',
+                    del: true,
+                    delicon: 'fal fa-trash-alt red',
+                    search: true,
+                    searchicon: 'fal fa-search orange',
+                    refresh: true,
+                    afterRefresh: function () {
+                        // some code here
+                        jQuery("#detailsPlaceholder").hide();
+                    },
+
+                    refreshicon: 'fal fa-repeat-alt orange',
+                    view: false,
+                    viewicon: 'fal fa-search-plus orange'
+                },
+                {
+                    // options for the Edit Dialog
+                    editData: {
+                        p_company_id: function(){
+                            return get_selected_grid("#grid-table", 'p_company_id');
+                        }
+                    },
+                    closeAfterEdit: false,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    serializeEditData: serializeJSON,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                    //new record form
+                    editData: {
+                        p_company_id: function(){
+                            return get_selected_grid("#grid-table", 'p_company_id');
+                        }
+                    },
+                    closeAfterAdd: false,
+                    clearAfterAdd : true,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    serializeEditData: serializeJSON,
+                    viewPagerButtons: false,
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+
+
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                    //delete record form
+                    serializeDelData: serializeJSON,
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        style_delete_form(form);
+
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    onClick: function (e) {
+                        //alert(1);
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+                        swal.fire({title: 'Success', text: response.message, type: "success"});
+                        return [true,"",response.responseText];
+                    }
+                },
                 {
                     //search form
                     closeAfterSearch: false,
