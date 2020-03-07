@@ -85,7 +85,7 @@ class Menus extends Abstract_model {
         $ci =& get_instance();
         $userdata = $ci->session->userdata;
 
-        $sql = "select a.menu_id,
+        $sql = "select distinct a.menu_id,
                 (case when b.parent_id is null then 0 else b.parent_id end) as parent_id,
                 b.menu_title,
                 b.menu_url,
