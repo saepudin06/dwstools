@@ -184,6 +184,7 @@
 
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $("#lov_organization_grid").width() );
+        console.log($("#lov_organization_grid").width());
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
 
     }
