@@ -146,7 +146,7 @@
                 }
 
                 setTimeout(function(){
-                    responsive_lov_organization_jqgrid(grid_selector, pager_selector);  
+                    responsive_lov_dws_p_zone_jqgrid(grid_selector, pager_selector);  
                 }, 100);
             },
             //memanggil controller jqgrid yang ada di controller read
