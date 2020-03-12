@@ -145,7 +145,7 @@
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
 
-                responsive_lov_organization_jqgrid('#grid-table-lov_organization', '#grid-pager-lov_organization');
+                responsive_lov_organization_jqgrid(grid_selector, pager_selector);
             },
             //memanggil controller jqgrid yang ada di controller read
             editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_p_tariff_used_controller/read_lov_dws_p_organization"; ?>',
