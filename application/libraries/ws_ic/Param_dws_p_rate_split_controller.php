@@ -300,6 +300,7 @@ class Param_dws_p_rate_split_controller {
         $sord = getVarClean('sord','str','desc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
+        $i_search = getVarClean('i_search', 'str', '');
 
         try {
 
@@ -324,6 +325,10 @@ class Param_dws_p_rate_split_controller {
 
             // Filter Table
             $req_param['where'] = array();
+
+            if(!empty($i_search)) {
+                $table->setCriteria("upper(vc_name) like upper('%".$i_search."%')");
+            }
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -364,6 +369,7 @@ class Param_dws_p_rate_split_controller {
         $sord = getVarClean('sord','str','desc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
+        $i_search = getVarClean('i_search', 'str', '');
 
         try {
 
@@ -385,6 +391,10 @@ class Param_dws_p_rate_split_controller {
                 "search_operator" => isset($_REQUEST['searchOper']) ? $_REQUEST['searchOper'] : null,
                 "search_str" => isset($_REQUEST['searchString']) ? $_REQUEST['searchString'] : null
             );
+
+            if(!empty($i_search)) {
+                $table->setCriteria("upper(code) like upper('%".$i_search."%') and ");
+            }            
 
             // Filter Table
             $req_param['where'] = array("p_reference_type_id = 10");

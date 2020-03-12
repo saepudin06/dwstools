@@ -21,12 +21,12 @@
                 
                 <div style="padding-bottom: 20px;"></div>
                 <div class="row">
-                    <label class="control-label col-md-2">Pencarian :</label>
+                    <label class="control-label col-md-2">Search :</label>
                     <div class="col-md-9">
                         <div class="input-group col-md-9">
                             <input type="text" class="form-control" id="i_search_lov_p_reference_list" placeholder="Search">
                             <span class="input-group-btn">
-                                <button class="btn  btn-primary default" type="button" onclick="filter_lov_p_reference_list()">Cari</button>
+                                <button class="btn  btn-primary default" type="button" onclick="filter_lov_p_reference_list()">Search</button>
                             </span>
                         </div>
                     </div>
@@ -197,7 +197,7 @@
         if(event.keyCode === 13) {
             var i_search_lov_p_reference_list = $('#i_search_lov_p_reference_list').val();
             jQuery("#grid-table-lov_p_reference_list").jqGrid('setGridParam',{
-                url: '<?php echo WS_JQGRID."ws_ic.param_p_reference_list_controller/read_lov_p_reference_list"; ?>',
+                url: '<?php echo WS_JQGRID."ws_ic.param_dws_p_rate_split_controller/read_lov_p_reference_list"; ?>',
                 postData: {
                     i_search : i_search_lov_p_reference_list
                 }
@@ -210,7 +210,7 @@
         var i_search_lov_p_reference_list = $('#i_search_lov_p_reference_list').val();
         
         jQuery("#grid-table-lov_p_reference_list").jqGrid('setGridParam',{
-                url: '<?php echo WS_JQGRID."ws_ic.param_p_reference_list_controller/read_lov_p_reference_list"; ?>',
+                url: '<?php echo WS_JQGRID."ws_ic.param_dws_p_rate_split_controller/read_lov_p_reference_list"; ?>',
                 postData: {
                     i_search : i_search_lov_p_reference_list
                 }

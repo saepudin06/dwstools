@@ -21,12 +21,12 @@
                 
                 <div style="padding-bottom: 20px;"></div>
                 <div class="row">
-                    <label class="control-label col-md-2">Pencarian :</label>
+                    <label class="control-label col-md-2">Search :</label>
                     <div class="col-md-9">
                         <div class="input-group col-md-9">
                             <input type="text" class="form-control" id="i_search_lov_sap_zone" placeholder="Search">
                             <span class="input-group-btn">
-                                <button class="btn  btn-primary default" type="button" onclick="filter_lov_sap_zone()">Cari</button>
+                                <button class="btn  btn-primary default" type="button" onclick="filter_lov_sap_zone()">Search</button>
                             </span>
                         </div>
                     </div>
