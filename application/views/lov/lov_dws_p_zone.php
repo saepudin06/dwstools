@@ -187,6 +187,7 @@
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $("#lov_dws_p_zone_grid").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
+        console.log($("#lov_dws_p_zone_grid").width());
 
     }
 
