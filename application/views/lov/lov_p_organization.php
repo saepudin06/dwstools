@@ -145,7 +145,9 @@
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
 
-                responsive_lov_organization_jqgrid(grid_selector, pager_selector);
+                setTimeout(function(){
+                	responsive_lov_organization_jqgrid(grid_selector, pager_selector);	
+                }, 100);
             },
             //memanggil controller jqgrid yang ada di controller read
             editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_p_tariff_used_controller/read_lov_dws_p_organization"; ?>',
@@ -184,7 +186,6 @@
 
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         $(grid_selector).jqGrid( 'setGridWidth', $("#lov_organization_grid").width() );
-        console.log($("#lov_organization_grid").width());
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
 
     }
