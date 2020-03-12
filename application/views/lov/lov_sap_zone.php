@@ -145,7 +145,9 @@
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
 
-                responsive_lov_sap_zone_jqgrid('#grid-table-lov_sap_zone', '#grid-pager-lov_sap_zone');
+                setTimeout(function(){
+                    responsive_lov_organization_jqgrid(grid_selector, pager_selector);  
+                }, 100);
             },
             //memanggil controller jqgrid yang ada di controller read
             editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_p_zone_controller/read_lov_sap_zone"; ?>',

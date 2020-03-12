@@ -147,7 +147,9 @@
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
 
-                responsive_lov_dws_p_schembis_jqgrid('#grid-table-lov_dws_p_schembis', '#grid-pager-lov_dws_p_schembis');
+                setTimeout(function(){
+                    responsive_lov_organization_jqgrid(grid_selector, pager_selector);  
+                }, 100);
             },
             //memanggil controller jqgrid yang ada di controller read
             editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_p_rate_split_controller/read_lov_dws_p_schembis"; ?>',

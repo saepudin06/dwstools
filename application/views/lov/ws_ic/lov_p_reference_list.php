@@ -147,7 +147,9 @@
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
 
-                responsive_lov_p_reference_list_jqgrid('#grid-table-lov_p_reference_list', '#grid-pager-lov_p_reference_list');
+                setTimeout(function(){
+                    responsive_lov_organization_jqgrid(grid_selector, pager_selector);  
+                }, 100);
             },
             //memanggil controller jqgrid yang ada di controller read
             editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_p_rate_split_controller/read_lov_p_reference_list"; ?>',
