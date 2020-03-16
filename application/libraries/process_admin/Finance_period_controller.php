@@ -300,7 +300,14 @@ class Finance_period_controller {
 
             $user_info = $ci->session->userdata;
 
-            $res = $table->db->get('p_status_list')->result_array();
+            $sql = "
+                select a.*
+                from p_status_list a, p_status_type b
+                where a.p_status_type_id = b.p_status_type_id 
+                    and b.code = 'STATUSPERIODE'
+            ";
+
+            $res = $table->db->query($sql)->result_array();
         
             echo "<select>";
             foreach ($res as $item) {
