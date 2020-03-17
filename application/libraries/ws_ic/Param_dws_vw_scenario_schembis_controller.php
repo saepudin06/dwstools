@@ -1,26 +1,25 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Process_populate_batch_controller
-* @version 07/05/2015 12:18:00
+* @class Param_dws_vw_scenario_schembis_controller
+* @version 29-11-2017 02:11:12
 */
-class Process_populate_batch_controller {
+class Param_dws_vw_scenario_schembis_controller {
 
     function read() {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','input_data_control_id');
+        $sidx = getVarClean('sidx','str','update_date');
         $sord = getVarClean('sord','str','desc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
-        $i_search = getVarClean('i_search', 'str', '');
 
         try {
 
             $ci = & get_instance();
-            $ci->load->model('ws_idd_olo/process_populate_batch');
-            $table = $ci->process_populate_batch;
+            $ci->load->model('ws_ic/param_dws_vw_scenario_schembis');
+            $table = $ci->param_dws_vw_scenario_schembis;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -36,8 +35,10 @@ class Process_populate_batch_controller {
                 "search_str" => isset($_REQUEST['searchString']) ? $_REQUEST['searchString'] : null
             );
 
+            $p_schembis_id = getVarClean('p_schembis_id', 'str', '');
+
             // Filter Table
-            $req_param['where'] = array("input_data_class_id = 10");
+            $req_param['where'] = array("p_schembis_id = $p_schembis_id");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -63,7 +64,6 @@ class Process_populate_batch_controller {
 
             $data['rows'] = $table->getAll();
             $data['success'] = true;
-            
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }
@@ -100,8 +100,8 @@ class Process_populate_batch_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_idd_olo/process_populate_batch');
-        $table = $ci->process_populate_batch;
+        $ci->load->model('ws_ic/param_dws_vw_scenario_schembis');
+        $table = $ci->param_dws_vw_scenario_schembis;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -172,8 +172,8 @@ class Process_populate_batch_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_idd_olo/process_populate_batch');
-        $table = $ci->process_populate_batch;
+        $ci->load->model('ws_ic/param_dws_vw_scenario_schembis');
+        $table = $ci->param_dws_vw_scenario_schembis;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -243,8 +243,8 @@ class Process_populate_batch_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('ws_idd_olo/process_populate_batch');
-        $table = $ci->process_populate_batch;
+        $ci->load->model('ws_ic/param_dws_vw_scenario_schembis');
+        $table = $ci->param_dws_vw_scenario_schembis;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -258,7 +258,7 @@ class Process_populate_batch_controller {
             if (is_array($items)){
                 foreach ($items as $key => $value){
                     if (empty($value)) throw new Exception('Empty parameter');
-					$table->remove($value);
+                    $table->remove($value);
                     $data['rows'][] = array($table->pkey => $value);
                     $total++;
                 }
@@ -267,7 +267,7 @@ class Process_populate_batch_controller {
                 if (empty($items)){
                     throw new Exception('Empty parameter');
                 }
-				$table->remove($items);
+                $table->remove($items);
                 $data['rows'][] = array($table->pkey => $items);
                 $data['total'] = $total = 1;
             }
@@ -286,101 +286,75 @@ class Process_populate_batch_controller {
         return $data;
     }
 
-    function html_select_options_reference_type() {
-        try {
-            $ci = & get_instance();
-            $ci->load->model('ws_idd_olo/process_populate_batch');
-            $table = $ci->process_populate_batch;
+    function read_lov_dws_p_service_type() {
 
-            $user_info = $ci->session->userdata;
+        $page = getVarClean('page','int',1);
+        $limit = getVarClean('rows','int',5);
+        $sidx = getVarClean('sidx','str','p_service_type_id');
+        $sord = getVarClean('sord','str','desc');
 
-            $res = $table->db->where('p_reference_type_id', 8)->get('p_reference_list')->result_array();
-        
-            echo "<select>";
-            foreach ($res as $item) {
-                echo '<option value="'.$item['p_reference_list_id'].'" title="'.$item['code'].'">'.$item['code'].'</option>';
-            }
-            echo "</select>";
-            exit;
-        }catch (Exception $e) {
-            echo $e->getMessage();
-            exit;
-        }
-    }
-
-    function html_select_options_finance_periode() {
-
-        $data = array('success' => false, 'message' => '');
+        $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
+        $i_search = getVarClean('i_search', 'str', '');
 
         try {
+
             $ci = & get_instance();
-            $ci->load->model('ws_idd_olo/process_populate_batch');
-            $table = $ci->process_populate_batch;
-            $user_info = $ci->session->userdata;
+            $ci->load->model('ws_ic/param_dws_vw_scenario_schembis');
+            $table = $ci->param_dws_vw_scenario_schembis;
+            $table->fromClause = "ic_dws.dws_p_service_type";
 
-            $p_year_period_id = getVarClean('p_year_period_id', 'str', '');
-            $p_finance_period_id = getVarClean('selected', 'str', '');
+            $req_param = array(
+                "sort_by" => $sidx,
+                "sord" => $sord,
+                "limit" => null,
+                "field" => null,
+                "where" => null,
+                "where_in" => null,
+                "where_not_in" => null,
+                "search" => $_REQUEST['_search'],
+                "search_field" => isset($_REQUEST['searchField']) ? $_REQUEST['searchField'] : null,
+                "search_operator" => isset($_REQUEST['searchOper']) ? $_REQUEST['searchOper'] : null,
+                "search_str" => isset($_REQUEST['searchString']) ? $_REQUEST['searchString'] : null
+            );
 
-            $res = $table->db->where("p_year_period_id", $p_year_period_id)->get('vw_list_open_period')->result_array();
-            $select = "";
-        
-            $select .= '<select  role="select" class="FormElement form-control" style="width: 250px;" id="p_finance_period_id" name="p_finance_period_id" rowid="_empty">';
-            foreach ($res as $item) {
+            // Filter Table
+            $req_param['where'] = array();
 
-                $selected = $p_finance_period_id == $item['p_finance_period_id'] ? "selected" : "";
-                $select .= '<option value="'.$item['p_finance_period_id'].'" title="'.$item['finance_period_code'].'" '. $selected.' >'.$item['finance_period_code'].'</option>';
+            if(!empty($i_search)) {
+                $table->setCriteria("upper(code) like upper('%".$i_search."%')");
             }
-            $select .= "</select>";
 
+            $table->setJQGridParam($req_param);
+            $count = $table->countAll();
 
-            $data['select'] = $select;
-            $data['default_value'] = $default_value;
+            if ($count > 0) $total_pages = ceil($count / $limit);
+            else $total_pages = 1;
+
+            if ($page > $total_pages) $page = $total_pages;
+            $start = $limit * $page - ($limit); // do not put $limit*($page - 1)
+
+            $req_param['limit'] = array(
+                'start' => $start,
+                'end' => $limit
+            );
+
+            $table->setJQGridParam($req_param);
+
+            if ($page == 0) $data['page'] = 1;
+            else $data['page'] = $page;
+
+            $data['total'] = $total_pages;
+            $data['records'] = $count;
+
+            $data['rows'] = $table->getAll();
             $data['success'] = true;
-            $data['message'] = '';
+            
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }
 
-        echo json_encode($data);
-        exit;
-    }
-
-    function html_select_options_year_periode() {
-
-        $data = array('success' => false, 'message' => '');
-
-        try {
-            $ci = & get_instance();
-            $ci->load->model('ws_idd_olo/process_populate_batch');
-            $table = $ci->process_populate_batch;
-
-            $user_info = $ci->session->userdata;
-
-            $res = $table->db->get('vw_list_open_year_per')->result_array();
-            $select = "";
-            $default_value = "";
-        
-            $select .= "<select id='year_period_id'>";
-            $i = 0;
-            foreach ($res as $item) {
-                $select .= '<option value="'.$item['p_year_period_id'].'" title="'.$item['code'].'">'.$item['code'].'</option>';
-                $default_value = $i == 0 ? $item['p_year_period_id'] : $default_value;
-                $i++;
-            }
-            $select .= "</select>";
-
-
-            $data['select'] = $select;
-            $data['default_value'] = $default_value;
-            $data['success'] = true;
-            $data['message'] = '';
-        }catch (Exception $e) {
-            $data['message'] = $e->getMessage();
-        }
-
-        echo json_encode($data);
-        exit;
+        return $data;
     }
 }
 
-/* End of file Process_populate_batch_controller.php */
+/* End of file Param_dws_vw_scenario_schembis_controller.php */

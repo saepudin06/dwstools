@@ -45,11 +45,10 @@
             return false;
         }
 
-        loadContentWithParams("ws_ic.process_validation_process_daily_rate", {
+        loadContentWithParams("process_admin.closing_period_process", {
             input_data_control_id: input_data_control_id,
             code: get_selected_grid("#grid-table", 'code'),
-            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>",
-            code_status: get_selected_grid("#grid-table", 'code_status')
+            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
         });
     });
 </script>
@@ -74,7 +73,7 @@
 
     var edit_options_finance_period = function(p_year_period_id) {
         $('#tr_p_finance_period_id .DataTD').empty();
-        var var_url = "<?php echo WS_JQGRID.'ws_ic.process_validation_batch_controller/html_select_options_finance_periode'; ?>";
+        var var_url = "<?php echo WS_JQGRID.'process_admin.closing_period_batch_controller/html_select_options_finance_periode'; ?>";
         $.ajax({
           url: var_url ,
           type: "POST",
@@ -104,7 +103,7 @@
             is_set_grid.val("true");
 
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.process_validation_batch_daily_rate_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."process_admin.closing_period_batch_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
@@ -112,13 +111,12 @@
                     {label: 'Parameter', name: 'parameters', width: 75 },
                     {label: 'Batch', name: 'input_file_name', width: 300 },
                     {label: 'Code', name: 'code', width: 150, align: 'center', sorttype: 'number', search: false },
-                    {label: 'Code Status', name: 'code_status', width: 150, hidden: true, search: false },
                     {label: 'Year', name: 'temp_p_finance_period_id', width: 100, align: "center", editable: true, hidden: true },
                     {label: 'Year', name: 'p_year_period_id', width: 100, align: "center", editable: true, hidden: true,
                         editrules: {edithidden: true, required:false},
                         edittype: 'select',
                         editoptions: {
-                            dataUrl: "<?php echo WS_JQGRID.'ws_ic.process_validation_batch_controller/html_select_options_year_periode'; ?>",
+                            dataUrl: "<?php echo WS_JQGRID.'process_admin.closing_period_batch_controller/html_select_options_year_periode'; ?>",
                             dataInit: function(elem) {
                                 $(elem).width(250);  // set the width which you need
                             },
@@ -189,7 +187,7 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.process_validation_batch_daily_rate_controller/crud"; ?>',
+                editurl: '<?php echo WS_JQGRID."process_admin.closing_period_batch_controller/crud"; ?>',
                 caption: "File"
 
             });
@@ -230,7 +228,9 @@
                         style_edit_form(form);
                         $('#tr_parameters',form).hide();
                         $('#tr_input_data_control_id',form).hide();
+
                         $('#selected_finance_period').val($('#tr_temp_p_finance_period_id #temp_p_finance_period_id', form).val());
+
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();

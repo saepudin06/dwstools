@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
 * Json library
-* @class Process_validation_batch_controller
+* @class Closing_period_batch_controller
 * @version 07/05/2015 12:18:00
 */
-class Process_validation_batch_controller {
+class Closing_period_batch_controller {
 
     function read() {
 
@@ -19,7 +19,7 @@ class Process_validation_batch_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('ws_idd_olo/process_validation_batch');
+            $ci->load->model('ws_ic/process_validation_batch');
             $table = $ci->process_validation_batch;
 
             $req_param = array(
@@ -37,7 +37,7 @@ class Process_validation_batch_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("input_data_class_id = 7");
+            $req_param['where'] = array("input_data_class_id = 1");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -100,7 +100,7 @@ class Process_validation_batch_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_idd_olo/process_validation_batch');
+        $ci->load->model('ws_ic/process_validation_batch');
         $table = $ci->process_validation_batch;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -172,7 +172,7 @@ class Process_validation_batch_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_idd_olo/process_validation_batch');
+        $ci->load->model('ws_ic/process_validation_batch');
         $table = $ci->process_validation_batch;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -243,7 +243,7 @@ class Process_validation_batch_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('ws_idd_olo/process_validation_batch');
+        $ci->load->model('ws_ic/process_validation_batch');
         $table = $ci->process_validation_batch;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -289,7 +289,7 @@ class Process_validation_batch_controller {
     function html_select_options_reference_type() {
         try {
             $ci = & get_instance();
-            $ci->load->model('ws_idd_olo/process_validation_batch');
+            $ci->load->model('ws_ic/process_validation_batch');
             $table = $ci->process_validation_batch;
 
             $user_info = $ci->session->userdata;
@@ -383,4 +383,4 @@ class Process_validation_batch_controller {
     }
 }
 
-/* End of file Process_validation_batch_controller.php */
+/* End of file Closing_period_batch_controller.php */

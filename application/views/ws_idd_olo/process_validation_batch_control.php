@@ -48,7 +48,8 @@
         loadContentWithParams("ws_idd_olo.process_validation_process", {
             input_data_control_id: input_data_control_id,
             code: get_selected_grid("#grid-table", 'code'),
-            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
+            menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>",
+            code_status: get_selected_grid("#grid-table", 'code_status')
         });
     });
 </script>
@@ -73,7 +74,7 @@
 
     var edit_options_finance_period = function(p_year_period_id) {
         $('#tr_p_finance_period_id .DataTD').empty();
-        var var_url = "<?php echo WS_JQGRID.'ws_ic.process_validation_batch_controller/html_select_options_finance_periode'; ?>";
+        var var_url = "<?php echo WS_JQGRID.'ws_idd_olo.process_validation_batch_controller/html_select_options_finance_periode'; ?>";
         $.ajax({
           url: var_url ,
           type: "POST",
@@ -111,12 +112,13 @@
                     {label: 'Parameter', name: 'parameters', width: 75 },
                     {label: 'Batch', name: 'input_file_name', width: 300 },
                     {label: 'Code', name: 'code', width: 150, align: 'center', sorttype: 'number', search: false },
+                    {label: 'Code Status', name: 'code_status', width: 150, hidden: true, search: false },
                     {label: 'Year', name: 'temp_p_finance_period_id', width: 100, align: "center", editable: true, hidden: true },
                     {label: 'Year', name: 'p_year_period_id', width: 100, align: "center", editable: true, hidden: true,
                         editrules: {edithidden: true, required:false},
                         edittype: 'select',
                         editoptions: {
-                            dataUrl: "<?php echo WS_JQGRID.'ws_ic.process_validation_batch_controller/html_select_options_year_periode'; ?>",
+                            dataUrl: "<?php echo WS_JQGRID.'ws_idd_olo.process_validation_batch_controller/html_select_options_year_periode'; ?>",
                             dataInit: function(elem) {
                                 $(elem).width(250);  // set the width which you need
                             },
@@ -194,7 +196,7 @@
 
             jQuery(grid_selector).jqGrid('navGrid', pager_selector,
                 {   //navbar options
-                    edit: true,
+                    edit: false,
                     editicon: 'fal fa-pencil green',
                     add: true,
                     addicon: 'fal fa-plus-circle blue',

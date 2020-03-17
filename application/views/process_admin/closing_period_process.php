@@ -45,7 +45,7 @@
 <script>
     $("#tab-1").on("click", function(event) {
         event.stopPropagation();
-        loadContentWithParams("ws_ic.process_validation_batch_control_daily_rate", {
+        loadContentWithParams("process_admin.closing_period_batch_control", {
             menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
         });
     });
@@ -78,7 +78,7 @@
             is_set_grid.val("true");
 
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."process_admin.closing_period_process_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 postData: {input_data_control_id: '<?php echo $this->input->post('input_data_control_id'); ?>'},
@@ -120,17 +120,11 @@
                         }
                     }
 
-                    if ('<?php echo $this->input->post('code_status'); ?>' == 'CLOSE'){
-                        $(pager_selector + '_left #btn-submit-job').hide();
-                        $(pager_selector + '_left #btn-cancel-all-job').hide();
-                        $(pager_selector + '_left #btn-cancel-last-job').hide();
-                    }
-
                     responsive_jqgrid(grid_selector, pager_selector);
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/crud"; ?>',
+                editurl: '<?php echo WS_JQGRID."process_admin.closing_period_process_controller/crud"; ?>',
                 caption: "Daftar Proses"
 
             });
@@ -297,7 +291,7 @@
             is_set_grid.val("true");
 
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/read_log"; ?>',
+                url: '<?php echo WS_JQGRID."process_admin.closing_period_process_controller/read_log"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 postData: {job_control_id: get_selected_grid("#grid-table", "job_control_id")},
@@ -336,7 +330,7 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/read_log"; ?>',
+                editurl: '<?php echo WS_JQGRID."process_admin.closing_period_process_controller/read_log"; ?>',
                 caption: "Log Proses"
 
             });
@@ -505,12 +499,12 @@
             closeOnCancel: true
         }).then((result) => {
             if (result.value) {
-                var var_url = "<?php echo WS_JQGRID."ws_ic.process_validation_process_controller/submit_job"; ?>";
+                var var_url = "<?php echo WS_JQGRID."process_admin.closing_period_process_controller/submit_job"; ?>";
                 $.ajax({
                   url: var_url ,
                   type: "POST",
                   dataType: "json",
-                  data: {data_type: '<?php echo $this->input->post('code'); ?>', input_data_control_id: '<?php echo $this->input->post('input_data_control_id'); ?>'},
+                  data: {input_data_control_id: '<?php echo $this->input->post('input_data_control_id'); ?>'},
                   async: false,
                   success: function (data) {
                     if (data.success){
@@ -528,11 +522,77 @@
     }
 
     function cancel_all_job() {
-        alert('cancel_all_job');
+        Swal.fire({
+            title: "Attention",
+            text: 'Cancel All job?',
+            type: "info",
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: "Yes",
+            confirmButtonColor: "#00a65a",
+            cancelButtonText: "No",
+            closeOnConfirm: false,
+            closeOnCancel: true
+        }).then((result) => {
+            if (result.value) {
+                var var_url = "<?php echo WS_JQGRID."process_admin.closing_period_process_controller/cancel_all_job"; ?>";
+                $.ajax({
+                  url: var_url ,
+                  type: "POST",
+                  dataType: "json",
+                  data: {input_data_control_id: '<?php echo $this->input->post('input_data_control_id'); ?>'},
+                  async: false,
+                  success: function (data) {
+                    if (data.success){
+                        Swal.fire({title: "Success", text: data.message, type: "success"});
+                    } else {
+                        Swal.fire({title: "Error", text: data.message, type: "error"});
+                    }
+                    set_grid();
+                  },
+                  error: function (xhr, status, error) {
+                    Swal.fire({title: "Error!", text: get_error_txt(xhr, status, error), html: true, type: "error"});
+                  }
+                });
+              }
+        });
     }
 
     function cancel_last_job() {
-        alert('cancel_last_job');
+        Swal.fire({
+            title: "Attention",
+            text: 'Cancel Last job?',
+            type: "info",
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: "Yes",
+            confirmButtonColor: "#00a65a",
+            cancelButtonText: "No",
+            closeOnConfirm: false,
+            closeOnCancel: true
+        }).then((result) => {
+            if (result.value) {
+                var var_url = "<?php echo WS_JQGRID."process_admin.closing_period_process_controller/cancel_last_job"; ?>";
+                $.ajax({
+                  url: var_url ,
+                  type: "POST",
+                  dataType: "json",
+                  data: {input_data_control_id: '<?php echo $this->input->post('input_data_control_id'); ?>'},
+                  async: false,
+                  success: function (data) {
+                    if (data.success){
+                        Swal.fire({title: "Success", text: data.message, type: "success"});
+                    } else {
+                        Swal.fire({title: "Error", text: data.message, type: "error"});
+                    }
+                    set_grid();
+                  },
+                  error: function (xhr, status, error) {
+                    Swal.fire({title: "Error!", text: get_error_txt(xhr, status, error), html: true, type: "error"});
+                  }
+                });
+              }
+        });
     }
 
 </script>

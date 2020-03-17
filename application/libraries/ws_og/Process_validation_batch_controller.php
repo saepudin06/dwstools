@@ -327,7 +327,7 @@ class Process_validation_batch_controller {
             $p_year_period_id = getVarClean('p_year_period_id', 'str', '');
             $p_finance_period_id = getVarClean('selected', 'str', '');
 
-            $res = $table->db->where("p_year_period_id", $p_year_period_id)->get('p_finance_period')->result_array();
+            $res = $table->db->where("p_year_period_id", $p_year_period_id)->get('vw_list_open_period')->result_array();
             $select = "";
         
             $select .= '<select  role="select" class="FormElement form-control" style="width: 250px;" id="p_finance_period_id" name="p_finance_period_id" rowid="_empty">';
@@ -362,7 +362,7 @@ class Process_validation_batch_controller {
 
             $user_info = $ci->session->userdata;
 
-            $res = $table->db->get('p_year_period')->result_array();
+            $res = $table->db->get('vw_list_open_year_per')->result_array();
             $select = "";
             $default_value = "";
         

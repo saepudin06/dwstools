@@ -21,7 +21,7 @@ class Process_populate_batch extends Abstract_model {
 
                             );
 
-    public $selectClause    = "input_data_control_id , code, input_file_name, input_data_class_id, p_finance_period_id, creation_date , operator_id, is_finish_processed, status_code, parameters, p_finance_period_id temp_p_finance_period_id";
+    public $selectClause    = "*";
     public $fromClause      = "v_input_data_control";
 
     public $refs            = array();

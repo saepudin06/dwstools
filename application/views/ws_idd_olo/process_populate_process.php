@@ -120,6 +120,12 @@
                         }
                     }
 
+                    if ('<?php echo $this->input->post('code_status'); ?>' == 'CLOSE'){
+                        $(pager_selector + '_left #btn-submit-job').hide();
+                        $(pager_selector + '_left #btn-cancel-all-job').hide();
+                        $(pager_selector + '_left #btn-cancel-last-job').hide();
+                    }
+                    
                     responsive_jqgrid(grid_selector, pager_selector);
 
                 },

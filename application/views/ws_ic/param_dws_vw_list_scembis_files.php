@@ -74,30 +74,235 @@
         if (is_set_grid != 'true'){
             $('#is_set_grid').val('true');
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.param_dws_vw_list_scembis_files_controller/read"; ?>',
+                url: '<?php echo WS_JQGRID."ws_ic.param_dws_vw_list_scembis_files_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 postData: postData,
                 colModel: [
-                    { label: 'P Schembis ID', name: 'p_schembis_id', key: true, align: 'center', width: 150, hidden: true },
+                    { label: 'P Schembis ID', name: 'p_schembis_id', key: true, align: 'center', width: 150, hidden: true, editable: true },
                     { label: 'p_regulation_id', name: 'p_regulation_id', width: 150, hidden: true },
                     { label: 'p_reg_files_id', name: 'p_reg_files_id', width: 150, hidden: true },
-                    { label: 'p_schembis_type_id', name: 'p_schembis_type_id', width: 150, hidden: true },
-                    { label: 'VC Name', name: 'vc_name', width: 150 },
-                    { label: 'Fax', name: 'fax', width: 150 },
-                    { label: 'Total Tier', name: 'total_tier', width: 150 },
-                    { label: 'Limit1', name: 'limit1', width: 150 },
-                    { label: 'Limit2', name: 'limit2', width: 150 },
-                    { label: 'Limit3', name: 'limit3', width: 150 },
-                    { label: 'Rate Tier1', name: 'rate_tier1', width: 150 },
-                    { label: 'Rate Tier2', name: 'rate_tier2', width: 150 },
-                    { label: 'Rate Tier3', name: 'rate_tier3', width: 150 },
-                    { label: 'Rate Tier4', name: 'rate_tier4', width: 150 },
-                    { label: 'Cap Revenue', name: 'cap_revenue', width: 150 },
-                    { label: 'Flat Rat', name: 'flat_rat', width: 150 },
-                    { label: 'Valid From', name: 'valid_from', width: 150, align: 'center' },
-                    { label: 'Valid Until', name: 'valid_until', width: 150, align: 'center' },
-                    { label: 'Description', name: 'description', width: 300 },
+                    { label: 'VC Name', name: 'vc_name', width: 150, editable: true,
+                        editoptions: { size: 30, maxlength: 150 }, editrules: { required: true }
+                    },
+                    {label: 'Scheme Type', name: 'schem_type', width: 150, align: "center" },
+                    {label: 'Scheme Type', name: 'p_schembis_type_id', width: 150, editable: true, hidden: true,
+                        editrules: { required: true },
+                        edittype: 'select',
+                        editoptions: {
+                            dataUrl: "<?php echo WS_JQGRID.'ws_ic.param_dws_vw_list_scembis_files_controller/html_select_options_dws_p_schembis_type'; ?>",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                            // postData : {
+                                // role_id : function() {
+                                //     return <?php //echo $this->input->post('role_id'); ?>;
+                                // },
+                            // },
+                            buildSelect: function (data) {
+                                var response = "";
+                                try {
+                                    response = $.parseJSON(data);
+                                    if(response.success == false) {
+                                        swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                                        return "";
+                                    } else { return response.select; }
+                                } catch (err) { return data; }
+                            },
+                            dataEvents: [{ 
+                                type: 'change', fn: function(e) { var selected = $(this).val(); }
+                            }]
+                        }
+                    },
+                    {label: 'Regulation No', name: 'p_regulation_id', width: 150, editable: true, hidden: true,
+                        edittype: 'select',
+                        editoptions: {
+                            dataUrl: "<?php echo WS_JQGRID.'ws_ic.param_dws_vw_list_scembis_files_controller/html_select_options_dws_p_regulation'; ?>",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                            // postData : {
+                                // role_id : function() {
+                                //     return <?php //echo $this->input->post('role_id'); ?>;
+                                // },
+                            // },
+                            buildSelect: function (data) {
+                                var response = "";
+                                try {
+                                    response = $.parseJSON(data);
+                                    if(response.success == false) {
+                                        swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                                        return "";
+                                    } else { return response.select; }
+                                } catch (err) { return data; }
+                            },
+                            dataEvents: [{ 
+                                type: 'change', fn: function(e) { var selected = $(this).val(); }
+                            }]
+                        }
+                    },
+                    { label: 'Fax', name: 'fax', width: 150, editable: true,
+                        editoptions: { size: 30 }
+                    },
+                    { label: 'Total Tier', name: 'total_tier', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Limit 1', name: 'limit1', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Limit 2', name: 'limit2', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Limit 3', name: 'limit3', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Rate Tier 1', name: 'rate_tier1', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Rate Tier 2', name: 'rate_tier2', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Rate Tier 3', name: 'rate_tier3', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Rate Tier 4', name: 'rate_tier4', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Cap Revenue', name: 'cap_revenue', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Flat Rat', name: 'flat_rat', width: 150, editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit: function(element) {
+                                $(element).keypress(function(e){
+                                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                        return false;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Valid From', name: 'valid_from', width: 150, align: 'center', editable: true,
+                        editrules: { required: true },
+                        editoptions: {
+                            size: 30,
+                            dataInit : function (elem) {
+                                $(elem).datepicker({
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    orientation: "bottom left",
+                                    todayHighlight : true,
+                                    setDate: new Date()
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Valid Until', name: 'valid_until', width: 150, align: 'center', editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit : function (elem) {
+                                $(elem).datepicker({
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    orientation: "bottom left",
+                                    todayHighlight : true,
+                                    setDate: new Date()
+                                });
+                            }
+                        }
+                    },
+                    {label: 'Description', name: 'description', width: 308, align: 'left', editable: true,
+                        edittype:'textarea',
+                        editoptions:{
+                            size: 30,
+                            maxlength:128,
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                        }
+                    },
                     { label: 'Create Date', name: 'create_date', width: 150, align: 'center' },
                     { label: 'Update Date', name: 'update_date', width: 150, align: 'center' },
                     { label: 'Created By', name: 'created_by', width: 150, align: 'center' },
@@ -193,18 +398,18 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_vw_list_scembis_files_controller/read"; ?>',
+                editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_vw_list_scembis_files_controller/crud"; ?>',
                 caption: "Schembis"
 
             });
 
             jQuery(grid_selector).jqGrid('navGrid', pager_selector,
                 {   //navbar options
-                    edit: false,
+                    edit: true,
                     editicon: 'fal fa-pencil green',
-                    add: false,
+                    add: true,
                     addicon: 'fal fa-plus-circle blue',
-                    del: false,
+                    del: true,
                     delicon: 'fal fa-trash-alt red',
                     search: true,
                     searchicon: 'fal fa-search orange',
@@ -218,9 +423,99 @@
                     view: false,
                     viewicon: 'fal fa-search-plus orange'
                 },
-                { /* options for the Edit Dialog */ },
-                { /* options for the New Dialog */ },
-                { /* options for the Delete Dialog */ },
+                {
+                    // options for the Edit Dialog
+                    closeAfterEdit: false,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    serializeEditData: serializeJSON,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+                        $('#tr_p_schembis_type_id',form).show();
+                        $('#tr_p_regulation_id',form).show();
+
+                    },
+                    afterShowForm: function(form) {
+                        form.css("height", "300px");
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+                        
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                    //new record form
+                    closeAfterAdd: false,
+                    clearAfterAdd : true,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    serializeEditData: serializeJSON,
+                    viewPagerButtons: false,
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+                        $('#tr_p_schembis_type_id',form).show();
+                        $('#tr_p_regulation_id',form).show();
+                    },
+                    afterShowForm: function(form) {
+                        form.css("height", "300px");
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                    //delete record form
+                    serializeDelData: serializeJSON,
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        style_delete_form(form);
+
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    onClick: function (e) {
+                        //alert(1);
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+                        swal.fire({title: 'Success', text: response.message, type: "success"});
+                        return [true,"",response.responseText];
+                    }
+                },
                 {
                     //search form
                     closeAfterSearch: false,

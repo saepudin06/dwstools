@@ -40,6 +40,9 @@
         </div>
     </div>
 </div>
+<?php $this->load->view('lov/lov_p_organization'); ?>
+<?php $this->load->view('lov/lov_dws_p_zone'); ?>
+<?php $this->load->view('lov/ws_ic/lov_dws_p_service_type'); ?>
 <script>
     $(function() {
         set_grid();
@@ -205,7 +208,7 @@
                 },
                 //memanggil controller jqgrid yang ada di controller crud
                 editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_vw_list_scembis_files_controller/read"; ?>',
-                caption: "Schembis"
+                caption: "Business Scheme"
 
             });
 
@@ -269,26 +272,203 @@
         if (is_set_grid != 'true'){
             $('#is_set_grid_detail').val('true');
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.param_dws_vw_list_scembis_files_controller/read_detail"; ?>',
+                url: '<?php echo WS_JQGRID."ws_ic.param_dws_vw_scenario_schembis_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 postData: postData,
                 colModel: [
-                    {label: 'P Schembis ID', name: 'p_schembis_id', key: true, align: 'center', width: 150, hidden: true },
-                    {label: 'P Call Scenario ID', name: 'p_call_scenario_id', key: true, align: 'center', width: 150, hidden: true },
-                    {label: 'P Srevice Type ID', name: 'p_service_type_id', align: 'center', width: 150, hidden: true },
-                    {label: 'Orig ID', name: 'orig_id' ,align: 'center', width: 150, hidden: true },
-                    {label: 'Term ID', name: 'term_id' ,align: 'center', width: 150, hidden: true },
-                    {label: 'Zone ID', name: 'zone_id' ,align: 'center', width: 150, hidden: true },
-                    {label: 'P Company ID', name: 'p_company_id', align: 'center', width: 150, hidden: true, editable: true },
+                    {label: 'P Call Scenario ID', name: 'p_call_scenario_id', key: true, align: 'center', width: 150, hidden: true, editable: true},
+                    {label: 'P Schembis ID', name: 'p_schembis_id', align: 'center', width: 150, hidden: true, editable: true},
+                    {label: 'P Service Type ID', name: 'p_service_type_id', align: 'center', width: 150, hidden: true, editable: true},
+                    {label: 'Orig ID', name: 'orig_id' ,align: 'center', width: 150, hidden: true, editable: true},
+                    {label: 'Term ID', name: 'term_id' ,align: 'center', width: 150, hidden: true, editable: true},
+                    {label: 'Zone ID', name: 'zone_id' ,align: 'center', width: 150, hidden: true, editable: true},
                     {label: 'VC Name', name: 'vc_name', width: 150 },
-                    {label: 'Orig Code', name: 'orig_code', width: 150 },
-                    {label: 'Term Code', name: 'term_code', width: 150 },
-                    {label: 'Zone Code', name: 'zone_code', width: 150 },
+                    {label: 'Orig Code', name: 'orig_code', align: 'center', width: 150, editable: true, editrules: {required: true},
+                        edittype: 'custom',
+                        editoptions: {
+                            "custom_element":function( value  , options) {
+                                var elm = $('<span></span>');
+
+                                // give the editor time to initialize
+                                setTimeout( function() {
+                                    elm.append(
+                                            '<input id="form_orig_code" readonly type="text" class="FormElement form-control jqgrid-required">'+
+                                            '<button class="btn btn-success" style="margin-bottom: 2px; margin-left: 2px;" type="button" onclick="modal_lov_organization_show(\'tr_orig_id .DataTD #orig_id\', \'form_orig_code\')">'+
+                                            '   <span class="fal fa-search"></span>'+
+                                            '</button>');
+                                    elm.parent().removeClass('jqgrid-required');
+                                }, 100);
+
+                                return elm;
+                            },
+                            "custom_value":function( element, oper, gridval) {
+                                // console.log(oper);
+                                // console.log(gridval);
+                                if(oper === 'get') {
+                                    return $("#form_orig_code").val();
+                                } else if( oper === 'set') {
+                                    $("#form_orig_code").val(gridval);
+                                    var gridId = this.id;
+                                    // give the editor time to set display
+                                    setTimeout(function(){
+                                        var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
+                                        if(selectedRowId != null) {
+                                            var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'orig_code');
+                                            $("#form_orig_code").val( gridval );
+                                        }
+                                    },100);
+                                }
+                            }
+                        }
+                    },
+                    {label: 'Term Code', name: 'term_code', align: 'center', width: 150, editable: true, editrules: {required: true},
+                        edittype: 'custom',
+                        editoptions: {
+                            "custom_element":function( value  , options) {
+                                var elm = $('<span></span>');
+
+                                // give the editor time to initialize
+                                setTimeout( function() {
+                                    elm.append(
+                                            '<input id="form_term_code" readonly type="text" class="FormElement form-control jqgrid-required">'+
+                                            '<button class="btn btn-success" style="margin-bottom: 2px; margin-left: 2px;" type="button" onclick="modal_lov_organization_show(\'tr_term_id .DataTD #term_id\', \'form_term_code\')">'+
+                                            '   <span class="fal fa-search"></span>'+
+                                            '</button>');
+                                    elm.parent().removeClass('jqgrid-required');
+                                }, 100);
+
+                                return elm;
+                            },
+                            "custom_value":function( element, oper, gridval) {
+                                // console.log(element);
+                                // console.log(oper);
+                                // console.log(gridval);
+                                if(oper === 'get') {
+                                    return $("#form_term_code").val();
+                                } else if( oper === 'set') {
+                                    $("#form_term_code").val(gridval);
+                                    var gridId = this.id;
+                                    // give the editor time to set display
+                                    setTimeout(function(){
+                                        var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
+                                        if(selectedRowId != null) {
+                                            var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'term_code');
+                                            $("#form_term_code").val( gridval );
+                                        }
+                                    },100);
+                                }
+                            }
+                        }
+                    },
+                    {label: 'Zone Code', name: 'zone_code', align: 'center', width: 150, editable: true, editrules: {required: true},
+                        edittype: 'custom',
+                        editoptions: {
+                            "custom_element":function( value  , options) {
+                                var elm = $('<span></span>');
+
+                                // give the editor time to initialize
+                                setTimeout( function() {
+                                    elm.append(
+                                            '<input id="form_zone_code" readonly type="text" class="FormElement form-control jqgrid-required">'+
+                                            '<button class="btn btn-success" style="margin-bottom: 2px; margin-left: 2px;" type="button" onclick="modal_lov_dws_p_zone_show(\'tr_zone_id .DataTD #zone_id\', \'form_zone_code\')">'+
+                                            '   <span class="fal fa-search"></span>'+
+                                            '</button>');
+                                    elm.parent().removeClass('jqgrid-required');
+                                }, 100);
+
+                                return elm;
+                            },
+                            "custom_value":function( element, oper, gridval) {
+                                // console.log(element);
+                                // console.log(oper);
+                                // console.log(gridval);
+                                if(oper === 'get') {
+                                    return $("#form_zone_code").val();
+                                } else if( oper === 'set') {
+                                    $("#form_zone_code").val(gridval);
+                                    var gridId = this.id;
+                                    // give the editor time to set display
+                                    setTimeout(function(){
+                                        var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
+                                        if(selectedRowId != null) {
+                                            var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'zone_code');
+                                            $("#form_zone_code").val( gridval );
+                                        }
+                                    },100);
+                                }
+                            }
+                        }
+                    },
                     {label: 'Sap Zone Code', name: 'sap_zone_code', width: 150 },
-                    {label: 'SVC Code', name: 'svc_code', width: 150 },
-                    {label: 'Valid From', name: 'valid_from', width: 150, align: 'center' },
-                    {label: 'Valid To', name: 'valid_to', width: 150, align: 'center' },
+                    {label: 'SVC Code', name: 'svc_code', align: 'center', width: 150, editable: true, editrules: {required: true},
+                        edittype: 'custom',
+                        editoptions: {
+                            "custom_element":function( value  , options) {
+                                var elm = $('<span></span>');
+
+                                // give the editor time to initialize
+                                setTimeout( function() {
+                                    elm.append(
+                                            '<input id="form_svc_code" readonly type="text" class="FormElement form-control jqgrid-required">'+
+                                            '<button class="btn btn-success" style="margin-bottom: 2px; margin-left: 2px;" type="button" onclick="modal_lov_dws_p_service_type_show(\'tr_p_service_type_id .DataTD #p_service_type_id\', \'form_svc_code\')">'+
+                                            '   <span class="fal fa-search"></span>'+
+                                            '</button>');
+                                    elm.parent().removeClass('jqgrid-required');
+                                }, 100);
+
+                                return elm;
+                            },
+                            "custom_value":function( element, oper, gridval) {
+                                // console.log(element);
+                                // console.log(oper);
+                                // console.log(gridval);
+                                if(oper === 'get') {
+                                    return $("#form_svc_code").val();
+                                } else if( oper === 'set') {
+                                    $("#form_svc_code").val(gridval);
+                                    var gridId = this.id;
+                                    // give the editor time to set display
+                                    setTimeout(function(){
+                                        var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
+                                        if(selectedRowId != null) {
+                                            var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'svc_code');
+                                            $("#form_svc_code").val( gridval );
+                                        }
+                                    },100);
+                                }
+                            }
+                        }
+                    },
+                    { label: 'Valid From', name: 'valid_from', width: 150, align: 'center', editable: true,
+                        editrules: { required: true },
+                        editoptions: {
+                            size: 30,
+                            dataInit : function (elem) {
+                                $(elem).datepicker({
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    orientation: "bottom left",
+                                    todayHighlight : true,
+                                    setDate: new Date()
+                                });
+                            }
+                        }
+                    },
+                    { label: 'Valid Until', name: 'valid_until', width: 150, align: 'center', editable: true,
+                        editoptions: {
+                            size: 30,
+                            dataInit : function (elem) {
+                                $(elem).datepicker({
+                                    autoclose: true,
+                                    format: 'yyyy-mm-dd',
+                                    orientation: "bottom left",
+                                    todayHighlight : true,
+                                    setDate: new Date()
+                                });
+                            }
+                        }
+                    },
                     {label: 'Created Date', name: 'created_date', width: 200, align: 'center' }, 
                     {label: 'Created By', name: 'created_by', width: 150, align: 'center' },
                     {label: 'Update Date', name: 'update_date', width: 200, align: 'center' }, 
@@ -321,8 +501,8 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_p_organization_controller/crud"; ?>',
-                caption: "Schembis Files"
+                editurl: '<?php echo WS_JQGRID."ws_ic.param_dws_vw_scenario_schembis_controller/crud"; ?>',
+                caption: "Business Scheme Scenario"
 
             });
 
@@ -349,8 +529,8 @@
                 {
                     // options for the Edit Dialog
                     editData: {
-                        p_company_id: function(){
-                            return get_selected_grid("#grid-table", 'p_company_id');
+                        p_schembis_id: function(){
+                            return get_selected_grid("#grid-table", 'p_schembis_id');
                         }
                     },
                     closeAfterEdit: false,
@@ -368,6 +548,12 @@
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();
+
+                        setTimeout(function(){
+                            $('#form_orig_code').focus();
+                        }, 100);
+                        $('.datepicker').hide();
+
                     },
                     afterSubmit:function(response,postdata) {
                         var response = jQuery.parseJSON(response.responseText);
@@ -385,8 +571,8 @@
                 {
                     //new record form
                     editData: {
-                        p_company_id: function(){
-                            return get_selected_grid("#grid-table", 'p_company_id');
+                        p_schembis_id: function(){
+                            return get_selected_grid("#grid-table", 'p_schembis_id');
                         }
                     },
                     closeAfterAdd: false,
@@ -405,6 +591,10 @@
                     },
                     afterShowForm: function(form) {
                         form.closest('.ui-jqdialog').center();
+                        setTimeout(function(){
+                            $('#form_orig_code').focus();
+                        }, 100);
+                        $('.datepicker').hide();
                     },
                     afterSubmit:function(response,postdata) {
                         var response = jQuery.parseJSON(response.responseText);
