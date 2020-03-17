@@ -333,7 +333,7 @@ class Param_dws_p_reg_files_controller {
                 $ci->upload->initialize($config);
 
                 if (!$ci->upload->do_upload("uploadParamFile")) {
-                    $file_name = $ci->upload->display_errors();
+                    $file_name .= $ci->upload->display_errors();
                 } else {
                     $filedata = $ci->upload->data();
                     $file_name = $config['file_name'];
