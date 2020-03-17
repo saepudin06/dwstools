@@ -309,10 +309,21 @@ class Param_dws_p_reg_files_controller {
             if ($is_upload){
                 $p_reg_files_id = getVarClean('p_reg_files_id', 'str', '');
                 $p_regulation_id = getVarClean('p_regulation_id', 'str', '');
+                $directory = "";
+                $file_name = "";
+
                 $path = $_FILES['uploadParamFile']['name']; //blablabla.xls
                 $ext  = pathinfo($path, PATHINFO_EXTENSION);
                 
                 $config['upload_path']   = './uploads/regulation/';
+
+                // membuat direktori
+                if( is_dir($config['upload_path']) === false ){
+                    if (!mkdir($config['upload_path'], 0777, true)){
+                        $file_name = "Gagal Membuat direktori: " . $config['upload_path'];
+                    }
+                }
+
                 $config['allowed_types'] = '*';
                 $config['max_size']      = '90000000';
                 $config['overwrite']     = TRUE;
@@ -320,9 +331,7 @@ class Param_dws_p_reg_files_controller {
                 
                 $ci->load->library('upload');
                 $ci->upload->initialize($config);
-                
-                $directory = "";
-                $file_name = "";
+
                 if (!$ci->upload->do_upload("uploadParamFile")) {
                     $file_name = $ci->upload->display_errors();
                 } else {
