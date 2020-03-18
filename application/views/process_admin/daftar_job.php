@@ -35,10 +35,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8">
-                        <input type="hidden" id="is_set_grid" value="false">
-                        <table id="grid-table"></table>
-                        <div id="grid-pager"></div>
+                    <div class="col-md-8" id="div-grid">
+                    	<div class="row">
+                    		<div class="col-md-12">
+		                        <input type="hidden" id="is_set_grid" value="false">
+		                        <table id="grid-table"></table>
+		                        <div id="grid-pager"></div>	
+                    		</div>
+                    	</div>
+                    	<hr>
+                    	<div class="row" id="div-grid-first-job">
+                    		<div class="col-md-12">
+                    			<input type="hidden" id="is_set_grid_first_job" value="false">
+		                        <table id="grid-table-first_job"></table>
+		                        <div id="grid-pager-first_job"></div>	
+                    		</div>
+                    	</div>
                     </div>
                 </div>
             </div>
@@ -111,8 +123,8 @@ $("#tab-1").on("click", function(event) {
 
     function responsive_jqgrid(grid_selector, pager_selector) {
 
-        var parent_column = $(grid_selector).closest('[class*="col-"]');
-        $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
+        var parent_column = $("#div-grid");
+        $(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
 
     }
@@ -340,8 +352,7 @@ $("#tab-1").on("click", function(event) {
                 multiboxonly: true,
                 onSelectRow: function (rowid) {
                     /*do something when selected*/
-                    // set_grid_list();
-
+                    set_grid_first_job();
                 },
                 sortorder:'',
                 pager: pager_selector,
@@ -354,7 +365,7 @@ $("#tab-1").on("click", function(event) {
                     if(response.success == false) {
                         swal.fire({title: 'Attention', text: response.message, type: "warning"});
                     } else {
-                        $('#gridList').hide();
+                        $('#div-grid-first-job').hide();
                     }
 
                 },
@@ -535,5 +546,276 @@ $("#tab-1").on("click", function(event) {
             reload_grid(grid_selector, postData);
         }
     }
+
+    function is_parent(p_job_id, element_id){
+    	var var_url = "<?php echo WS_JQGRID.'process_admin.daftar_job_controller/is_parent'; ?>";
+        $.ajax({
+          url: var_url ,
+          type: "POST",
+          dataType: "json",
+          data: {p_job_id: p_job_id},
+          success: function (data) {
+            if (data.success){
+                if(!data.is_parent){
+                	$(element_id).hide();
+                } else {
+                	$(element_id).show();
+                }
+            } else {
+                Swal.fire({title: "Error!", text: data.message, html: true, type: "error"});    
+            }
+          },
+          error: function (xhr, status, error) {
+            Swal.fire({title: "Error!", text: get_error_txt(xhr, status, error), html: true, type: "error"});
+          }
+        });
+    }
+
+    function set_grid_first_job(){
+        var grid_selector = "#grid-table-first_job";
+        var pager_selector = "#grid-pager-first_job";
+        var is_set_grid = $('#is_set_grid_first_job').val();
+        var p_job_id = get_selected_grid("#grid-table", "p_job_id");
+        var postData = { p_job_id: p_job_id };
+
+        if (is_set_grid == "false"){
+            $('#is_set_grid_first_job').val("true");
+            jQuery(grid_selector).jqGrid({
+                url: '<?php echo WS_JQGRID."process_admin.first_job_controller/crud"; ?>',
+                datatype: "json",
+                mtype: "POST",
+                postData: postData,
+                colModel: [
+                    {label: 'ID', name: 'p_first_job_id', key: true, width: 5, editable: true, hidden: true},
+                    {label: 'P JOB ID', name: 'p_job_id', width: 5, editable: true, hidden: true},
+                    {label: 'Program Code', name: 'program_code', width: 150 },
+                    {label: 'Code Type', name: 'code_type', width: 150 },
+                    {label: 'Program Code', name: 'data_type_id', width: 150, editable: true, hidden: true,
+                        editrules: { required: true },
+                        edittype: 'select',
+                        editoptions: {
+                            dataUrl: "<?php echo WS_JQGRID.'process_admin.first_job_controller/html_select_options_vw_list_datatype_pro_dws'; ?>",
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            },
+                            // postData : {
+                                // role_id : function() {
+                                //     return <?php //echo $this->input->post('role_id'); ?>;
+                                // },
+                            // },
+                            buildSelect: function (data) {
+                                var response = "";
+                                try {
+                                    response = $.parseJSON(data);
+                                    if(response.success == false) {
+                                        swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                                        return "";
+                                    } else { return response.select; }
+                                } catch (err) { return data; }
+                            },
+                            dataEvents: [{ 
+                                type: 'change', fn: function(e) { var selected = $(this).val(); }
+                            }]
+                        }
+                    },
+                    {label: 'Description', name: 'description', width: 300, editable: true,
+                        edittype: 'textarea',
+                        editoptions:{
+                            size: 30,
+                            maxlength: 128,
+                            dataInit: function(elem) {
+                                $(elem).width(210);  // set the width which you need
+                            }
+                        }
+                    },
+                    { label: 'Creation Date', name: 'creation_date', width: 150, align: 'center' },
+                    { label: 'Updated Date', name: 'updated_date', width: 150, align: 'center' },
+                    { label: 'Created By', name: 'created_by', width: 150, align: 'center' },
+                    { label: 'Updated By', name: 'updated_by', width: 150, align: 'center' }
+                ],
+                height: '100%',
+                autowidth: true,
+                viewrecords: true,
+                rowNum: 10,
+                rowList: [10,20,50],
+                rownumbers: true, // show row numbers
+                rownumWidth: 35, // the width of the row numbers columns
+                altRows: true,
+                shrinkToFit: false,
+                multiboxonly: true,
+                onSelectRow: function (rowid) {
+                    /*do something when selected*/
+                    // set_grid_first_job();
+                },
+                sortorder:'',
+                pager: pager_selector,
+                jsonReader: {
+                    root: 'rows',
+                    id: 'id',
+                    repeatitems: false
+                },
+                loadComplete: function (response) {
+                    if(response.success == false) {
+                        swal.fire({title: 'Attention', text: response.message, type: "warning"});
+                    } else {
+                        // $('#div-grid-first-job').hide();
+                    }
+
+        			responsive_jqgrid(grid_selector, pager_selector);
+
+                },
+                //memanggil controller jqgrid yang ada di controller crud
+                editurl: '<?php echo WS_JQGRID."process_admin.first_job_controller/crud"; ?>',
+                caption: ""
+
+            });
+
+            jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                {   //navbar options
+                    edit: true,
+                    editicon: 'fal fa-pencil green',
+                    add: true,
+                    addicon: 'fal fa-plus-circle blue',
+                    del: true,
+                    delicon: 'fal fa-trash-alt red',
+                    search: true,
+                    searchicon: 'fal fa-search orange',
+                    refresh: true,
+                    afterRefresh: function () {
+                        // some code here
+                        jQuery("#detailsPlaceholder").hide();
+                    },
+
+                    refreshicon: 'fal fa-repeat-alt orange',
+                    view: false,
+                    viewicon: 'fal fa-search-plus orange'
+                },
+
+                {
+                    // options for the Edit Dialog
+                    editData: {
+                        p_job_id: function() {
+                            return get_selected_grid("#grid-table", "p_job_id");
+                        }
+                    },
+                    closeAfterEdit: false,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    serializeEditData: serializeJSON,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+                        $('#tr_data_type_id', form).show();
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                    //new record form
+                    editData: {
+                        p_job_id: function() {
+                            return get_selected_grid("#grid-table", "p_job_id");
+                        }
+                    },
+                    closeAfterAdd: false,
+                    clearAfterAdd : true,
+                    closeOnEscape:true,
+                    recreateForm: true,
+                    width: 'auto',
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    },
+                    serializeEditData: serializeJSON,
+                    viewPagerButtons: false,
+                    beforeShowForm: function (e, form) {
+                        var form = $(e[0]);
+                        style_edit_form(form);
+                        $('#tr_data_type_id', form).show();
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+
+                        $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                        var tinfoel = $(".tinfo").show();
+                        tinfoel.delay(3000).fadeOut();
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                    //delete record form
+                    serializeDelData: serializeJSON,
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        style_delete_form(form);
+
+                    },
+                    afterShowForm: function(form) {
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    onClick: function (e) {
+                        //alert(1);
+                    },
+                    afterSubmit:function(response,postdata) {
+                        var response = jQuery.parseJSON(response.responseText);
+                        if(response.success == false) {
+                            return [false,response.message,response.responseText];
+                        }
+                        swal.fire({title: 'Success', text: response.message, type: "success"});
+                        return [true,"",response.responseText];
+                    }
+                },
+                {
+                    //search form
+                    closeAfterSearch: false,
+                    recreateForm: true,
+                    afterShowSearch: function (e) {
+                        var form = $(e[0]);
+                        style_search_form(form);
+                        form.closest('.ui-jqdialog').center();
+                    },
+                    afterRedraw: function () {
+                        style_search_filters($(this));
+                    }
+                },
+                {
+                    //view record form
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                    }
+                }
+            );
+        } else {
+            reload_grid(grid_selector, postData);
+        }
+
+        var element_id = pager_selector + "_left #add_" + grid_selector.substr(1);
+        is_parent(p_job_id, element_id);
+        $('#div-grid-first-job').show();
+    }
+
 
 </script>
