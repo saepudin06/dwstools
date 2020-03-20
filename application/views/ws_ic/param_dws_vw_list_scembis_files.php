@@ -32,6 +32,8 @@
         </div>
     </div>
 </div>
+
+<?php $this->load->view('lov/ws_ic/lov_dws_p_regulation'); ?>
 <script>
     $(function() {
         set_grid();
@@ -114,31 +116,43 @@
                             }]
                         }
                     },
-                    {label: 'Regulation No', name: 'p_regulation_id', width: 150, editable: true, hidden: true,
-                        edittype: 'select',
+                    {label: 'Regulation ID', name: 'p_regulation_id', width: 150, hidden: true, editable: true},
+                    {label: 'Regulation No', name: 'regulation_no', align: 'center', width: 150, editable: true,
+                        edittype: 'custom',
                         editoptions: {
-                            dataUrl: "<?php echo WS_JQGRID.'ws_ic.param_dws_vw_list_scembis_files_controller/html_select_options_dws_p_regulation'; ?>",
-                            dataInit: function(elem) {
-                                $(elem).width(210);  // set the width which you need
+                            "custom_element":function( value  , options) {
+                                var elm = $('<span></span>');
+
+                                // give the editor time to initialize
+                                setTimeout( function() {
+                                    elm.append(
+                                            '<input id="form_regulation_no" readonly type="text" class="FormElement form-control">'+
+                                            '<button class="btn btn-success" style="margin-bottom: 2px; margin-left: 2px;" type="button" onclick="modal_lov_dws_p_regulation_show(\'tr_p_regulation_id .DataTD #p_regulation_id\', \'form_regulation_no\')">'+
+                                            '   <span class="fal fa-search"></span>'+
+                                            '</button>');
+                                    elm.parent().removeClass('jqgrid-required');
+                                }, 100);
+
+                                return elm;
                             },
-                            // postData : {
-                                // role_id : function() {
-                                //     return <?php //echo $this->input->post('role_id'); ?>;
-                                // },
-                            // },
-                            buildSelect: function (data) {
-                                var response = "";
-                                try {
-                                    response = $.parseJSON(data);
-                                    if(response.success == false) {
-                                        swal({title: 'Attention', text: response.message, html: true, type: "warning"});
-                                        return "";
-                                    } else { return response.select; }
-                                } catch (err) { return data; }
-                            },
-                            dataEvents: [{ 
-                                type: 'change', fn: function(e) { var selected = $(this).val(); }
-                            }]
+                            "custom_value":function( element, oper, gridval) {
+                                // console.log(oper);
+                                // console.log(gridval);
+                                if(oper === 'get') {
+                                    return $("#form_regulation_no").val();
+                                } else if( oper === 'set') {
+                                    $("#form_regulation_no").val(gridval);
+                                    var gridId = this.id;
+                                    // give the editor time to set display
+                                    setTimeout(function(){
+                                        var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
+                                        if(selectedRowId != null) {
+                                            var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'regulation_no');
+                                            $("#form_regulation_no").val( gridval );
+                                        }
+                                    },100);
+                                }
+                            }
                         }
                     },
                     { label: 'Fax', name: 'fax', width: 150, editable: true,
@@ -437,7 +451,6 @@
                         var form = $(e[0]);
                         style_edit_form(form);
                         $('#tr_p_schembis_type_id',form).show();
-                        $('#tr_p_regulation_id',form).show();
 
                     },
                     afterShowForm: function(form) {
@@ -473,7 +486,6 @@
                         var form = $(e[0]);
                         style_edit_form(form);
                         $('#tr_p_schembis_type_id',form).show();
-                        $('#tr_p_regulation_id',form).show();
                     },
                     afterShowForm: function(form) {
                         form.css("height", "300px");
