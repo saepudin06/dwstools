@@ -19,7 +19,7 @@ class Closing_period_batch_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_batch');
+            $ci->load->model('process_admin/process_validation_batch');
             $table = $ci->process_validation_batch;
 
             $req_param = array(
@@ -100,7 +100,7 @@ class Closing_period_batch_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_ic/process_validation_batch');
+        $ci->load->model('process_admin/process_validation_batch');
         $table = $ci->process_validation_batch;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -172,7 +172,7 @@ class Closing_period_batch_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_ic/process_validation_batch');
+        $ci->load->model('process_admin/process_validation_batch');
         $table = $ci->process_validation_batch;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -243,7 +243,7 @@ class Closing_period_batch_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('ws_ic/process_validation_batch');
+        $ci->load->model('process_admin/process_validation_batch');
         $table = $ci->process_validation_batch;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -289,7 +289,7 @@ class Closing_period_batch_controller {
     function html_select_options_reference_type() {
         try {
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_batch');
+            $ci->load->model('process_admin/process_validation_batch');
             $table = $ci->process_validation_batch;
 
             $user_info = $ci->session->userdata;
@@ -314,7 +314,7 @@ class Closing_period_batch_controller {
 
         try {
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_batch');
+            $ci->load->model('process_admin/process_validation_batch');
             $table = $ci->process_validation_batch;
             $user_info = $ci->session->userdata;
 
@@ -351,7 +351,7 @@ class Closing_period_batch_controller {
 
         try {
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_batch');
+            $ci->load->model('process_admin/process_validation_batch');
             $table = $ci->process_validation_batch;
 
             $user_info = $ci->session->userdata;

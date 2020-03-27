@@ -21,7 +21,7 @@ class Closing_period_process_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_process');
+            $ci->load->model('process_admin/process_validation_process');
             $table = $ci->process_validation_process;
 
             $req_param = array(
@@ -113,7 +113,7 @@ class Closing_period_process_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_process');
+            $ci->load->model('process_admin/process_validation_process');
             $table = $ci->process_validation_process;
             $table->setFromClause("log_background_job");
 
@@ -168,7 +168,7 @@ class Closing_period_process_controller {
 
     function submit_job() {
         $ci = & get_instance();
-        $ci->load->model('ws_ic/process_validation_process');
+        $ci->load->model('process_admin/process_validation_process');
         $table = $ci->process_validation_process;
         $userdata = $ci->session->userdata;
 
@@ -192,7 +192,7 @@ class Closing_period_process_controller {
 
     function cancel_all_job() {
         $ci = & get_instance();
-        $ci->load->model('ws_ic/process_validation_process');
+        $ci->load->model('process_admin/process_validation_process');
         $table = $ci->process_validation_process;
         $userdata = $ci->session->userdata;
 
@@ -215,7 +215,7 @@ class Closing_period_process_controller {
 
     function cancel_last_job() {
         $ci = & get_instance();
-        $ci->load->model('ws_ic/process_validation_process');
+        $ci->load->model('process_admin/process_validation_process');
         $table = $ci->process_validation_process;
         $userdata = $ci->session->userdata;
 
