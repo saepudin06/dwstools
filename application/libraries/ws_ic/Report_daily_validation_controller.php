@@ -226,14 +226,14 @@ class Report_daily_validation_controller {
                 <tr>
                     <th>Period</th>
                     <th>POTI</th>
-                    <th>Tanggal</th>
+                    <th>Date</th>
                     <th>Day</th>
-                    <th>Jam</th>
+                    <th>Clock</th>
                     <th>Duration</th>
                     <th>AVG</th>
                     <th>DEV</th>
                     <th>DEV(%)</th>
-                    <th>Hasil Validasi</th>
+                    <th>Validation Result</th>
                 </tr>";
 
         foreach ($res_data as $val) {

@@ -113,7 +113,7 @@ class Report_validation_daily extends CI_Controller{
         $param = getVarClean('data','str','');
         $data_param = $this->get_param($param);
 
-        // try {
+        try {
             $data = $this->get_data($data_param['poti'], $data_param['period']);
             $data_ttd = $this->get_data_ttd($data_param['period']);
             $bulan = (int)substr($data_param['period'], 4, 2);
@@ -147,14 +147,14 @@ class Report_validation_daily extends CI_Controller{
             $table->rowStyle($style."bgcolor:#E1E1E1;");
             $table->easyCell("Period", "align:L;");
             $table->easyCell("POTI", "align:L;");
-            $table->easyCell("Tanggal", "align:L;");
+            $table->easyCell("Date", "align:L;");
             $table->easyCell("Day", "align:L;");
-            $table->easyCell("Jam", "align:L;");
+            $table->easyCell("Clock", "align:L;");
             $table->easyCell("Duration", "align:L;");
             $table->easyCell("AVG", "align:L;");
             $table->easyCell("DEV", "align:L;");
             $table->easyCell("DEV(%)", "align:L;");
-            $table->easyCell("Hasil Validasi", "align:L;");
+            $table->easyCell("Validation Result", "align:L;");
             $table->printRow();
             foreach ($data as $val) {
                 $table->rowStyle($style);
@@ -228,13 +228,11 @@ class Report_validation_daily extends CI_Controller{
                 $pdf->Cell($td_width, $height, "NIK " . $data_ttd[$j]['user_name'], '', 0, 'C');
             }
 
-            
-            $this->dev($data_param);
-            $pdf->Output('I', 'REPORT_'.$data_param['poti'].'_'.$data_param['period'].'.pdf');
-        // } catch (Exception $e){
-        //     echo "----ERROR----";
-        //     $this->dev($e->getMessage);
-        // }
+            $pdf->Output('D', 'REPORT_'.$data_param['poti'].'_'.$data_param['period'].'.pdf');
+        } catch (Exception $e){
+            echo "----ERROR----";
+            $this->dev($e->getMessage);
+        }
 
 		
 	}

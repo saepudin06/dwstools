@@ -207,8 +207,8 @@
                             }
                         }
                     },
-                    {label: 'Update Date', name: 'update_date', width: 200, align: 'center' }, 
-                    {label: 'Update By', name: 'update_by', width: 150, align: 'center' }
+                    {label: 'Updated Date', name: 'updated_date', width: 200, align: 'center' }, 
+                    {label: 'Updated By', name: 'updated_by', width: 150, align: 'center' }
                 ],
                 height: '100%',
                 autowidth: true,

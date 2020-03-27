@@ -120,20 +120,20 @@
                 colModel: [
                     {label: 'Period', name: 'period', width: 150 },
                     {label: 'POTI', name: 'poti', width: 150 },
-                    {label: 'Tanggal', name: 'tanggal', width: 150 },
+                    {label: 'Date', name: 'tanggal', width: 150 },
                     {label: 'Day', name: 'day_category', width: 150 },
-                    {label: 'Jam', name: 'jam', width: 150 },
+                    {label: 'Clock', name: 'jam', width: 150 },
                     {label: 'Duration', name: 'duration', width: 150 },
                     {label: 'AVG', name: 'avg_duration', width: 150, align: 'right', 
-                        // formatter: function (cellvalue, options, rowObject) { return $.number( cellvalue ) } 
+                        formatter: function (cellvalue, options, rowObject) { return $.number( cellvalue, 2 ) } 
                     },
                     {label: 'Dev', name: 'dev_dur', width: 150, align: 'right', 
-                        formatter: function (cellvalue, options, rowObject) { return $.number( cellvalue ) }
+                        formatter: function (cellvalue, options, rowObject) { return $.number( cellvalue, 2 ) }
                     },
                     {label: 'Dev(%)', name: 'dev_prctg', width: 150, align: 'right', 
-                        formatter: function (cellvalue, options, rowObject) { return cellvalue + '%' }
+                        formatter: function (cellvalue, options, rowObject) { return $.number( cellvalue, 2 ) + '%' }
                     },
-                    {label: 'Hasil Validasi', name: 'validation_rslt', width: 150 }
+                    {label: 'Validation Result', name: 'validation_rslt', width: 150 }
                 ],
                 height: '100%',
                 autowidth: true,
