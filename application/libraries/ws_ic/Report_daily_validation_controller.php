@@ -189,28 +189,18 @@ class Report_daily_validation_controller {
         $tahun = substr($param['period'], 0, 4);
 
         $res_data = $table->db->where("poti = '".$param['poti']."' and period = '".$param['period']."'")->get($table->fromClause)->result_array();
-        $res_ttd = array();
-        $i = 0;
 
         $sql = "select *
-            from ic_dws.f_vw_dws_signature_active_ic('REVIEWER' , '$period' )";
+                from (
+                    select *
+                       from ic_dws.f_vw_dws_signature_active_ic('VERIFICATOR' , '".$param['period']."' )
+                    union all
+                    select *
+                       from ic_dws.f_vw_dws_signature_active_ic('REVIEWER' , '".$param['period']."' )
+                ) a
+                order by user_full_name";
 
-        $temp_res = $table->db->query($sql)->row_array();
-
-        if (!empty($temp_res)){
-            $res_ttd[$i] = $temp_res;
-            $i++;
-        }
-
-        $sql = "select *
-            from ic_dws.f_vw_dws_signature_active_ic('VERIFICATOR' , '$period' )";
-
-        $temp_res = $table->db->query($sql)->row_array();
-
-        if (!empty($temp_res)){
-            $res_ttd[$i] = $temp_res;
-        }
-
+        $res_ttd = $table->db->query($sql)->result_array();
 
         $fileName = 'REPORT_'.$param['poti'].'_'.$param['period'];
         header("Content-type: application/x-msexcel");

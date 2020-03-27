@@ -83,28 +83,18 @@ class Report_validation_daily extends CI_Controller{
         $ci = & get_instance();
         $ci->load->model('ws_ic/report_daily_validation');
         $table = $ci->report_daily_validation;
-        $res = array();
-        $i = 0;
 
         $sql = "select *
-            from ic_dws.f_vw_dws_signature_active_ic('REVIEWER' , '$period' )";
+                from (
+                    select *
+                       from ic_dws.f_vw_dws_signature_active_ic('VERIFICATOR' , '$period' )
+                    union all
+                    select *
+                       from ic_dws.f_vw_dws_signature_active_ic('REVIEWER' , '$period' )
+                ) a
+                order by user_full_name";
 
-        $temp_res = $table->db->query($sql)->row_array();
-
-        if (!empty($temp_res)){
-            $res[$i] = $temp_res;
-            $i++;
-        }
-
-        $sql = "select *
-            from ic_dws.f_vw_dws_signature_active_ic('VERIFICATOR' , '$period' )";
-
-        $temp_res = $table->db->query($sql)->row_array();
-
-        if (!empty($temp_res)){
-            $res[$i] = $temp_res;
-        }
-
+        $res = $table->db->query($sql)->result_array();
         return $res;
     }
 

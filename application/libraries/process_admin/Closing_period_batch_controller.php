@@ -37,7 +37,7 @@ class Closing_period_batch_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("input_data_class_id = 1");
+            $req_param['where'] = array("input_data_class_id = 6");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
