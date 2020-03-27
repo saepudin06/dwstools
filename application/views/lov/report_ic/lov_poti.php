@@ -4,7 +4,7 @@
             <!-- modal title -->
             <div class="modal-header no-padding">
                 <div class="table-header">
-                    <span class="form-add-edit-title"> Data Role Signature</span>
+                    <span class="form-add-edit-title"> Data POTI</span>
                 </div>
             </div>
             <input type="hidden" id="modal_lov_poti_id_val" value="" />
@@ -107,7 +107,8 @@
             colModel: [
                 {label: 'ID', name: 'p_reference_list_id', key: true, width: 5, hidden: true},
                 {label: 'Code', name: 'code', width: 150 },
-                {label: 'Code Type Ref', name: 'code_type_ref', width: 150 }
+                {label: 'City Code', name: 'p_city_code', width: 150 },
+                {label: 'Description', name: 'description', width: 300 }
             ],
             height: '100%',
             width: 750,
