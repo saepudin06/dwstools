@@ -371,7 +371,7 @@ class Daftar_job_controller {
         $data = array("success" => false, 'message' => '');
 
         try {
-            $res = $table->db->where("parent_id", $p_job_id)->count_all_results($table->fromClause);
+            $res = $table->db->where("COALESCE(parent_id, p_job_id)", $p_job_id)->count_all_results($table->fromClause);
             $data['is_parent'] = $res > 0;
             $data['success'] = true;
         } catch (Exception $e){
