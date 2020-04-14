@@ -200,7 +200,7 @@ class Process_validation_process_controller {
         $data_control_id = getVarClean("input_data_control_id", "int", 0);
 
         try {
-            $sql = "select public.f_cancel_all_job( ".$data_control_id.", '".$userdata['user_name']."') as hasil";
+            $sql = "select public.f_submit_job('CANCEL_ALL_JOB_IC', ".$data_control_id.", '".$userdata['user_name']."') as hasil";
             // $sql = "select nvl(0,1) as hasil";
             $res = $table->db->query($sql)->row_array();
             $data['message'] = $res['hasil'];
@@ -223,7 +223,7 @@ class Process_validation_process_controller {
         $data_control_id = getVarClean("input_data_control_id", "int", 0);
 
         try {
-            $sql = "select public.f_cancel_last_job( ".$data_control_id.", '".$userdata['user_name']."') as hasil";
+            $sql = "select public.f_submit_job( 'CANCEL_LAST_JOB_IC', ".$data_control_id.", '".$userdata['user_name']."') as hasil";
             // $sql = "select nvl(0,1) as hasil";
             $res = $table->db->query($sql)->row_array();
             $data['message'] = $res['hasil'];
