@@ -7,7 +7,7 @@
         <h2>
             <ul class="nav nav-tabs border-bottom-0 nav-tabs-clean" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Batch Control</a>
+                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Batch Control</a>   
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> Process</a>
