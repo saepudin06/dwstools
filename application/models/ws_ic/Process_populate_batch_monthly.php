@@ -4,7 +4,7 @@
  * Process_validation_batch Model
  *
  */
-class Process_validation_batch_unrated extends Abstract_model {
+class Process_populate_batch_monthly extends Abstract_model {
 
     public $table           = "input_data_control";
     public $pkey            = "input_data_control_id";
@@ -49,10 +49,10 @@ class Process_validation_batch_unrated extends Abstract_model {
             //if false please throw new Exception
         }
 
-        $input_data_class_id = 7;
+        $input_data_class_id = 12;
         $periode = $this->db->where('p_finance_period_id', $this->record['p_finance_period_id'])->get('p_finance_period')->row_array();
         
-        $this->db->set('input_file_name', "VALIDATIONUNRATED_IC_".$periode['finance_period_code']); //IC_POPULATEDATAIC_2019-JAN
+        $this->db->set('input_file_name', "POPULATEMONTHLY_IC_".$periode['finance_period_code']); //IC_POPULATEDATAIC_2019-JAN
         $this->db->set('parameters', $periode['finance_period_code']);
         $this->db->set('input_data_class_id', $input_data_class_id);
 

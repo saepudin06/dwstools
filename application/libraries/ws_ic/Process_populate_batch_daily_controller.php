@@ -4,7 +4,7 @@
 * @class Process_validation_batch_controller
 * @version 07/05/2015 12:18:00
 */
-class Process_validation_batch_unrated_controller {
+class Process_populate_batch_daily_controller {
 
     function read() {
 
@@ -19,8 +19,8 @@ class Process_validation_batch_unrated_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_batch_unrated');
-            $table = $ci->process_validation_batch_unrated;
+            $ci->load->model('ws_ic/process_populate_batch_daily');
+            $table = $ci->process_populate_batch_daily;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -100,8 +100,8 @@ class Process_validation_batch_unrated_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_ic/process_validation_batch_unrated');
-        $table = $ci->process_validation_batch_unrated;
+        $ci->load->model('ws_ic/process_populate_batch_daily');
+        $table = $ci->process_populate_batch_daily;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -172,8 +172,8 @@ class Process_validation_batch_unrated_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('ws_ic/process_validation_batch_unrated');
-        $table = $ci->process_validation_batch_unrated;
+        $ci->load->model('ws_ic/process_populate_batch_daily');
+        $table = $ci->process_populate_batch_daily;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -243,8 +243,8 @@ class Process_validation_batch_unrated_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('ws_ic/process_validation_batch_unrated');
-        $table = $ci->process_validation_batch_unrated;
+        $ci->load->model('ws_ic/process_populate_batch_daily');
+        $table = $ci->process_populate_batch_daily;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -289,12 +289,12 @@ class Process_validation_batch_unrated_controller {
     function html_select_options_reference_type() {
         try {
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_batch_unrated');
-            $table = $ci->process_validation_batch_unrated;
+            $ci->load->model('ws_ic/process_populate_batch_daily');
+            $table = $ci->process_populate_batch_daily;
 
             $user_info = $ci->session->userdata;
 
-            $res = $table->db->where('p_reference_type_id', 25)->get('p_reference_list')->result_array();
+            $res = $table->db->where('p_reference_type_id', 4)->get('p_reference_list')->result_array();
         
             echo "<select>";
             foreach ($res as $item) {
@@ -314,8 +314,8 @@ class Process_validation_batch_unrated_controller {
 
         try {
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_batch_unrated');
-            $table = $ci->process_validation_batch_unrated;
+            $ci->load->model('ws_ic/process_populate_batch_daily');
+            $table = $ci->process_populate_batch_daily;
             $user_info = $ci->session->userdata;
 
             $p_year_period_id = getVarClean('p_year_period_id', 'str', '');
@@ -351,8 +351,8 @@ class Process_validation_batch_unrated_controller {
 
         try {
             $ci = & get_instance();
-            $ci->load->model('ws_ic/process_validation_batch_unrated');
-            $table = $ci->process_validation_batch_unrated;
+            $ci->load->model('ws_ic/process_populate_batch_daily');
+            $table = $ci->process_populate_batch_daily;
 
             $user_info = $ci->session->userdata;
 
@@ -383,4 +383,4 @@ class Process_validation_batch_unrated_controller {
     }
 }
 
-/* End of file process_validation_batch_unrated_controller.php */
+/* End of file process_populate_batch_daily_controller.php */

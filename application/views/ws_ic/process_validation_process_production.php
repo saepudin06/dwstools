@@ -45,7 +45,7 @@
 <script>
     $("#tab-1").on("click", function(event) {
         event.stopPropagation();
-        loadContentWithParams("ws_ic.process_validation_batch_control_unrated", {
+        loadContentWithParams("ws_ic.process_validation_batch_control_production", {
             menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>"
         });
     });

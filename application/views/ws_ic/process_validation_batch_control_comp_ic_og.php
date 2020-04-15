@@ -7,7 +7,7 @@
         <h2>
             <ul class="nav nav-tabs border-bottom-0 nav-tabs-clean" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Batch Control</a>   
+                    <a class="nav-link active" data-toggle="tab" href="javascript:;" role="tab" id="tab-1"><i class="fal fa-cog mr-1"></i> Batch Control</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="javascript:;" role="tab" id="tab-2"><i class="fal fa-indent mr-1"></i> Process</a>
@@ -45,7 +45,7 @@
             return false;
         }
 
-        loadContentWithParams("ws_ic.process_validation_process_unrated", {
+        loadContentWithParams("ws_ic.process_validation_process_comp_ic_og", {
             input_data_control_id: input_data_control_id,
             code: get_selected_grid("#grid-table", 'code'),
             menu_id: "<?php echo getVarClean('menu_id', 'str', '0'); ?>",
@@ -104,7 +104,7 @@
             is_set_grid.val("true");
 
             jQuery(grid_selector).jqGrid({
-                url: '<?php echo WS_JQGRID."ws_ic.process_validation_batch_unrated_controller/crud"; ?>',
+                url: '<?php echo WS_JQGRID."ws_ic.process_validation_batch_daily_rate_controller/crud"; ?>',
                 datatype: "json",
                 mtype: "POST",
                 colModel: [
@@ -189,7 +189,7 @@
 
                 },
                 //memanggil controller jqgrid yang ada di controller crud
-                editurl: '<?php echo WS_JQGRID."ws_ic.process_validation_batch_unrated_controller/crud"; ?>',
+                editurl: '<?php echo WS_JQGRID."ws_ic.process_validation_batch_daily_rate_controller/crud"; ?>',
                 caption: "File"
 
             });
