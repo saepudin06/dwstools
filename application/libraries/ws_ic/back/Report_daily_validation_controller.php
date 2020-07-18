@@ -4,15 +4,14 @@
 * @class Report_daily_validation_controller
 * @version 29-11-2017 02:11:12
 */
-set_time_limit (0);
 class Report_daily_validation_controller {
 
     function read() {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','poti');
-        $sord = getVarClean('sord','str','asc');
+        $sidx = getVarClean('sidx','str','');
+        $sord = getVarClean('sord','str','desc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -36,10 +35,11 @@ class Report_daily_validation_controller {
                 "search_str" => isset($_REQUEST['searchString']) ? $_REQUEST['searchString'] : null
             );
 
+            $poti = getVarClean('poti', 'str', '');
             $period = getVarClean('period', 'str', '');
 
             // Filter Table
-            $req_param['where'] = array("period = '$period'");
+            $req_param['where'] = array("poti = '$poti' and period = '$period'");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -188,8 +188,7 @@ class Report_daily_validation_controller {
         $spell_Month = spellMonthInd($bulan);
         $tahun = substr($param['period'], 0, 4);
 
-        $table->db->order_by('poti', 'ASC');
-        $res_data = $table->db->where("period = '".$param['period']."'")->get($table->fromClause)->result_array();
+        $res_data = $table->db->where("poti = '".$param['poti']."' and period = '".$param['period']."'")->get($table->fromClause)->result_array();
 
         $sql = "select *
                 from (
@@ -203,7 +202,7 @@ class Report_daily_validation_controller {
 
         $res_ttd = $table->db->query($sql)->result_array();
 
-        $fileName = 'REPORT_'.$param['period'];
+        $fileName = 'REPORT_'.$param['poti'].'_'.$param['period'];
         header("Content-type: application/x-msexcel");
         header("Content-Disposition: attachment; filename=".$fileName.".xls"); 
         header("Cache-Control: no-store, no-cache, must-revalidate");

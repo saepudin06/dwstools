@@ -21,6 +21,18 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
+                            <label class="form-label">POTI <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="hidden" class="form-control" placeholder="Input POTI" readonly="" id="in_poti_id">
+                                <input type="text" class="form-control" placeholder="Input POTI" readonly="" id="in_poti_name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary waves-effect waves-themed" type="button" onclick="modal_lov_poti_show('in_poti_id', 'in_poti_name')"><i class="fal fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
                             <label class="form-label">Periode <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" placeholder="Input Periode" readonly="" id="in_periode">
                         </div>
@@ -44,21 +56,18 @@
         </div>
     </div>
 </div>
+<?php $this->load->view('lov/report_ic/lov_poti'); ?>
 <script>
-	$(function() {
-		set_grid();
-	});
-	
     $('#in_periode').datepicker({
         autoclose: true,
         viewMode: "months",
         minViewMode: "months",
         format: 'yyyymm',
         orientation: "bottom left",
-        autocomplete: "off",
-        todayHighlight : true
+        todayHighlight : true,
+        setDate: new Date()
     });
-    $('#in_periode').datepicker('setDate', '<?php echo date("Ym") ?>');
+    $('#in_periode').attr('autocomplete', 'off');
 
     function reload_grid(grid_selector, postData){
         if (postData === null){
@@ -92,13 +101,14 @@
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
         var is_set_grid = $('#is_set_grid').val();
+        var poti = $('#in_poti_name').val();
         var period = $('#in_periode').val();
-        var postData = {'period': period};
 
-        if (period == ''){
-            swal.fire({title: 'Attention', text: 'Period is required', type: "info"});
+        if (poti == '' || period == ''){
+            swal.fire({title: 'Attention', text: 'POTI and Period is required', type: "info"});
             return false;
         }
+        var postData = {'poti': poti, 'period': period};
 
         if (is_set_grid != 'true'){
             $('#is_set_grid').val('true');
@@ -200,17 +210,15 @@
                         var form = $(e[0]);
                     }
                 }
-            )
-            // .navButtonAdd(pager_selector,{
-            //     caption:"", //Submit Job
-            //     buttonicon:"fal fa-file-pdf red bigger-120",
-            //     title: "Save to PDF",
-            //     onClickButton: save_to_pdf,
-            //     // cursor: "pointer",
-            //     // position: "first",
-            //     id :"btn-save-to-pdf",
-            // })
-            .navButtonAdd(pager_selector,{
+            ).navButtonAdd(pager_selector,{
+                caption:"", //Submit Job
+                buttonicon:"fal fa-file-pdf red bigger-120",
+                title: "Save to PDF",
+                onClickButton: save_to_pdf,
+                // cursor: "pointer",
+                // position: "first",
+                id :"btn-save-to-pdf",
+            }).navButtonAdd(pager_selector,{
                 caption:"", //Submit Job
                 buttonicon:"fal fa-file-excel green bigger-120",
                 title: "Save to Excel",
@@ -225,12 +233,12 @@
     }
 
     function save_to_pdf(){
-        var param = "period=" + $('#in_periode').val();
+        var param = "poti=" + $('#in_poti_name').val() + ":;period=" + $('#in_periode').val();
         window.open('<?php echo base_url(); ?>report_validation_daily/pageCetak?data='+btoa(param) , '_blank');
     }
 
     function save_to_excel(){
-        var param = "period=" + $('#in_periode').val();
+        var param = "poti=" + $('#in_poti_name').val() + ":;period=" + $('#in_periode').val();
         window.open('<?php echo base_url(); ?>index.php/utilities/save_to_excel?data='+btoa(param) , '_blank');
     }
 
